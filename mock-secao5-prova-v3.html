@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Seção 5 (Prova Social) v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1200px;margin:0 auto;padding:34px 48px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  .proof{max-width:1200px;margin:0 auto;padding:80px 48px 104px}
+
+  /* título no TOPO (contexto antes da prova), caixa alta limpa, SEM itálico */
+  .topline{margin-bottom:56px;max-width:640px}
+  .topline .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+  .topline h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+
+  /* corpo: imagem MODERADA + coluna de voz/autoridade, muito ar */
+  .body{display:grid;grid-template-columns:minmax(0,480px) 1fr;gap:88px;align-items:center}
+
+  .plate{position:relative}
+  .frame{position:relative;overflow:hidden;border-radius:3px;aspect-ratio:1/1;background:var(--sand)}
+  .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+  .frame img.on{opacity:1}
+  .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:3;transform:translateX(-.5px);
+    background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--linen) 55%,transparent) 12%,color-mix(in srgb,var(--linen) 55%,transparent) 88%,transparent)}
+  .frame::before{content:"";position:absolute;top:0;left:0;right:0;height:64px;z-index:2;background:linear-gradient(180deg,rgba(39,42,29,.26),transparent);pointer-events:none}
+  .tag{position:absolute;top:16px;z-index:4;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,240,232,.9)}
+  .tag.b{left:18px}.tag.a{right:18px}
+
+  .pnav{display:flex;align-items:center;gap:16px;margin-top:22px}
+  .dots{display:flex;gap:9px}
+  .dot{width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,var(--sage) 32%,transparent);border:none;cursor:pointer;padding:0;transition:.3s}
+  .dot.on{background:var(--olive);width:20px;border-radius:4px}
+  .arrs{display:flex;gap:8px;margin-left:auto}
+  .arr{width:38px;height:38px;border:1px solid color-mix(in srgb,var(--sage) 38%,transparent);background:transparent;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--olive);transition:.3s}
+  .arr:hover{border-color:var(--olive)}
+
+  /* coluna voz + autoridade. ÚNICO itálico da seção = a citação */
+  #qbox{transition:opacity .5s ease}
+  #qtext{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(20px,1.8vw,25px);line-height:1.5;color:var(--graphite)}
+  #qwho{margin-top:20px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)}
+
+  .authority{display:flex;align-items:center;gap:22px;margin-top:48px;padding-top:28px;border-top:1px solid color-mix(in srgb,var(--sage) 20%,transparent)}
+  .badge{flex:none;width:100px;height:100px;border-radius:50%;border:1px solid color-mix(in srgb,var(--olive) 55%,transparent);display:grid;place-items:center;text-align:center;color:var(--olive)}
+  .badge .l1{font-size:7.5px;letter-spacing:.2em;text-transform:uppercase;line-height:1.5}
+  .badge .l2{font-family:'Cormorant',serif;font-weight:600;font-size:16px;letter-spacing:.03em;text-transform:uppercase;line-height:1;margin:3px 0}
+  .badge .rule{width:24px;height:1px;background:color-mix(in srgb,var(--olive) 45%,transparent);margin:5px auto}
+  .badge .l3{font-size:7.5px;letter-spacing:.2em;text-transform:uppercase}
+  /* menção da revista: ROMANA (sem itálico) */
+  .mag .m1{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--graphite-soft);margin-bottom:7px}
+  .mag .m2{font-family:'Cormorant',serif;font-weight:500;font-size:16px;line-height:1.4;color:var(--graphite);max-width:250px}
+
+  .foot{max-width:1200px;margin:0 auto;padding:0 48px 80px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  /* ===== MOBILE: título -> foto -> voz -> autoridade, compacto ===== */
+  @media (max-width:880px){
+    .proof{padding:52px 24px 80px}
+    .topline{margin-bottom:28px}
+    .body{grid-template-columns:1fr;gap:28px}
+    .frame{max-width:400px;margin:0 auto;width:100%}
+    .pnav{justify-content:center}
+    .arrs{margin-left:0}
+    #qbox{text-align:left}
+    .authority{margin-top:32px;padding-top:24px;gap:18px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock v3.</b> Correções: imagem MODERADA no desktop (não gigante) · itálico só na citação (título caixa alta limpa, revista romana) · título no TOPO (contexto antes da prova) · mobile reordenado (título → foto → voz → autoridade) e compacto · selo tipográfico MANTIDO nesta seção (pedido da Nik). Linha d'água na costura. Depoimentos = [PLACEHOLDER].
+  </div>
+
+  <section class="proof">
+    <div class="topline">
+      <div class="k">Real results</div>
+      <h2>Real experiences, natural results.</h2>
+    </div>
+
+    <div class="body">
+      <div class="plate">
+        <div class="frame">
+          <span class="seam"></span>
+          <span class="tag b">Before</span>
+          <span class="tag a">After</span>
+          <img class="on" src="public/images/before-after-02.webp" alt="Before and after of a holistic facial treatment by Nikolle" />
+          <img src="public/images/before-after-03.webp" alt="Before and after of a holistic facial treatment by Nikolle" />
+          <img src="public/images/before-after-04.webp" alt="Before and after of a holistic facial treatment by Nikolle" />
+        </div>
+        <div class="pnav">
+          <div class="dots" id="dots"></div>
+          <div class="arrs">
+            <button class="arr" id="prev" aria-label="Previous"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="arr" id="next" aria-label="Next"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tell">
+        <div id="qbox">
+          <div id="qtext">"My skin was so reactive I was afraid of facials. Nikolle rebuilt my barrier little by little, and my face feels calm for the first time in years."</div>
+          <div id="qwho">Marina · Manoa</div>
+        </div>
+
+        <div class="authority">
+          <div class="badge">
+            <div>
+              <div class="l1">Best of</div>
+              <div class="l2">Honolulu</div>
+              <div class="rule"></div>
+              <div class="l3">2024 Winner</div>
+            </div>
+          </div>
+          <div class="mag">
+            <div class="m1">As featured in</div>
+            <div class="m2">Honolulu Magazine — "bespoke holistic skin rejuvenation."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Itálico agora é raro (só a voz da cliente). No build: reveal cerimonial que assenta + moldura e linha d'água desenham na entrada.<br>
+    Foto 1 (empilhada) fora por consistência. Uma voz por vez, rotação lenta e independente.
+  </div>
+
+  <script>
+    (function(){
+      var imgs=document.querySelectorAll('.frame img'), dots=document.getElementById('dots'), i=0;
+      imgs.forEach(function(_,n){var b=document.createElement('button');b.className='dot'+(n===0?' on':'');b.onclick=function(){go(n)};dots.appendChild(b);});
+      function go(n){i=(n+imgs.length)%imgs.length;imgs.forEach(function(im,k){im.classList.toggle('on',k===i)});dots.querySelectorAll('.dot').forEach(function(d,k){d.classList.toggle('on',k===i)});}
+      document.getElementById('prev').onclick=function(){go(i-1)};
+      document.getElementById('next').onclick=function(){go(i+1)};
+    })();
+    (function(){
+      var Q=[
+        {t:'"My skin was so reactive I was afraid of facials. Nikolle rebuilt my barrier little by little, and my face feels calm for the first time in years."', w:'Marina · Manoa'},
+        {t:'"After years of harsh treatments that never faded my melasma, my skin tone is more even than it has been in a decade."', w:'Leah · Kaimuki'},
+        {t:'"I came for the glow and stayed for how I feel when I leave. It is the only appointment I never move."', w:'Dana · Kailua'}
+      ];
+      var box=document.getElementById('qbox'), t=document.getElementById('qtext'), w=document.getElementById('qwho'), j=0;
+      setInterval(function(){ j=(j+1)%Q.length; box.style.opacity=0; setTimeout(function(){ t.textContent=Q[j].t; w.textContent=Q[j].w; box.style.opacity=1; },500); },7000);
+    })();
+  </script>
+
+</body>
+</html>

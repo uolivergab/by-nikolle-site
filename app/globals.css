@@ -1,0 +1,583 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   by Nikolle — sistema de tokens (3 camadas). design.md é a lei.
+   Campo linen contínuo, sand como material, sage na interação,
+   olive nos 2 picos, graphite no texto (nunca preto puro).
+   ============================================================ */
+
+/* -------- Camada 1 · PRIMITIVO (valores crus, nunca em componente) -------- */
+:root {
+  --linen: #f5f0e8;
+  --sand: #e9ded2;
+  --sage: #7b8367;
+  --olive: #5e6646;
+  --olive-deep: #272a1d; /* água funda: piso do pico da Seção 4 (véu), derivado do olive */
+  --sand-deep: #e1d4c4; /* interlúdio de imprensa (5b): sand como FUNDO de seção, tom guardado, uso único. NÃO é cor nova da paleta (design.md 5b) */
+  --graphite: #43463d;
+  --graphite-soft: #5b5e53;
+
+  /* raio: card 16px (design.md), botão pill */
+  --radius: 16px;
+  --radius-pill: 9999px;
+}
+
+/* -------- Camada 2 · SEMÂNTICO (propósito, referencia primitivo) -------- */
+:root {
+  --color-bg: var(--linen);
+  --color-surface: var(--sand);
+  --color-ink: var(--graphite);
+  --color-ink-soft: var(--graphite-soft);
+  --color-interactive: var(--sage);
+  --color-peak: var(--olive);
+  --color-on-peak: var(--linen);
+}
+
+/* -------- Camada 3 · COMPONENTE (específico, referencia semântico) -------- */
+:root {
+  /* Botão maré: borda + linha d'água que sobe (olive), texto graphite -> linen */
+  --button-border: var(--olive);
+  --button-water: var(--olive);
+  --button-ink: var(--color-ink);
+  --button-ink-hover: var(--color-on-peak);
+  --card-bg: var(--sand);
+  --waterline: var(--sage);
+  --nav-bg-scrolled: rgba(245, 240, 232, 0.94);
+
+  /* Seção 3 — Serviços: véu na base da imagem-âncora (só a base ganha peso, o
+     grafite via token) e a linha-guia d'água que liga o nome ao gatilho. */
+  --s3-frame-veil: linear-gradient(
+    180deg,
+    transparent 58%,
+    color-mix(in srgb, var(--graphite) 15%, transparent)
+  );
+  --s3-leader: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--sage) 60%, transparent),
+    color-mix(in srgb, var(--sage) 32%, transparent)
+  );
+
+  /* Seção 4 — Programa "a água funda": véu de contraste sobre o vídeo, sempre
+     presente (garante AA do texto linho independente do estado do vídeo). Três
+     camadas: (1) scrim profundo em olive-deep atrás do texto (a água funda
+     protege a leitura no centro), (2) vinheta que fecha as bordas mais claras do
+     vídeo, (3) lavagem olive contínua que amarra o campo ao pico. Opacidade
+     medida por screenshot até o linho passar AA no frame mais claro do loop. */
+  --s4-veil:
+    radial-gradient(
+      76% 72% at 50% 50%,
+      color-mix(in srgb, var(--olive-deep) 76%, transparent) 0%,
+      color-mix(in srgb, var(--olive-deep) 68%, transparent) 46%,
+      color-mix(in srgb, var(--olive-deep) 22%, transparent) 80%,
+      transparent 100%
+    ),
+    radial-gradient(
+      135% 125% at 50% 32%,
+      transparent 46%,
+      color-mix(in srgb, var(--olive-deep) 52%, transparent) 100%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--olive) 40%, transparent) 0%,
+      color-mix(in srgb, var(--olive) 24%, transparent) 42%,
+      color-mix(in srgb, var(--olive-deep) 58%, transparent) 100%
+    );
+
+  /* Seção 5 — Prova social: scrim sutil no topo da prancha (contraste dos
+     rótulos Before/After sobre a foto) e a linha d'água fina na costura
+     before|after (a assinatura, linho translúcido sobre a foto, esmaece nas
+     pontas). */
+  --s5-scrim: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--olive-deep) 26%, transparent),
+    transparent
+  );
+  --s5-seam: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--linen) 55%, transparent) 12%,
+    color-mix(in srgb, var(--linen) 55%, transparent) 88%,
+    transparent
+  );
+
+  /* Seção 5b — Interlúdio de imprensa: campo sand PROFUNDO (fundo de seção) com
+     textura de papel + vinheta morna (profundidade, sem cor nova). O filete
+     duplo das divisórias é decorativo (olive translúcido). O label pequeno usa
+     olive APROFUNDADO: olive puro dá só 4.16:1 sobre o sand-deep (reprova AA em
+     texto pequeno), então desce um passo rumo ao graphite (~4.8:1) preservando o
+     calor editorial — mesmo desvio consciente de mock por AA já feito na S5. */
+  --press-bg: var(--sand-deep);
+  --press-rule: color-mix(in srgb, var(--olive) 36%, transparent);
+  --press-label: color-mix(in srgb, var(--olive) 70%, var(--graphite));
+  /* Grão de papel: SVG feTurbulence dessaturado RASTERIZADO UMA VEZ num tile
+     200x200 (data-URI) e repetido via background — barato mesmo em dpr alto (o
+     rect filtrado em tela cheia rasterizava lento no retina). stitch = costura
+     sem emenda no repeat. */
+  --press-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E");
+  --press-vignette:
+    radial-gradient(
+      120% 90% at 50% 30%,
+      color-mix(in srgb, var(--linen) 50%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      140% 120% at 50% 120%,
+      color-mix(in srgb, var(--olive) 10%, transparent),
+      transparent 55%
+    );
+
+  /* Voz itálica da marca (palavra de destaque das headlines) — SISTEMA v2:
+     peso subiu de 340 para 500 para equilibrar contra o caps do display. */
+  --voice-font: var(--font-cormorant);
+  --voice-weight: 500;
+  --voice-size: 1.12em;
+
+  /* Véu direcional do hero (linen sobre o vídeo, contraste do grafite) */
+  --hero-veil-desktop: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--linen) 55%, transparent) 0%,
+    color-mix(in srgb, var(--linen) 22%, transparent) 40%,
+    transparent 62%
+  );
+  --hero-veil-mobile: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--linen) 60%, transparent) 0%,
+    color-mix(in srgb, var(--linen) 26%, transparent) 48%,
+    transparent 72%
+  );
+}
+
+/* -------- Ponte shadcn/ui -> marca --------
+   Mapeia os tokens que os componentes shadcn esperam para a paleta by Nikolle,
+   para que qualquer componente adicionado no futuro já nasça na marca. */
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-ink);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-bg);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-peak);
+  --primary-foreground: var(--color-on-peak);
+  --secondary: var(--color-surface);
+  --secondary-foreground: var(--color-ink);
+  --muted: var(--color-surface);
+  --muted-foreground: var(--color-ink-soft);
+  --accent: var(--color-surface);
+  --accent-foreground: var(--color-ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: color-mix(in srgb, var(--sage) 22%, transparent);
+  --input: color-mix(in srgb, var(--sage) 22%, transparent);
+  --ring: var(--sage);
+}
+
+/* -------- Exposição no Tailwind (@theme) -------- */
+@theme inline {
+  /* Paleta da marca como utilitários: bg-linen, text-sage, border-olive... */
+  --color-linen: var(--linen);
+  --color-sand: var(--sand);
+  --color-sage: var(--sage);
+  --color-olive: var(--olive);
+  --color-graphite: var(--graphite);
+  --color-graphite-soft: var(--graphite-soft);
+
+  /* Tipografia SISTEMA v2: display e voz na MESMA família (Cormorant), corpo em Hanken */
+  --font-display: var(--font-cormorant);
+  --font-voice: var(--font-cormorant);
+  --font-sans: var(--font-hanken);
+  /* Terceira voz (microdose única): assinatura manuscrita da marca (Seção 6) */
+  --font-signature: var(--font-parisienne);
+
+  /* shadcn/ui mapeado à marca */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Raio (escala 8pt + pill) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-pill: var(--radius-pill);
+
+  /* Elevação difusa (a luz do site é difusa por lei — sombras quase nulas) */
+  --shadow-sm: 0 1px 2px rgba(67, 70, 61, 0.04);
+  --shadow-md: 0 8px 24px rgba(67, 70, 61, 0.05);
+  --shadow-lg: 0 24px 60px rgba(67, 70, 61, 0.07);
+}
+
+/* -------- Base -------- */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* -------- Componentes de marca -------- */
+@layer components {
+  /* Voz itálica da marca: Cormorant itálico peso ~500, minúsculo, tracking 0
+     (SISTEMA v2), corpo relativo ao texto ao redor */
+  .voice-italic {
+    font-family: var(--voice-font), serif;
+    font-style: italic;
+    font-weight: var(--voice-weight);
+    font-size: var(--voice-size);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  /* Focus ripple (design.md): anel duplo suave sage no focus-visible */
+  .focus-ripple {
+    outline: none;
+  }
+  .focus-ripple:focus-visible {
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--sage) 40%, transparent),
+      0 0 0 7px color-mix(in srgb, var(--sage) 18%, transparent);
+  }
+
+  /* Slot vivo do hero: respiro de largura e dissolve dos candidatos */
+  .slot-live {
+    transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .slot-cand {
+    transition:
+      opacity 0.9s ease,
+      filter 0.9s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slot-live,
+    .slot-cand {
+      transition: none;
+    }
+  }
+
+  /* Seção 4 — Programa: botão maré INVERTIDO (linho sobre olive). Reusa o
+     TideButton inteiro (mesma mecânica: água que sobe no hover); só troca os
+     tokens de cor que o componente já lê. A maré vira linho e o texto vira
+     olive quando preenche. */
+  .tide-invert {
+    --button-border: color-mix(in srgb, var(--linen) 55%, transparent);
+    --button-water: var(--linen);
+    --button-ink: var(--color-on-peak);
+    --button-ink-hover: var(--color-peak);
+  }
+}
+
+/* ============================================================
+   Seção 2 — O Método (Os Três Pilares). Gabarito: mock-metodo-FINAL.html.
+   Só as peças que o utilitário não expressa: keyframes + a ligação das
+   animações, que só disparam quando a seção entra na viewport (data-live)
+   e ficam ausentes em prefers-reduced-motion (o mundo degrada a estático).
+   Layout, tipografia e carrossel vivem como utilitários no Method.tsx.
+   ============================================================ */
+@keyframes method-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* Entrada dos ícones-assinatura. Os assets são line-art de preenchimento
+   (VTracer, sem stroke), então o traço não "se desenha" literalmente: a vida
+   de entrada é uma emersão suave (opacidade + leve subida), em cascata. */
+@keyframes method-icon-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Respiração viva e dessincronizada (design.md): flutua e inclina de leve. */
+@keyframes method-breathe {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-7px) rotate(1.1deg);
+  }
+}
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Marquee lento e infinito (duplicado no TSX para loop sem emenda). */
+    .method-marquee-track {
+      animation: method-marquee 60s linear infinite;
+    }
+    /* Ícone emerge quando a seção entra em view; cascata entre os três. */
+    .method[data-live="true"] .method-ico {
+      animation: method-icon-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .method[data-live="true"] .method-pillar:nth-child(2) .method-ico {
+      animation-delay: 0.25s;
+    }
+    .method[data-live="true"] .method-pillar:nth-child(3) .method-ico {
+      animation-delay: 0.5s;
+    }
+    /* Depois de emergir, respira em loop com tempos dessincronizados. */
+    .method[data-live="true"] .method-ico svg {
+      animation: method-breathe 6s ease-in-out infinite 2.6s;
+    }
+    .method[data-live="true"] .method-pillar:nth-child(2) .method-ico svg {
+      animation: method-breathe 7.5s ease-in-out infinite 2.8s;
+    }
+    .method[data-live="true"] .method-pillar:nth-child(3) .method-ico svg {
+      animation: method-breathe 9s ease-in-out infinite 3s;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 3 — Serviços. Gabarito: mock-secao3-servicos-v5.html.
+   Layout/tipografia vivem como utilitários no Services.tsx; aqui só a
+   coreografia de reveal — dispara por data-live quando a seção entra em
+   view e some em prefers-reduced-motion (e sem JS), onde tudo nasce no
+   estado final e visível. Só transform/opacity (GPU). Os delays de stagger
+   entram inline por índice no TSX (valor dinâmico). O sticky NÃO tem CSS
+   aqui de propósito: qualquer overflow em ancestral o quebraria.
+   ============================================================ */
+@keyframes s3-lead-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes s3-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    /* A linha-guia se desenha do centro (a forma-assinatura da marca). */
+    .services[data-live="true"] .s3-lead {
+      animation: s3-lead-draw 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    /* Blocos e itens sobem em stagger (fade + rise). */
+    .services[data-live="true"] .s3-rise {
+      animation: s3-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 5 — Prova social. Gabarito: mock-secao5-prova-v3.html (+ retoques v4).
+   VALE de leitura: reveal cerimonial que assenta, disparado por data-live
+   quando a seção entra em view; some em prefers-reduced-motion (e sem JS, tudo
+   nasce visível e estático). Só transform/opacity. Os delays de stagger entram
+   inline por índice no TSX. Scrim e costura (linha d'água) vivem como tokens de
+   componente acima. A rotação das vozes e o carrossel são JS no Proof.tsx.
+   ============================================================ */
+@keyframes s5-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* A costura (linha d'água vertical) se desenha do centro para fora (scaleY),
+   como a divisória sage se desenha do centro — a forma-assinatura da marca. */
+@keyframes s5-seam-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Textos e blocos sobem 10px (fade + rise); stagger inline por índice. */
+    .proof[data-live="true"] .s5-rise {
+      animation: s5-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    /* A linha d'água da costura se desenha (assenta depois da moldura). */
+    .proof[data-live="true"] .s5-seam {
+      animation: s5-seam-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 6 — Sobre Nikolle. Gabarito: mock-secao6-sobre-v3.html.
+   VALE morno (o momento pessoal do site): reveal que assenta (fade + rise),
+   disparado por data-live quando a seção entra em view; some em
+   prefers-reduced-motion (e sem JS, tudo nasce visível e estático). Só
+   transform/opacity, com uma exceção sancionada: a assinatura Parisienne se
+   revela esquerda->direita ('sendo escrita') por clip-path progressivo — NÃO
+   stroke-draw (fonte cursiva não faz traço único). Os delays de stagger entram
+   inline por índice no TSX; layout e tipografia vivem como utilitários no
+   About.tsx. Campo linho, SEM olive (o calor vem da fotografia e da voz).
+   ============================================================ */
+@keyframes s6-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Assinatura "sendo escrita": a largura visível cresce da esquerda para a
+   direita (inset da direita 100% -> 0). Revela progressivamente, não desenha
+   traço. */
+@keyframes s6-sign-write {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Carta e retrato sobem (fade + rise); stagger inline por índice no TSX. */
+    .about[data-live="true"] .s6-rise {
+      animation: s6-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    /* A assinatura se escreve da esquerda para a direita, lenta, por último. */
+    .about[data-live="true"] .s6-sign {
+      animation: s6-sign-write 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 5b — Interlúdio de imprensa. Gabarito: mock-interludio-imprensa-v2.html.
+   Interlúdio editorial ENTRE a Prova (S5) e o Sobre (S6): separa a prova
+   emocional da AUTORIDADE institucional (imprensa + prêmio). Campo sand PROFUNDO
+   + textura de papel + vinheta (tokens acima). Aqui: o material do artefato
+   (borda fina + sombra de papel — EXCEÇÃO consciente à regra 'contorno não
+   sombra', sancionada pelo Gabriel p/ o clipping/selo lerem como objeto físico),
+   o filete duplo das divisórias, e a coreografia de reveal (data-live; some em
+   prefers-reduced-motion, tudo nasce visível e estático). Só transform/opacity.
+   O clipping assenta e o selo 'carimba' logo depois. Delays de stagger da
+   história entram inline por índice no TSX.
+   ============================================================ */
+@keyframes press-settle {
+  from {
+    opacity: 0;
+    transform: translateY(18px) rotate(-2.2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-2.2deg);
+  }
+}
+@keyframes press-stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(6deg) scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(6deg) scale(1);
+  }
+}
+@keyframes press-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer components {
+  /* Campo sand profundo do interlúdio (a classe também escopa o reveal). */
+  .press {
+    background: var(--press-bg);
+  }
+  /* Textura de papel: tile de ruído repetido (estático, barato), multiply sutil. */
+  .press-grain {
+    background-image: var(--press-grain);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+  /* Filete DUPLO: duas hairlines paralelas (filete de diagramação de revista). */
+  .press-rule-line {
+    height: 3px;
+    border-top: 1px solid var(--press-rule);
+    border-bottom: 1px solid var(--press-rule);
+  }
+  /* O clipping como papel: borda fina olive + sombra de papel sutil (exceção
+     sancionada). Rotação de repouso -2.2deg (o reveal a preserva). */
+  .press-clip {
+    transform: rotate(-2.2deg);
+    border: 1px solid color-mix(in srgb, var(--olive) 16%, transparent);
+    box-shadow: 0 18px 40px -22px
+      color-mix(in srgb, var(--olive-deep) 30%, transparent);
+  }
+  /* O selo 'carimbado' no canto: rotação de repouso 6deg + drop-shadow suave. */
+  .press-stamp {
+    transform: rotate(6deg);
+    filter: drop-shadow(
+      0 10px 18px color-mix(in srgb, var(--olive-deep) 24%, transparent)
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* O clipping assenta (fade + rise lento). */
+    .press[data-live="true"] .press-clip {
+      animation: press-settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    /* O selo 'carimba' logo depois (scale 1.06->1 + fade), assentando sobre o
+       papel já quase parado. */
+    .press[data-live="true"] .press-stamp {
+      animation: press-stamp-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+    }
+    /* Masthead, headline e pull-quote sobem em stagger (fade + rise). */
+    .press[data-live="true"] .press-rise {
+      animation: press-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+}

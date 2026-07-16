@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Seção 5 (Prova Social) v2 · editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1240px;margin:0 auto;padding:34px 48px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  /* imagem GRANDE protagonista + coluna de sussurro, muito ar */
+  .proof{max-width:1240px;margin:0 auto;padding:84px 48px 108px;
+    display:grid;grid-template-columns:1.18fr 0.82fr;gap:96px;align-items:center}
+
+  /* ---- prancha grande ---- */
+  .plate{position:relative}
+  .frame{position:relative;overflow:hidden;border-radius:3px;aspect-ratio:1/1;background:var(--sand)}
+  .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+  .frame img.on{opacity:1}
+  /* linha d'água marcando a costura before|after (assinatura) */
+  .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:3;transform:translateX(-.5px);
+    background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--linen) 55%,transparent) 12%,color-mix(in srgb,var(--linen) 55%,transparent) 88%,transparent)}
+  .frame::before{content:"";position:absolute;top:0;left:0;right:0;height:70px;z-index:2;background:linear-gradient(180deg,rgba(39,42,29,.28),transparent);pointer-events:none}
+  .tag{position:absolute;top:18px;z-index:4;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,240,232,.9)}
+  .tag.b{left:20px}.tag.a{right:20px}
+
+  .pnav{display:flex;align-items:center;gap:16px;margin-top:24px}
+  .dots{display:flex;gap:9px}
+  .dot{width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,var(--sage) 32%,transparent);border:none;cursor:pointer;padding:0;transition:.3s}
+  .dot.on{background:var(--olive);width:20px;border-radius:4px}
+  .arrs{display:flex;gap:8px;margin-left:auto}
+  .arr{width:40px;height:40px;border:1px solid color-mix(in srgb,var(--sage) 38%,transparent);background:transparent;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--olive);transition:.3s}
+  .arr:hover{border-color:var(--olive)}
+
+  /* ---- coluna sussurro ---- */
+  .tell{padding:8px 0}
+  .kicker{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--graphite-soft);margin-bottom:18px}
+  .title{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(24px,2.3vw,32px);line-height:1.12;color:var(--graphite);letter-spacing:.01em}
+  .title .i{font-style:italic}
+
+  #qbox{margin:44px 0;transition:opacity .5s ease}
+  #qtext{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(20px,1.8vw,26px);line-height:1.5;color:var(--graphite)}
+  #qwho{margin-top:20px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)}
+
+  /* autoridade discreta: selo tipográfico do prêmio + menção da revista */
+  .authority{display:flex;align-items:center;gap:24px;margin-top:52px;padding-top:30px;border-top:1px solid color-mix(in srgb,var(--sage) 20%,transparent)}
+  .badge{flex:none;width:104px;height:104px;border-radius:50%;border:1px solid color-mix(in srgb,var(--olive) 55%,transparent);
+    display:grid;place-items:center;text-align:center;color:var(--olive)}
+  .badge .l1{font-size:8px;letter-spacing:.2em;text-transform:uppercase;line-height:1.5}
+  .badge .l2{font-family:'Cormorant',serif;font-weight:600;font-size:17px;letter-spacing:.03em;text-transform:uppercase;line-height:1;margin:3px 0}
+  .badge .rule{width:26px;height:1px;background:color-mix(in srgb,var(--olive) 45%,transparent);margin:5px auto}
+  .badge .l3{font-size:8px;letter-spacing:.2em;text-transform:uppercase}
+  .mag .m1{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--graphite-soft);margin-bottom:8px}
+  .mag .m2{font-family:'Cormorant',serif;font-style:italic;font-size:16px;line-height:1.4;color:var(--graphite);max-width:260px}
+
+  .foot{max-width:1240px;margin:0 auto;padding:0 48px 80px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  @media (max-width:900px){
+    .proof{grid-template-columns:1fr;gap:40px;padding:56px 24px 88px}
+    #qbox{margin:32px 0}
+    .authority{margin-top:38px;gap:20px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock v2 — editorial.</b> Hierarquia invertida: before/after GRANDE protagonista + texto sussurro (uma voz por vez, itálico) + autoridade discreta. O prêmio virou SELO TIPOGRÁFICO da marca (não o adesivo azul). Linha d'água na costura before|after. Muito ar, assimétrico, compacto. Rotação de citações com fade limpo (sem o bug anterior). Depoimentos = [PLACEHOLDER].
+  </div>
+
+  <section class="proof">
+    <div class="plate">
+      <div class="frame">
+        <span class="seam"></span>
+        <span class="tag b">Before</span>
+        <span class="tag a">After</span>
+        <img class="on" src="public/images/before-after-02.webp" alt="Before and after of a holistic facial treatment by Nikolle" />
+        <img src="public/images/before-after-03.webp" alt="Before and after of a holistic facial treatment by Nikolle" />
+        <img src="public/images/before-after-04.webp" alt="Before and after of a holistic facial treatment by Nikolle" />
+      </div>
+      <div class="pnav">
+        <div class="dots" id="dots"></div>
+        <div class="arrs">
+          <button class="arr" id="prev" aria-label="Previous"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="arr" id="next" aria-label="Next"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tell">
+      <div class="kicker">Real results</div>
+      <h2 class="title">Real experiences,<br>natural <span class="i">results.</span></h2>
+
+      <div id="qbox">
+        <div id="qtext">"My skin was so reactive I was afraid of facials. Nikolle rebuilt my barrier little by little, and my face feels calm for the first time in years."</div>
+        <div id="qwho">Marina · Manoa</div>
+      </div>
+
+      <div class="authority">
+        <div class="badge">
+          <div>
+            <div class="l1">Best of</div>
+            <div class="l2">Honolulu</div>
+            <div class="rule"></div>
+            <div class="l3">2024 Winner</div>
+          </div>
+        </div>
+        <div class="mag">
+          <div class="m1">As featured in</div>
+          <div class="m2">Honolulu Magazine — "bespoke holistic skin rejuvenation."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Selo do prêmio = tipográfico na linguagem da marca (não o adesivo azul). No build: reveal cerimonial que assenta + a moldura e a linha d'água desenham na entrada.<br>
+    Foto 1 (empilhada) fora por consistência. Uma voz por vez, rotação lenta e independente das pranchas.
+  </div>
+
+  <script>
+    // prancha (imagens)
+    (function(){
+      var imgs=document.querySelectorAll('.frame img'), dots=document.getElementById('dots'), i=0;
+      imgs.forEach(function(_,n){var b=document.createElement('button');b.className='dot'+(n===0?' on':'');b.onclick=function(){go(n)};dots.appendChild(b);});
+      function go(n){i=(n+imgs.length)%imgs.length;imgs.forEach(function(im,k){im.classList.toggle('on',k===i)});dots.querySelectorAll('.dot').forEach(function(d,k){d.classList.toggle('on',k===i)});}
+      document.getElementById('prev').onclick=function(){go(i-1)};
+      document.getElementById('next').onclick=function(){go(i+1)};
+    })();
+    // citações (fade-swap limpo, sem bug de layout)
+    (function(){
+      var Q=[
+        {t:'"My skin was so reactive I was afraid of facials. Nikolle rebuilt my barrier little by little, and my face feels calm for the first time in years."', w:'Marina · Manoa'},
+        {t:'"After years of harsh treatments that never faded my melasma, my skin tone is more even than it has been in a decade."', w:'Leah · Kaimuki'},
+        {t:'"I came for the glow and stayed for how I feel when I leave. It is the only appointment I never move."', w:'Dana · Kailua'}
+      ];
+      var box=document.getElementById('qbox'), t=document.getElementById('qtext'), w=document.getElementById('qwho'), j=0;
+      setInterval(function(){
+        j=(j+1)%Q.length; box.style.opacity=0;
+        setTimeout(function(){ t.textContent=Q[j].t; w.textContent=Q[j].w; box.style.opacity=1; }, 500);
+      }, 7000);
+    })();
+  </script>
+
+</body>
+</html>

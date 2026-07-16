@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOCK v8 Hero - by Nikolle</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bodoni+Moda:ital,opsz,wght@1,6..96,300..500&family=Cormorant:ital,wght@1,300..500&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;
+    --graphite:#43463D;--graphite-soft:#5B5E53;--ease:cubic-bezier(.22,1,.36,1);
+    --ital-font:'Cormorant',serif;--ital-weight:340;--ital-size:1.12em;--ital-settings:normal;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif}
+  .hero{position:relative;height:100svh;min-height:620px;overflow:hidden}
+  .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .vid-mobile{display:none}
+  .veil{position:absolute;inset:0;background:linear-gradient(105deg,rgba(245,240,232,.55) 0%,rgba(245,240,232,.22) 40%,rgba(245,240,232,0) 62%)}
+  .nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:22px 48px;z-index:5}
+  .nav img{height:28px;display:block}
+  .nav .links{display:flex;gap:30px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--graphite)}
+  .nav .links span{cursor:pointer;position:relative;padding-bottom:3px}
+  .nav .links span::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--sage);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+  .nav .links span:hover::after{transform:scaleX(1)}
+  .tide{position:relative;overflow:hidden;display:inline-flex;align-items:center;background:transparent;border:1px solid var(--olive);border-radius:2px;cursor:pointer;font-family:'Hanken Grotesk',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);transition:color .5s ease .05s}
+  .tide .fill{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--olive);transition:height .55s var(--ease)}
+  .tide .txt{position:relative;z-index:2;font-weight:400}
+  .tide:hover{color:var(--linen)}
+  .tide:hover .fill{height:100%}
+  .tide.sm{padding:10px 22px;font-size:11.5px}
+  .tide.lg{padding:15px 32px;font-size:13px}
+  .lockup{position:relative;z-index:4;max-width:800px;padding:0 48px;top:53%;transform:translateY(-50%)}
+  .overline{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--sage);margin-bottom:18px;opacity:0;animation:fade .8s var(--ease) .2s forwards}
+  .overline .short{display:none}
+  h1{white-space:nowrap;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(34px,3.7vw,52px);line-height:1.1;color:var(--graphite);letter-spacing:.005em}
+  h1 .w{display:inline-block;opacity:0;filter:blur(5px);transform:translateY(10px);animation:rise .85s var(--ease) forwards}
+  .slot{display:inline-block;position:relative;white-space:nowrap;vertical-align:baseline}
+  .slot .sizer,.slot .cand{font-family:var(--ital-font);font-style:italic;font-weight:var(--ital-weight);font-size:var(--ital-size);line-height:1;letter-spacing:.01em}
+  .slot .sizer{visibility:hidden}
+  .slot .cand{position:absolute;left:0;bottom:.06em;opacity:0;transition:opacity .9s ease,filter .9s ease;filter:blur(3px);white-space:nowrap}
+  .slot .cand.on{opacity:1;filter:blur(0)}
+  .support{max-width:44ch;font-size:15.5px;font-weight:300;line-height:1.7;color:var(--graphite-soft);margin:24px 0 28px;opacity:0;animation:fade 1s var(--ease) 2.9s forwards}
+  .ctarow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;opacity:0;animation:fade 1s var(--ease) 3.3s forwards}
+  .tag{font-size:12px;letter-spacing:.05em;color:var(--graphite-soft);border:1px solid rgba(123,131,103,.55);border-radius:9999px;padding:8px 16px;background:rgba(245,240,232,.5);white-space:nowrap}
+  .tag-mobile{display:none}
+  .cred{margin-top:24px;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--sage);opacity:0;animation:fade 1.2s var(--ease) 3.7s forwards}
+        @keyframes rise{to{opacity:1;filter:blur(0);transform:translateY(0)}}
+  @keyframes fade{to{opacity:1}}
+  @media (max-width:700px){
+    .vid-desktop{display:none}.vid-mobile{display:block}
+    .nav{padding:16px 22px}.nav .links{display:none}.nav img{height:24px}
+    .lockup{padding:0 24px;top:46%}
+    .veil{background:linear-gradient(150deg,rgba(245,240,232,.6) 0%,rgba(245,240,232,.26) 48%,rgba(245,240,232,0) 72%)}
+    h1{white-space:normal;font-size:clamp(36px,9.6vw,48px)}
+    .slot{display:block;margin-top:2px}
+    .overline{font-size:11px;letter-spacing:.22em}
+    .overline .full{display:none}.overline .short{display:inline}
+    .support{font-size:14.5px;max-width:100%}
+    .tag{display:none}.tag-mobile{display:block;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite-soft);margin-top:12px}
+    .ctarow .tide.lg{width:100%;justify-content:center}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .w,.overline,.support,.ctarow,.cred{animation:fade .5s ease forwards!important;filter:none!important;transform:none!important}
+    .slot .cand{transition:none!important}
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <video class="vid-desktop" autoplay muted loop playsinline poster="assets/video/hero-desktop-poster.jpg">
+    <source src="assets/video/hero-desktop.mp4" type="video/mp4">
+  </video>
+  <video class="vid-mobile" autoplay muted loop playsinline poster="assets/video/hero-mobile-poster.jpg">
+    <source src="assets/video/hero-mobile.mp4" type="video/mp4">
+  </video>
+  <div class="veil"></div>
+  <nav class="nav">
+    <img src="assets/brand/by-nikolle-logo.svg" alt="by Nikolle">
+    <div class="links"><span>Philosophy</span><span>Treatments</span><span>Program</span><span>About</span><span>FAQ</span></div>
+    <button class="tide sm"><span class="fill"></span><span class="txt">Book</span></button>
+  </nav>
+  <div class="lockup">
+    <p class="overline"><span class="full">Holistic Facial Treatments in Kaka&#699;ako</span><span class="short">Holistic Facials &middot; Kaka&#699;ako</span></p>
+    <h1>
+      <span class="w" style="animation-delay:.35s">Skin</span>
+      <span class="w" style="animation-delay:.5s">is</span>
+      <span class="w" style="animation-delay:.65s">more</span>
+      <span class="w" style="animation-delay:.8s">than</span>
+      <span class="w" style="animation-delay:.95s">a</span>
+      <span class="slot" id="slot"><span class="sizer" id="sizer">nourishment</span><span class="cand" data-w="surface.">surface.</span><span class="cand" data-w="skin">skin</span><span class="cand" data-w="nourishment">nourishment</span><span class="cand" data-w="balance">balance</span></span>
+    </h1>
+    <p class="support">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+    <div class="ctarow">
+      <button class="tide lg"><span class="fill"></span><span class="txt">Book My Consultation</span></button>
+      <span class="tag">Opening Wellness Offer &middot; 20% off your first treatment</span>
+    </div>
+    <p class="tag-mobile">20% off your first treatment</p>
+    <p class="cred">Best of Honolulu 2024 Winner</p>
+  </div>
+</section>
+<script>
+  (function(){
+    var slot=document.getElementById('slot');
+    var sizer=document.getElementById('sizer');
+    var cands=[].slice.call(slot.querySelectorAll('.cand'));
+    var reduced=false;
+    function show(w){cands.forEach(function(c){c.classList.toggle('on',c.dataset.w===w);});}
+    function lockWidth(word){sizer.textContent=word;}
+    if(reduced){lockWidth('surface.');show('surface.');}
+    else{
+      var cycle=[['surface.',6500],['skin',2200],['nourishment',2200],['balance',2200]];
+      var i=0;
+      function setW(word){
+        sizer.textContent=word;
+        var w=sizer.offsetWidth;
+        slot.style.transition='width .9s cubic-bezier(.22,1,.36,1)';
+        slot.style.width=w+'px';
+      }
+      sizer.textContent='surface.';
+      slot.style.width=sizer.offsetWidth+'px';
+      function step(){
+        var word=cycle[i][0], hold=cycle[i][1];
+        show(word); setW(word);
+        i=(i+1)%cycle.length;
+        setTimeout(step,hold);
+      }
+      setTimeout(step,1500);
+    }
+    })();
+</script>
+</body>
+</html>

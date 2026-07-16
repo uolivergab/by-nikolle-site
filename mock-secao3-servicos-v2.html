@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Seção 3 (Serviços) v2 · mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --linen:#F5F0E8; --sand:#E9DED2; --sage:#7B8367;
+    --olive:#5E6646; --graphite:#43463D; --graphite-soft:#5B5E53;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1160px;margin:0 auto;padding:36px 48px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  /* ---- seção assimétrica ---- */
+  .services{max-width:1160px;margin:0 auto;padding:72px 48px 110px;
+    display:grid;grid-template-columns:0.92fr 1.08fr;gap:72px;align-items:start}
+
+  /* coluna da imagem (âncora cinematográfica, UMA foto) */
+  .visual{position:sticky;top:40px}
+  .visual .frame{position:relative;overflow:hidden;border-radius:3px;aspect-ratio:4/5.2}
+  .visual img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+  /* véu levíssimo pra unificar tom com o linho */
+  .visual .frame::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 55%,color-mix(in srgb,var(--graphite) 16%,transparent));pointer-events:none}
+  .visual .cap{margin-top:16px;font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:17px;color:var(--sage);letter-spacing:.01em}
+
+  /* coluna do menu */
+  .menu{padding-top:6px}
+  .s-head{font-family:'Cormorant',serif;font-weight:500;color:var(--graphite);
+    font-size:clamp(32px,3.4vw,48px);line-height:1.05;letter-spacing:.02em;text-transform:uppercase}
+  .s-head .slot{font-style:italic;text-transform:none;letter-spacing:0;font-weight:500}
+  .s-sub{font-size:15.5px;color:var(--graphite-soft);margin:18px 0 40px;max-width:420px;line-height:1.6}
+
+  /* acordeão nativo (details) — categorias que expandem */
+  .cat{border-top:1px solid color-mix(in srgb,var(--sage) 22%,transparent)}
+  .cat:last-of-type{border-bottom:1px solid color-mix(in srgb,var(--sage) 22%,transparent)}
+  summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:20px;padding:24px 0}
+  summary::-webkit-details-marker{display:none}
+  .cat-name{font-family:'Cormorant',serif;font-weight:600;color:var(--graphite);
+    font-size:clamp(20px,1.9vw,26px);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+  .waterline{flex:1;height:1px;background:linear-gradient(90deg,var(--sage),color-mix(in srgb,var(--sage) 12%,transparent))}
+  .sign{position:relative;width:14px;height:14px;flex:none}
+  .sign::before,.sign::after{content:"";position:absolute;background:var(--olive);transition:transform .3s ease,opacity .3s ease}
+  .sign::before{top:6px;left:0;width:14px;height:1px}
+  .sign::after{top:0;left:6px;width:1px;height:14px}
+  details[open] .sign::after{transform:scaleY(0);opacity:0}
+  .cat-body{padding-bottom:14px}
+  .cat-intro{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:18px;color:var(--sage);margin:-2px 0 18px;max-width:520px;line-height:1.4}
+
+  .item{padding:18px 0;border-top:1px solid color-mix(in srgb,var(--sage) 12%,transparent)}
+  .item:first-of-type{border-top:none}
+  .item-top{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+  .item-name{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(19px,1.5vw,23px);color:var(--graphite);line-height:1.2}
+  .item-meta{font-size:13.5px;color:var(--graphite-soft);white-space:nowrap}
+  .item-meta .price{color:var(--graphite);font-weight:500}
+  .item-desc{font-size:14px;color:var(--graphite-soft);line-height:1.6;margin-top:7px;max-width:520px}
+
+  .addon{display:flex;align-items:baseline;gap:14px;padding:13px 0;border-top:1px solid color-mix(in srgb,var(--sage) 10%,transparent)}
+  .addon:first-of-type{border-top:none}
+  .addon-name{font-family:'Cormorant',serif;font-weight:500;font-size:18px;color:var(--graphite);white-space:nowrap}
+  .addon-price{font-size:13px;color:var(--olive);font-weight:500;white-space:nowrap}
+  .addon-desc{font-size:13.5px;color:var(--graphite-soft);flex:1}
+
+  .foot{max-width:1160px;margin:0 auto;padding:0 48px 80px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  /* ---- mobile: empilha (imagem em cima, menu embaixo); acordeão mantém curto ---- */
+  @media (max-width:820px){
+    .services{grid-template-columns:1fr;gap:36px;padding:56px 24px 90px}
+    .visual{position:static}
+    .visual .frame{aspect-ratio:4/3.4}
+    .s-sub{margin-bottom:28px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock v2 da Seção 3.</b> Assimetria editorial: UMA imagem-âncora cinematográfica (cena de tratamento tratada) + menu em acordeão (categorias expandem — não caem 10 preços de uma vez). Resolve as duas dores: vida (a imagem) e comprimento (acordeão, no desktop e no mobile). Copy 100% do roteiro.md. A imagem aqui é a cena-tratamento-vapor (trocável por ultrassom ou recepção).
+  </div>
+
+  <section class="services">
+    <!-- COLUNA IMAGEM (uma âncora, não uma por serviço) -->
+    <div class="visual">
+      <div class="frame">
+        <img src="public/images/cena-tratamento-vapor.webp" alt="Nikolle realizando um tratamento facial holístico" />
+      </div>
+      <p class="cap">Every treatment, tailored to your skin.</p>
+    </div>
+
+    <!-- COLUNA MENU -->
+    <div class="menu">
+      <h2 class="s-head">Care designed for your <span class="slot">skin.</span></h2>
+      <p class="s-sub">Real results through a holistic and non-invasive approach.</p>
+
+      <details class="cat" open>
+        <summary>
+          <span class="cat-name">Signature Facials</span>
+          <span class="waterline"></span>
+          <span class="sign"></span>
+        </summary>
+        <div class="cat-body">
+          <p class="cat-intro">Organic, personalized rituals focused on nourishment, glow and deep relaxation.</p>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Deep Pore Detox Facial</span><span class="item-meta">75 min&nbsp;·&nbsp;<span class="price">$145</span></span></div>
+            <p class="item-desc">Deep cleansing and purification for congested or acne-prone skin.</p>
+          </div>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Stimulating Herbal Facial</span><span class="item-meta">60 min&nbsp;·&nbsp;<span class="price">$140</span></span></div>
+            <p class="item-desc">An invigorating treatment that stimulates circulation, ideal for fatigued or mature skin.</p>
+          </div>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Superfood Renewal Facial</span><span class="item-meta">60 min&nbsp;·&nbsp;<span class="price">$135</span></span></div>
+            <p class="item-desc">A bath of nourishment to restore hydration and vitality to dry, lackluster skin.</p>
+          </div>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Soothing Recovery Facial</span><span class="item-meta">60 min&nbsp;·&nbsp;<span class="price">$125</span></span></div>
+            <p class="item-desc">Calming care to reduce inflammation and strengthen the barrier of sensitive or reactive skin.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="cat">
+        <summary>
+          <span class="cat-name">Advanced Treatments</span>
+          <span class="waterline"></span>
+          <span class="sign"></span>
+        </summary>
+        <div class="cat-body">
+          <p class="cat-intro">High performance in cell renewal and targeted skin concerns, with no downtime.</p>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Pigment Balance Treatment</span><span class="item-meta">75 min&nbsp;·&nbsp;<span class="price">$165</span></span></div>
+            <p class="item-desc">Focused on improving the appearance of dark spots, melasma and sun damage for a more even, luminous tone.</p>
+          </div>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Age Corrective Treatment</span><span class="item-meta">75 min&nbsp;·&nbsp;<span class="price">$165</span></span></div>
+            <p class="item-desc">Focused on softening fine lines and restoring the skin's firmness and elasticity.</p>
+          </div>
+          <div class="item">
+            <div class="item-top"><span class="item-name">Dermal Infusion Micro-Crystal</span><span class="item-meta">90 min&nbsp;·&nbsp;<span class="price">$230</span></span></div>
+            <p class="item-desc">The gentle alternative to microneedling. Stimulates collagen production and deep skin renewal.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="cat">
+        <summary>
+          <span class="cat-name">Add-Ons</span>
+          <span class="waterline"></span>
+          <span class="sign"></span>
+        </summary>
+        <div class="cat-body">
+          <p class="cat-intro">Elevate your session.</p>
+          <div class="addon"><span class="addon-name">LED Light Therapy</span><span class="addon-price">+$25</span><span class="addon-desc">Reduces inflammation and stimulates collagen.</span></div>
+          <div class="addon"><span class="addon-name">Ultrasound Infusion</span><span class="addon-price">+$30</span><span class="addon-desc">Deep hydration through enhanced absorption of active ingredients.</span></div>
+          <div class="addon"><span class="addon-name">Extended Facial Massage</span><span class="addon-price">+$20</span><span class="addon-desc">More time for deep relaxation and tension release.</span></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <div class="foot">
+    Uma imagem-âncora (não uma por serviço) + acordeão. Clique nas categorias pra sentir o expandir/recolher.<br>
+    No build: linha d'água desenha no reveal, itens sobem em stagger, imagem com leve parallax; acordeão com animação suave e um aberto por vez (a decidir).
+  </div>
+
+</body>
+</html>

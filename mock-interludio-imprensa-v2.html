@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Interlúdio de Imprensa v2 · editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sand-deep:#E1D4C4;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1200px;margin:0 auto;padding:34px 56px;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+  .ctx{height:80px;display:grid;place-items:center;color:#8a8d80;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+
+  .rule{background:var(--sand-deep);padding:0 56px}
+  .rule .in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:15px 0}
+  .rule .line{flex:1;height:3px;border-top:1px solid color-mix(in srgb,var(--olive) 36%,transparent);border-bottom:1px solid color-mix(in srgb,var(--olive) 36%,transparent)}
+  .rule .lab{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--olive);white-space:nowrap}
+
+  /* ===== interlúdio: sand PROFUNDO + textura de papel + vinheta ===== */
+  .press{position:relative;background:var(--sand-deep);padding:78px 56px 84px;overflow:hidden}
+  /* vinheta morna (profundidade, sem cor nova) */
+  .press::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 30%, rgba(245,240,232,.5), transparent 60%),
+               radial-gradient(140% 120% at 50% 120%, rgba(94,102,70,.10), transparent 55%)}
+  /* grão de papel */
+  .press .grain{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:multiply}
+  .press .in{position:relative;z-index:1;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:0.9fr 1.1fr;gap:88px;align-items:center}
+
+  .artefact{position:relative;display:flex;justify-content:center}
+  .clip{width:min(360px,100%);transform:rotate(-2.2deg);border:1px solid color-mix(in srgb,var(--olive) 16%,transparent);box-shadow:0 18px 40px -22px rgba(39,42,29,.3)}
+  .clip img{width:100%;display:block}
+  .stamp{position:absolute;right:5%;bottom:-32px;width:126px;height:126px;transform:rotate(6deg);filter:drop-shadow(0 10px 18px rgba(39,42,29,.24))}
+  .stamp img{width:100%;display:block}
+
+  /* masthead editorial */
+  .story .mast{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+  .story .mast .l{width:34px;height:1px;background:color-mix(in srgb,var(--olive) 50%,transparent)}
+  .story .mast span{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--olive)}
+  .story .head{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(28px,3.3vw,46px);line-height:1.06;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .story .head .i{font-style:italic;text-transform:none;letter-spacing:0}
+  /* pull-quote com aspas gigante (device editorial) */
+  .story .pq{position:relative;margin:30px 0 20px;padding-left:8px}
+  .story .pq .mark{position:absolute;left:-6px;top:-40px;font-family:'Cormorant',serif;font-style:italic;font-size:110px;line-height:1;color:color-mix(in srgb,var(--olive) 30%,transparent);pointer-events:none}
+  .story .pq p{position:relative;font-family:'Cormorant',serif;font-weight:500;font-size:clamp(19px,1.8vw,25px);line-height:1.5;color:var(--graphite);max-width:470px}
+  /* fólio */
+  .story .folio{display:flex;align-items:center;gap:12px;margin-top:10px}
+  .story .folio .l{width:22px;height:1px;background:color-mix(in srgb,var(--sage) 50%,transparent)}
+  .story .folio span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--graphite-soft)}
+  .story .folio b{color:var(--olive);font-weight:500}
+
+  .foot{max-width:1200px;margin:0 auto;padding:26px 56px 80px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  @media (max-width:880px){
+    .press{padding:60px 24px 66px}.rule{padding:0 24px}
+    .press .in{grid-template-columns:1fr;gap:56px}
+    .artefact{order:2}.story{order:1}
+    .clip{width:min(300px,86%)}.stamp{width:104px;height:104px;right:2%;bottom:-26px}
+    .story .pq .mark{font-size:88px;top:-32px}
+  }
+</style>
+</head>
+<body>
+
+  <!-- grão de papel reutilizável -->
+  <svg width="0" height="0" style="position:absolute"><filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></svg>
+
+  <div class="note">
+    <b>Mock v2 — Interlúdio editorial.</b> Agora com TEXTURA DE PAPEL + vinheta morna (tira o chapado, sem cor nova, sem vídeo) e DEVICES de revista: masthead, aspas gigante no pull-quote, fólio. O documento (clipping + selo azul real) continua sendo a estrela. Coloque os 2 assets em public/images/ antes de abrir.
+  </div>
+
+  <div class="ctx">· · · fim da Seção 5 (linho) · · ·</div>
+
+  <div class="rule"><div class="in"><span class="line"></span><span class="lab">In the Press · Honolulu · 2024</span><span class="line"></span></div></div>
+
+  <section class="press">
+    <div class="grain"><svg width="100%" height="100%"><rect width="100%" height="100%" filter="url(#paper)"/></svg></div>
+    <div class="in">
+      <div class="artefact">
+        <div class="clip"><img src="public/images/recorte-revista-honolulu.png" alt="Honolulu Magazine — Best Natural Facial feature on By Nikolle Aesthetics" /></div>
+        <div class="stamp"><img src="public/images/selo-best-of-honolulu.png" alt="Best of Honolulu 2024 Winner seal" /></div>
+      </div>
+
+      <div class="story">
+        <div class="mast"><span class="l"></span><span>As seen in Honolulu Magazine</span></div>
+        <h2 class="head">Named Best <span class="i">natural facial.</span></h2>
+        <div class="pq">
+          <span class="mark">&ldquo;</span>
+          <p>Coelho delivers bespoke holistic skin rejuvenation. You leave with a radiant glow and a relaxed state of mind.</p>
+        </div>
+        <div class="folio"><span class="l"></span><span><b>Honolulu Magazine</b> &nbsp;·&nbsp; Best of Honolulu 2024 Winner</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"><div class="in"><span class="line"></span><span class="lab">Est. Kaka'ako</span><span class="line"></span></div></div>
+
+  <div class="ctx">· · · início da Seção 6 (linho) · · ·</div>
+
+  <div class="foot">
+    Editorial = papel + tipografia + diagramação, não fundo colorido animado. A vida vem do reveal (clipping assenta, selo carimba), não de fundo em movimento.<br>
+    Se ainda sentir falta de textura, dá pra trocar o grão CSS por uma textura de papel gerada (ESTÁTICA), sem Veo. Headline e citação = rascunho meu (marcar no roteiro ao aprovar).
+  </div>
+
+</body>
+</html>

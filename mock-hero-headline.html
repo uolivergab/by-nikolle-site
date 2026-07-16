@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Hero headline · comparativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+  .page{max-width:1000px;margin:0 auto;padding:48px}
+  .intro{font-size:13px;color:var(--graphite-soft);line-height:1.6;margin-bottom:12px;max-width:680px}
+  .intro b{color:var(--olive);font-weight:500}
+
+  .block{padding:40px 0;border-top:1px solid rgba(123,131,103,.16)}
+  .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--graphite-soft);margin-bottom:22px}
+  .lbl b{color:var(--olive);font-weight:500}
+
+  .hl{font-family:'Cormorant',serif;font-weight:500;color:var(--graphite);line-height:1.02;
+    letter-spacing:.02em;white-space:nowrap}
+  /* tamanho MAIOR (mais presença) — indicativo; build mede o máx que cabe em 1 linha */
+  .big{font-size:clamp(34px,5vw,58px)}
+  .fix{text-transform:uppercase}
+
+  /* atual (o que incomoda): slot itálico MINÚSCULO -> parece menor e "outra fonte" */
+  .cur .slot{font-style:italic;text-transform:none;letter-spacing:0}
+  /* Opção A: slot caixa alta ROMANA (igual ao resto) */
+  .A .slot{font-style:normal;text-transform:uppercase}
+  /* Opção B: slot itálico em CAIXA ALTA (mesma altura, mantém a inclinação) */
+  .B .slot{font-style:italic;text-transform:uppercase}
+
+  .note2{font-size:12.5px;color:var(--graphite-soft);margin-top:16px;line-height:1.5}
+  .foot{padding:36px 0 60px;font-size:12.5px;color:var(--graphite-soft);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="page">
+  <p class="intro"><b>Headline do hero — comparativo.</b> Todas no tamanho MAIOR (mais presença). O slot cicla surface → skin → nourishment → balance (repara no NOURISHMENT, o mais largo). O tamanho final no hero real é o maior que couber em 1 linha; aqui é indicativo.</p>
+
+  <div class="block cur">
+    <div class="lbl">Atual — o que te incomoda (slot itálico minúsculo)</div>
+    <div class="hl big"><span class="fix">Skin is more than a </span><span class="slot">surface.</span></div>
+    <p class="note2">O slot minúsculo fica mais baixo que as maiúsculas (parece menor) e o itálico lê como outra fonte.</p>
+  </div>
+
+  <div class="block A">
+    <div class="lbl"><b>Opção A</b> — caixa alta romana (tua proposta: mesma fonte, mesmo tamanho)</div>
+    <div class="hl big"><span class="fix">Skin is more than a </span><span class="slot">surface.</span></div>
+    <p class="note2">Coeso e forte. O hero perde o itálico, mas ganha uniformidade; a assinatura vira o efeito de troca.</p>
+  </div>
+
+  <div class="block B">
+    <div class="lbl"><b>Opção B</b> — itálico em caixa alta (mesma altura, mantém a voz)</div>
+    <div class="hl big"><span class="fix">Skin is more than a </span><span class="slot">surface.</span></div>
+    <p class="note2">Resolve o "menor" (altura de maiúscula) e guarda a inclinação da voz da marca. Meio-termo.</p>
+  </div>
+</div>
+
+<div class="foot">
+  Redimensiona a janela pra sentir a presença em larguras diferentes. Escolhe A ou B; depois o build acha o maior tamanho que cabe em 1 linha no hero real (usando mais da largura vazia do meio).
+</div>
+
+<script>
+  var words=['surface.','skin.','nourishment.','balance.'], i=0;
+  var slots=document.querySelectorAll('.slot');
+  setInterval(function(){ i=(i+1)%words.length; slots.forEach(function(s){s.textContent=words[i]}); }, 2500);
+</script>
+</body>
+</html>

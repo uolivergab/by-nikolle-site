@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Comparativo de sistema tipográfico</title>
+<!-- Fontes candidatas: todas quentes/editoriais, todas com itálico na própria família -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=DM+Serif+Display:ital@0;1&family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --linen:#F5F0E8; --sand:#E9DED2; --sage:#7B8367;
+    --olive:#5E6646; --graphite:#43463D; --graphite-soft:#5B5E53;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--linen); color:var(--graphite);
+    font-family:'Hanken Grotesk',sans-serif; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1140px;margin:0 auto;padding:0 40px}
+
+  /* Cabeçalho do documento */
+  .doc-head{padding:56px 0 8px}
+  .doc-kicker{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:14px}
+  .doc-title{font-family:'Cormorant',serif;font-weight:500;font-size:34px;line-height:1.1;color:var(--graphite)}
+  .doc-note{font-size:14.5px;color:var(--graphite-soft);max-width:640px;margin-top:14px;line-height:1.65}
+  .doc-note b{color:var(--graphite);font-weight:500}
+
+  /* Painel de comparação */
+  .panel{position:relative;padding:64px 0;border-top:1px solid rgba(123,131,103,.16)}
+  .panel:first-of-type{border-top:none}
+  .tag{
+    position:absolute;top:26px;right:0;
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--graphite-soft);text-align:right;line-height:1.5;
+  }
+  .tag .lead{color:var(--olive);font-weight:500}
+  .tag .warm{color:var(--sage)}
+
+  .compose{max-width:660px}
+  .overline{
+    font-size:12px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--graphite-soft);margin-bottom:22px;
+  }
+  .headline{
+    font-family:var(--disp,'Cormorant'),serif;
+    color:var(--graphite);
+    font-weight:var(--disp-weight,500);
+    font-size:var(--disp-size,clamp(42px,6.4vw,74px));
+    line-height:1.04;
+    letter-spacing:.005em;
+  }
+  /* trecho em caixa alta traçado */
+  .headline .caps{text-transform:uppercase;letter-spacing:.035em}
+  /* palavra emocional (slot vivo) em itálico minúsculo */
+  .headline .slot{font-style:italic;text-transform:none;letter-spacing:0}
+
+  .sub{
+    font-family:'Hanken Grotesk',sans-serif;
+    font-size:16.5px;color:var(--graphite-soft);line-height:1.62;
+    max-width:440px;margin:26px 0 30px;
+  }
+  .row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;border:1px solid var(--olive);border-radius:2px;
+    color:var(--graphite);background:transparent;
+    font-family:'Hanken Grotesk',sans-serif;font-weight:500;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    padding:15px 30px;
+  }
+  .offer{font-size:13.5px;color:var(--graphite-soft)}
+  .cred{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--sage);margin-top:26px;
+  }
+  .why{font-size:13.5px;color:var(--graphite-soft);max-width:600px;margin-top:24px;line-height:1.6}
+  .why b{color:var(--olive);font-weight:500}
+
+  .slot-note{font-size:12.5px;color:var(--sage);margin-top:10px;font-style:italic}
+
+  /* ---- overrides por candidata (equilíbrio óptico) ---- */
+  .f-cormorant{--disp:'Cormorant';--disp-weight:500;--disp-size:clamp(46px,6.8vw,80px)}
+  .f-fraunces{--disp:'Fraunces';--disp-weight:400;--disp-size:clamp(40px,6vw,68px)}
+  .f-newsreader{--disp:'Newsreader';--disp-weight:400;--disp-size:clamp(41px,6.1vw,70px)}
+  .f-dmserif{--disp:'DM Serif Display';--disp-weight:400;--disp-size:clamp(38px,5.6vw,62px)}
+  .f-instrument{--disp:'Instrument Serif';--disp-weight:400;--disp-size:clamp(42px,6.2vw,72px)}
+  /* baseline usa itálico Cormorant na voz, como está hoje no site */
+  .f-instrument .slot{font-family:'Cormorant',serif}
+
+  .foot{padding:40px 0 80px;font-size:13px;color:var(--graphite-soft);border-top:1px solid rgba(123,131,103,.16);text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-head">
+    <div class="doc-kicker">by Nikolle · direção tipográfica</div>
+    <div class="doc-title">Sistema tipográfico — comparativo do hero</div>
+    <p class="doc-note">Cada bloco abaixo é o <b>hero inteiro</b> (overline, headline, subheadline, botão, credencial) na mesma paleta real, trocando só a família do display e o tratamento. Objetivo: sentir a <b>composição completa</b>, não letras soltas. A palavra em itálico minúsculo é o <b>slot vivo</b> (cicla skin · nourishment · balance). Corpo, botão e labels ficam em Hanken em todos — é a escolha certa (corpo com caráter atrapalha leitura e briga com a calma). Quem carrega a distinção é o display + o tratamento.</p>
+  </div>
+
+  <!-- 1. ATUAL -->
+  <section class="panel f-instrument">
+    <div class="tag">Atual<br>Instrument Serif · caixa de sentença</div>
+    <div class="compose">
+      <div class="overline">Holistic Facial Treatments in Kaka&lsquo;ako</div>
+      <h1 class="headline">Skin is more than a <em class="slot">surface.</em></h1>
+      <p class="sub">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+      <div class="row">
+        <span class="btn">Book My Consultation</span>
+        <span class="offer">Opening Wellness Offer · 20% off your first treatment</span>
+      </div>
+      <div class="cred">Best of Honolulu 2024 Winner</div>
+      <p class="why">O que temos hoje. Bonito, mas baixo contraste e virou o &ldquo;serif padrão&rdquo; da web. É o ponto de partida que queremos superar.</p>
+    </div>
+  </section>
+
+  <!-- 2. CORMORANT CAPS (lead) -->
+  <section class="panel f-cormorant">
+    <div class="tag"><span class="lead">Opção A · recomendada</span><br>Cormorant · CAIXA ALTA + itálico</div>
+    <div class="compose">
+      <div class="overline">Holistic Facial Treatments in Kaka&lsquo;ako</div>
+      <h1 class="headline"><span class="caps">Skin is more than a</span> <em class="slot">surface.</em></h1>
+      <p class="slot-note">↑ a palavra em itálico cicla: surface · skin · nourishment · balance</p>
+      <p class="sub">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+      <div class="row">
+        <span class="btn">Book My Consultation</span>
+        <span class="offer">Opening Wellness Offer · 20% off your first treatment</span>
+      </div>
+      <div class="cred">Best of Honolulu 2024 Winner</div>
+      <p class="why"><b>Meu lead.</b> Alto contraste, caps afiado e editorial, itálico swashy como o das referências. Unifica com a voz que já usamos. Entrega o look do Floriss sem esfriar a marca.</p>
+    </div>
+  </section>
+
+  <!-- 3. FRAUNCES CAPS -->
+  <section class="panel f-fraunces">
+    <div class="tag"><span class="warm">Opção B · sua escolha</span><br>Fraunces · CAIXA ALTA + itálico</div>
+    <div class="compose">
+      <div class="overline">Holistic Facial Treatments in Kaka&lsquo;ako</div>
+      <h1 class="headline"><span class="caps">Skin is more than a</span> <em class="slot">surface.</em></h1>
+      <p class="sub">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+      <div class="row">
+        <span class="btn">Book My Consultation</span>
+        <span class="offer">Opening Wellness Offer · 20% off your first treatment</span>
+      </div>
+      <div class="cred">Best of Honolulu 2024 Winner</div>
+      <p class="why">A escolha original da alma. Mais quente, soft e contemporânea. O caps é mais macio (menos afiado que a Cormorant) — repare se lê como &ldquo;editorial&rdquo; o suficiente pro que você quer.</p>
+    </div>
+  </section>
+
+  <!-- 4. NEWSREADER CAPS -->
+  <section class="panel f-newsreader">
+    <div class="tag"><span class="warm">Opção C</span><br>Newsreader · CAIXA ALTA + itálico</div>
+    <div class="compose">
+      <div class="overline">Holistic Facial Treatments in Kaka&lsquo;ako</div>
+      <h1 class="headline"><span class="caps">Skin is more than a</span> <em class="slot">surface.</em></h1>
+      <p class="sub">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+      <div class="row">
+        <span class="btn">Book My Consultation</span>
+        <span class="offer">Opening Wellness Offer · 20% off your first treatment</span>
+      </div>
+      <div class="cred">Best of Honolulu 2024 Winner</div>
+      <p class="why">Editorial quente e menos batida que Cormorant/Playfair. Itálico soberbo. É a opção &ldquo;quieta&rdquo; — sofisticada sem drama. Talvez discreta demais pro destaque que você busca.</p>
+    </div>
+  </section>
+
+  <!-- 5. DM SERIF (drama frio, para contraste honesto) -->
+  <section class="panel f-dmserif">
+    <div class="tag">Opção D · alto drama<br>DM Serif Display · CAIXA ALTA</div>
+    <div class="compose">
+      <div class="overline">Holistic Facial Treatments in Kaka&lsquo;ako</div>
+      <h1 class="headline"><span class="caps">Skin is more than a</span> <em class="slot">surface.</em></h1>
+      <p class="sub">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+      <div class="row">
+        <span class="btn">Book My Consultation</span>
+        <span class="offer">Opening Wellness Offer · 20% off your first treatment</span>
+      </div>
+      <div class="cred">Best of Honolulu 2024 Winner</div>
+      <p class="why">Coloquei de propósito o sabor &ldquo;Didone / Vogue&rdquo; — mais dramático e contrastado. Sinta como ele é <b>mais frio e mais moda</b>, menos &ldquo;água parada morna&rdquo;. É o caminho que eu evitaria (é lindo, mas é clichê de spa e briga com a alma). Serve pra você comparar.</p>
+    </div>
+  </section>
+
+  <!-- 6. CORMORANT SENTENÇA (isolar a decisão do caps) -->
+  <section class="panel f-cormorant">
+    <div class="tag">Controle<br>Cormorant · caixa de SENTENÇA</div>
+    <div class="compose">
+      <div class="overline">Holistic Facial Treatments in Kaka&lsquo;ako</div>
+      <h1 class="headline">Skin is more than a <em class="slot">surface.</em></h1>
+      <p class="sub">Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.</p>
+      <div class="row">
+        <span class="btn">Book My Consultation</span>
+        <span class="offer">Opening Wellness Offer · 20% off your first treatment</span>
+      </div>
+      <div class="cred">Best of Honolulu 2024 Winner</div>
+      <p class="why">Mesma fonte da Opção A, mas <b>sem</b> caixa alta. Compare este com a Opção A pra isolar a decisão do caps: você prefere o impacto editorial do caps, ou a calma da caixa de sentença? Essa é a pergunta de verdade.</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    Todas as fontes são do Google Fonts (livres, prod-safe). Corpo em Hanken Grotesk em todas.<br>
+    O tamanho de cada headline foi equilibrado no olho; ajuste fino vem depois da escolha.
+  </div>
+
+</div>
+</body>
+</html>

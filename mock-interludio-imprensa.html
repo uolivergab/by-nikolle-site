@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Interlúdio de Imprensa (entre S5 e S6) · mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1200px;margin:0 auto;padding:34px 56px;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+  .ctx{height:90px;background:var(--linen);display:grid;place-items:center;color:#8a8d80;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+
+  /* ===== DIVISÓRIA EDITORIAL (filete duplo de revista + label) ===== */
+  .rule{background:var(--sand);padding:0 56px}
+  .rule .in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:16px 0}
+  .rule .line{flex:1;height:3px;border-top:1px solid color-mix(in srgb,var(--olive) 34%,transparent);border-bottom:1px solid color-mix(in srgb,var(--olive) 34%,transparent)}
+  .rule .lab{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--olive);white-space:nowrap}
+
+  /* ===== O INTERLÚDIO (campo SAND) ===== */
+  .press{background:var(--sand);padding:72px 56px 78px}
+  .press .in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:0.9fr 1.1fr;gap:84px;align-items:center}
+
+  /* clipping da revista como ARTEFATO (rotação leve, papel) */
+  .artefact{position:relative;display:flex;justify-content:center}
+  .clip{width:min(360px,100%);transform:rotate(-2.2deg);
+    border:1px solid color-mix(in srgb,var(--olive) 16%,transparent);
+    box-shadow:0 18px 40px -22px rgba(39,42,29,.28)}
+  .clip img{width:100%;display:block}
+  /* selo azul real como OBJETO sobreposto no canto do clipping */
+  .stamp{position:absolute;right:6%;bottom:-34px;width:128px;height:128px;transform:rotate(6deg);
+    filter:drop-shadow(0 10px 18px rgba(39,42,29,.22))}
+  .stamp img{width:100%;display:block}
+
+  .story .eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
+  .story .head{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(28px,3.2vw,44px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .story .head .i{font-style:italic;text-transform:none;letter-spacing:0}
+  .story .quote{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(19px,1.8vw,25px);line-height:1.5;color:var(--graphite);margin:26px 0 18px;max-width:480px}
+  .story .src{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--graphite-soft)}
+  .story .src b{color:var(--olive);font-weight:500}
+
+  .foot{max-width:1200px;margin:0 auto;padding:26px 56px 80px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  @media (max-width:880px){
+    .press{padding:56px 24px 64px}
+    .press .in{grid-template-columns:1fr;gap:56px}
+    .artefact{order:2}
+    .story{order:1;text-align:left}
+    .clip{width:min(300px,86%)}
+    .stamp{width:104px;height:104px;right:2%;bottom:-28px}
+    .rule{padding:0 24px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — Interlúdio de Imprensa (nova seção entre S5 e S6).</b> Campo SAND (estreia do tom como fundo), artefatos REAIS: o recorte da revista como clipping de papel (rotação leve) + o SELO AZUL ORIGINAL como objeto sobreposto (o pedido da Nik, agora em contexto documental). Divisórias editoriais = filete duplo + label "Press · Honolulu · 2024". Coloque os 2 assets em public/images/ antes de abrir.
+  </div>
+
+  <div class="ctx">· · · fim da Seção 5 (linho) · · ·</div>
+
+  <!-- divisória editorial de cima -->
+  <div class="rule"><div class="in">
+    <span class="line"></span><span class="lab">Press · Honolulu · 2024</span><span class="line"></span>
+  </div></div>
+
+  <section class="press">
+    <div class="in">
+      <div class="artefact">
+        <div class="clip"><img src="public/images/recorte-revista-honolulu.png" alt="Honolulu Magazine — Best Natural Facial feature on By Nikolle Aesthetics" /></div>
+        <div class="stamp"><img src="public/images/selo-best-of-honolulu.png" alt="Best of Honolulu 2024 Winner seal" /></div>
+      </div>
+
+      <div class="story">
+        <div class="eyebrow">In the press</div>
+        <h2 class="head">Named Best <span class="i">natural facial.</span></h2>
+        <p class="quote">"Coelho delivers bespoke holistic skin rejuvenation. You leave with a radiant glow and a relaxed state of mind."</p>
+        <div class="src"><b>Honolulu Magazine</b> · Best of Honolulu 2024 Winner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- divisória editorial de baixo -->
+  <div class="rule"><div class="in">
+    <span class="line"></span><span class="lab">Est. Kaka'ako</span><span class="line"></span>
+  </div></div>
+
+  <div class="ctx">· · · início da Seção 6 (linho, Sobre Nikolle) · · ·</div>
+
+  <div class="foot">
+    O azul do selo vive aqui como DOCUMENTO (artefato real de imprensa), não como UI — por isso funciona. Headline e citação são rascunho meu (marcar no roteiro ao aprovar).<br>
+    No build: o clipping assenta com reveal lento, o selo "carimba" (scale 1.06→1 + fade) logo depois. S5 será reorganizada sem o bloco de autoridade (voz centrada, mais presença).
+  </div>
+
+</body>
+</html>

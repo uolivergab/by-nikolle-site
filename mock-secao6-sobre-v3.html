@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Seção 6 (Sobre Nikolle) v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&family=Parisienne&family=Allura&family=Sacramento&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1200px;margin:0 auto;padding:34px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  .about{max-width:1200px;margin:0 auto;padding:88px 56px 60px;
+    display:grid;grid-template-columns:0.82fr 1fr;gap:88px;align-items:center}
+
+  .portrait .frame{position:relative;overflow:hidden;
+    border-top-left-radius:190px;border-top-right-radius:190px;border-bottom-left-radius:8px;border-bottom-right-radius:8px;
+    aspect-ratio:4/5;background:var(--sand);
+    outline:1px solid color-mix(in srgb,var(--olive) 18%,transparent);outline-offset:-1px}
+  .portrait img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
+
+  .tell{max-width:520px}
+  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:20px}
+  .title{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(30px,3.4vw,46px);line-height:1.12;letter-spacing:.02em;text-transform:uppercase;color:var(--graphite)}
+  .title .i{font-style:italic;text-transform:none;letter-spacing:0}
+  .sub{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(18px,1.6vw,22px);color:var(--sage);margin:16px 0 30px}
+  .body{font-size:15.5px;line-height:1.75;color:var(--graphite-soft)}
+  .body p{margin-bottom:16px}
+
+  /* assinatura — Parisienne (recomendada) */
+  .sig{margin:26px 0 4px}
+  .sig .name{font-family:'Parisienne',cursive;font-size:52px;color:var(--graphite);line-height:1}
+
+  /* CTA sem sublinhado, uma linha */
+  .cta{display:inline-block;margin-top:24px;border:1px solid var(--olive);border-radius:2px;position:relative;overflow:hidden;
+    color:var(--graphite);background:transparent;font-family:'Hanken Grotesk',sans-serif;font-weight:500;text-decoration:none;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:15px 32px;cursor:pointer;transition:color .5s ease .05s;z-index:0;white-space:nowrap}
+  .cta::before{content:"";position:absolute;left:0;bottom:0;width:100%;height:100%;background:var(--olive);transform:scaleY(0);transform-origin:bottom;transition:transform .55s cubic-bezier(.22,1,.36,1);z-index:-1}
+  .cta:hover{color:var(--linen)}
+  .cta:hover::before{transform:scaleY(1)}
+
+  /* comparativo de fontes */
+  .compare{max-width:1200px;margin:0 auto;padding:40px 56px 90px;border-top:1px solid rgba(123,131,103,.16)}
+  .compare h3{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);font-weight:500;margin-bottom:30px}
+  .opts{display:flex;gap:56px;flex-wrap:wrap;align-items:flex-end}
+  .opt .name{color:var(--graphite);line-height:1}
+  .opt .p{font-family:'Parisienne',cursive;font-size:52px}
+  .opt .a{font-family:'Allura',cursive;font-size:56px}
+  .opt .s{font-family:'Sacramento',cursive;font-size:52px}
+  .opt .tag{margin-top:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite-soft)}
+  .opt .tag b{color:var(--olive);font-weight:500}
+
+  @media (max-width:880px){
+    .about{grid-template-columns:1fr;gap:40px;padding:56px 24px 40px}
+    .portrait .frame{max-width:340px;margin:0 auto;border-top-left-radius:150px;border-top-right-radius:150px}
+    .tell{max-width:none}
+    .cta{display:block;text-align:center;font-size:11.5px;letter-spacing:.08em;padding:15px 16px}
+    .compare{padding:36px 24px 80px}
+    .opts{gap:36px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock v3 — Sobre Nikolle.</b> Ajustes: 'Nikolle' com N maiúsculo + sublinhado do CTA removido. Assinatura = Parisienne (minha recomendação). Comparativo das 3 fontes embaixo pra você escolher. No build a assinatura ganha o efeito de "escrevendo".
+  </div>
+
+  <section class="about">
+    <div class="portrait">
+      <div class="frame"><img src="public/images/retrato-nikolle.webp" alt="Nikolle Coelho, founder of by Nikolle" /></div>
+    </div>
+
+    <div class="tell">
+      <div class="eyebrow">The founder</div>
+      <h2 class="title">Nice to meet you,<br>I'm <span class="i">Nikolle.</span></h2>
+      <p class="sub">Beauty is the reflection of your balance.</p>
+      <div class="body">
+        <p>By Nikolle was born from my passion for integrative health, nutrition, Ayurveda and holistic skincare. Over the years, my view of aesthetics has evolved deeply. I came to understand that skin health goes far beyond the surface: it is a direct reflection of our inner balance, our nervous system and our daily habits.</p>
+        <p>My mission is not to deliver invasive treatments or unrealistic standards. My focus is to support your skin's barrier, building its resilience and vitality naturally, through intentional treatments that work in perfect harmony with your body. To me, true transformation happens from the inside out, uniting beauty, nutrition and calm.</p>
+      </div>
+
+      <div class="sig"><div class="name">Nikolle</div></div>
+
+      <a href="#program" class="cta">Explore the Skin Wellness Program</a>
+    </div>
+  </section>
+
+  <div class="compare">
+    <h3>Escolha da fonte de assinatura</h3>
+    <div class="opts">
+      <div class="opt"><div class="name p">Nikolle</div><div class="tag"><b>Parisienne</b> · recomendada (assinatura pessoal, fina)</div></div>
+      <div class="opt"><div class="name a">Nikolle</div><div class="tag">Allura · fluida, um tico mais formal</div></div>
+      <div class="opt"><div class="name s">Nikolle</div><div class="tag">Sacramento · monolinear, melhor p/ animar</div></div>
+    </div>
+  </div>
+
+</body>
+</html>
