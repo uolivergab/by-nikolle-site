@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — S5 · rio de vozes (fileira horizontal) + strip responsivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .ctx{height:140px;display:grid;place-items:center;color:#8a8d80;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+  .note{max-width:1240px;margin:0 auto;padding:30px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  .proof{position:relative;padding:92px 0 88px;overflow:hidden}
+  .water{position:absolute;inset:-15% 0;pointer-events:none}
+  .water i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4}
+  .water i:nth-child(1){width:52vw;height:30vw;left:-14vw;top:8%;background:radial-gradient(ellipse, rgba(233,222,210,.9), transparent 65%);animation:d1 30s ease-in-out infinite alternate}
+  .water i:nth-child(2){width:40vw;height:26vw;right:-8vw;bottom:4%;background:radial-gradient(ellipse, rgba(123,131,103,.16), transparent 65%);animation:d2 36s ease-in-out infinite alternate}
+  @keyframes d1{to{transform:translate(3vw,-1.5vw) scale(1.06)}}
+  @keyframes d2{to{transform:translate(-2.5vw,1vw) scale(1.04)}}
+  @media (prefers-reduced-motion:reduce){.water i{animation:none}}
+
+  .in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:0 56px}
+  .inb{position:relative;z-index:1}
+
+  .topline{max-width:680px;margin-bottom:48px}
+  .topline .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+  .topline h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .topline h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+
+  /* ===== RIO DE VOZES: fileira horizontal única, automática ===== */
+  .river{overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .flow{display:flex;gap:26px;width:max-content;animation:flow 58s linear infinite;padding:6px 0}
+  .river:hover .flow{animation-play-state:paused}
+  @keyframes flow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.flow{animation:none}}
+
+  .card{flex:0 0 400px;background:color-mix(in srgb,var(--sand) 60%,var(--linen));border:1px solid color-mix(in srgb,var(--olive) 18%,transparent);border-radius:4px;padding:32px 30px 26px;position:relative}
+  .card .qm{position:absolute;top:12px;left:22px;font-family:'Cormorant',serif;font-style:italic;font-size:64px;line-height:1;color:color-mix(in srgb,var(--olive) 24%,transparent);pointer-events:none}
+  .card p{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:18.5px;line-height:1.5;color:var(--graphite);margin-top:26px}
+  .card .who{margin-top:16px;display:flex;align-items:center;gap:12px}
+  .card .wline{width:32px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 55%,transparent),transparent)}
+  .card .nm{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)}
+  .hint{margin-top:14px;text-align:right;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 65%,transparent)}
+
+  /* ===== STRIP DAS FOTOS: scroll-driven RESPONSIVO ===== */
+  .strip-wrap{margin-top:64px}
+  .strip-label{display:flex;align-items:baseline;margin:0 0 18px}
+  .strip-label .t{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--graphite-soft)}
+  .strip-label .h{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 65%,transparent);margin-left:auto}
+  .strip{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .reel{display:flex;gap:22px;width:max-content;will-change:transform}
+  .cell{position:relative;height:220px;aspect-ratio:1/1;border-radius:3px;overflow:hidden;outline:1px solid color-mix(in srgb,var(--olive) 22%,transparent);outline-offset:-1px;flex-shrink:0}
+  .cell img{width:100%;height:100%;object-fit:cover;display:block}
+  .cell .bar{position:absolute;left:0;right:0;top:0;height:34px;background:linear-gradient(180deg,rgba(39,42,29,.28),transparent);z-index:1}
+  .cell .t{position:absolute;top:9px;z-index:2;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.92)}
+  .cell .t.b{left:12px}.cell .t.a{right:12px}
+  .cell .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:1;background:linear-gradient(180deg,transparent,rgba(245,240,232,.5) 15%,rgba(245,240,232,.5) 85%,transparent)}
+  .disc{margin-top:16px;font-size:10.5px;letter-spacing:.06em;color:color-mix(in srgb,var(--graphite-soft) 80%,transparent)}
+
+  .foot{max-width:1240px;margin:0 auto;padding:26px 56px 90px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  @media (max-width:880px){
+    .in{padding:0 24px}
+    .proof{padding:60px 0 66px}
+    .topline{margin-bottom:34px}
+    .card{flex-basis:300px;padding:26px 22px 22px}
+    .card p{font-size:16.5px}
+    .flow{gap:18px;animation-duration:48s}
+    .cell{height:170px}
+    .strip-label .h{display:none}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — S5 "rio de vozes".</b> Correções: (1) depoimentos agora em UMA FILEIRA HORIZONTAL automática (desktop E mobile) — flui devagar pro lado, hover pausa, fade nas bordas; ocupa pouca altura. (2) Strip das fotos MUITO mais responsivo: percorre TODAS as fotos no trecho de scroll da seção. Role a página inteira devagar pra sentir os dois rios (vozes sozinhas, fotos com teu gesto).
+  </div>
+
+  <div class="ctx">· · · seção anterior (role devagar) · · ·</div>
+
+  <section class="proof" id="proof">
+    <div class="water"><i></i><i></i></div>
+
+    <div class="in">
+      <div class="topline">
+        <div class="k">Real results</div>
+        <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+      </div>
+    </div>
+
+    <div class="inb">
+      <div class="river"><div class="flow" id="flow"></div></div>
+      <div class="in"><div class="hint">hover to pause</div></div>
+    </div>
+
+    <div class="in">
+      <div class="strip-wrap">
+        <div class="strip-label"><span class="t">Real transformations</span><span class="h">scroll to explore</span></div>
+        <div class="strip"><div class="reel" id="reel"></div></div>
+        <div class="disc">Individual results may vary.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ctx">· · · continue rolando · · ·</div>
+  <div class="ctx" style="height:320px">· · · (espaço pra sentir o strip) · · ·</div>
+
+  <div class="foot">
+    Um rio automático (vozes) + um rio no teu gesto (transformações). Pouca altura, muita vida. No build: Framer, reveal na entrada, clique amplia.
+  </div>
+
+  <script>
+    var VOICES=[
+      {t:"I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.", w:'Melani S.'},
+      {t:"She encouraged me to be patient and trust the process. My skin became brighter, healthier, with almost no signs of hyperpigmentation.", w:'Ashley B.'},
+      {t:"Nikolle's treatments are unlike anything I've experienced before. Her knowledge and personalized care have transformed my skin.", w:'Sara M.'},
+      {t:"Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience.", w:'Ali Z.'}
+    ];
+    function card(v){return '<article class="card"><span class="qm">\u201C</span><p>'+v.t+'</p><div class="who"><span class="wline"></span><span class="nm">'+v.w+'</span></div></article>'}
+    // fileira x2 pro loop contínuo
+    document.getElementById('flow').innerHTML=VOICES.map(card).join('')+VOICES.map(card).join('');
+
+    (function(){
+      var f=['before-after-02.webp','before-after-03.webp','before-after-04.webp'];
+      var h='';
+      for(var r=0;r<2;r++) f.forEach(function(x){h+='<div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/'+x+'" alt="Before and after — holistic facial by Nikolle"/></div>'});
+      document.getElementById('reel').innerHTML=h;
+    })();
+
+    // STRIP SCROLL-DRIVEN — mapeamento RÁPIDO: percorre todo o reel enquanto a seção cruza o viewport
+    (function(){
+      if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var reel=document.getElementById('reel'), sec=document.getElementById('proof');
+      function onScroll(){
+        var r=sec.getBoundingClientRect();
+        // progresso 0→1 num range mais curto (a seção entre 85% e -40% do viewport)
+        var start=innerHeight*0.85, end=-r.height*0.4;
+        var p=Math.min(1,Math.max(0,(start-r.top)/(start-end)));
+        var max=reel.scrollWidth-Math.min(innerWidth,1240)+120;
+        reel.style.transform='translateX('+(-p*max)+'px)';
+      }
+      addEventListener('scroll',function(){requestAnimationFrame(onScroll)},{passive:true});
+      addEventListener('resize',onScroll);
+      onScroll();
+    })();
+  </script>
+
+</body>
+</html>

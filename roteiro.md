@@ -14,16 +14,16 @@
 - Overline (mobile): Holistic Facials · Kaka'ako
 - Headline: Skin is more than a surface.
   - A palavra final é um SLOT VIVO que cicla: surface. (âncora, 6.5s) → skin (2.2s) → nourishment (2.2s) → balance (2.2s) → repete. Dissolve de 0.9s entre palavras; a largura do slot acompanha a palavra com transição suave. Com prefers-reduced-motion: exibir apenas "surface." estático.
-- Texto de apoio: Your skin reflects how you live. Discover holistic, personalized facials for healthy aging and deep relaxation.
+- Texto de apoio (revisão Nikolle): Discover holistic and personalized facial treatments designed to support healthy aging and create deep relaxation through truly clean beauty.
 - CTA principal: Book My Consultation
-- Tag junto ao CTA (desktop): Opening Wellness Offer · 20% off your first treatment
-- Tag junto ao CTA (mobile, linha simples, sem pill): 20% off your first treatment
+- Tag junto ao CTA (desktop, revisão Nikolle): Opening Wellness Offer · 15% off your first visit
+- Tag junto ao CTA (mobile, linha simples, sem pill; revisão Nikolle): 15% off your first visit
 - Credencial (linha caps discreta): Best of Honolulu 2024 Winner
 
 ## Seção 2 — Filosofia (Os Três Pilares / O Método)
 
 - Eyebrow (aprovado pelo Gabriel): The by Nikolle Method
-- Título: A conscious approach to your self-care.  (self-care em Cormorant itálica; quebra em 2 linhas: 'A conscious approach' / 'to your self-care.')
+- Título (revisão Nikolle: conscious→mindful): A mindful approach to your self-care.  (self-care em Cormorant itálica; quebra em 2 linhas: 'A mindful approach' / 'to your self-care.')
 - Marquee de palavras vivas no topo da seção (loop infinito, aprovado pelo Gabriel; são termos da filosofia da marca, não copy corrida): Skin · Nourishment · Balance · Holistic · Non-invasive · Clean beauty
 - Pilar 1 — SKIN: Holistic, non-invasive treatments. We support your skin's health and resilience through a natural, conscious approach, proving that real results don't need to be aggressive.
 - Pilar 2 — NOURISHMENT: True beauty is nourished from the inside out. We pair aesthetics with lifestyle, integrative nutrition and practices that feed your body and your vitality.
@@ -31,20 +31,20 @@
 
 ## Seção 3 — Serviços (fonte: COMPLEMENTOS)
 
-- Título: Care designed for your skin.
+- Título (revisão Nikolle: skin→unique journey; 'unique journey' agora é a palavra itálica — são 2 palavras, checar quebra): Care designed for your unique journey.
 - Subtítulo: Real results through a holistic and non-invasive approach.
 - Legenda da imagem-âncora (UI microcopy NOSSA, adicionada no design — não é copy da cliente; Nikolle revisa depois): Every treatment, tailored to your skin.
 - Label do gatilho do acordeão (UI microcopy NOSSA; Nikolle revisa depois): View services
 
 ### Signature Facials
-- Intro: Organic, personalized rituals focused on nourishment, glow and deep relaxation.
+- Intro (revisão Nikolle): Customized holistic facials designed to nourish the skin, restore balance, and support long-term skin health through a natural, results-driven approach.
 - Deep Pore Detox Facial | $145 (75 min): Deep cleansing and purification for congested or acne-prone skin.
 - Stimulating Herbal Facial | $140 (60 min): An invigorating treatment that stimulates circulation, ideal for fatigued or mature skin.
 - Superfood Renewal Facial | $135 (60 min): A bath of nourishment to restore hydration and vitality to dry, lackluster skin.
 - Soothing Recovery Facial | $125 (60 min): Calming care to reduce inflammation and strengthen the barrier of sensitive or reactive skin.
 
 ### Advanced Treatments
-- Intro: High performance in cell renewal and targeted skin concerns, with no downtime.
+- Intro (revisão Nikolle): Non-invasive yet powerful treatments designed to promote deeper skin renewal through advanced technologies that support collagen, improve circulation, and restore overall skin vitality.
 - Pigment Balance Treatment | $165 (75 min): Focused on improving the appearance of dark spots, melasma and sun damage for a more even, luminous tone.
 - Age Corrective Treatment | $165 (75 min): Focused on softening fine lines and restoring the skin's firmness and elasticity.
 - Dermal Infusion Micro-Crystal | $230 (90 min): The gentle alternative to microneedling. Stimulates collagen production and deep skin renewal.
@@ -70,9 +70,17 @@
 - Disclaimer FTC (UI microcopy NOSSA — proteção legal para before/after): Individual results may vary.
 - Info de tratamento por before/after (PENDENTE dado real da Nik — NÃO inventar; é claim clínico): ex. 'Barrier Recovery · results after 6 weeks' — só entra com o dado verdadeiro dela.
 - Bloco da mídia: "Best Natural Facial (...) Coelho delivers bespoke holistic skin rejuvenation." — Honolulu Magazine, Best of Honolulu 2024
-- Depoimento 1 [PLACEHOLDER]: "After years of harsh treatments that never faded my melasma, I doubted anything gentle could work. A few months into the Pigment Balance treatments, my skin tone is more even than it has been in a decade." — Leah, Kaimuki
-- Depoimento 2 [PLACEHOLDER]: "My skin was so reactive I was afraid of facials. Nikolle rebuilt my barrier little by little, and my face feels calm for the first time in years." — Marina, Manoa
-- Depoimento 3 [PLACEHOLDER]: "I came for the glow and stayed for how I feel when I leave. It is the only appointment I never move." — Dana, Kailua
+- Depoimentos REAIS (revisão Nikolle — substituem os placeholders; resolvem o bloqueio de FTC). No DISPLAY usar o TRECHO mais forte de cada (editorial/punchy, com ok da Nik), não o parágrafo inteiro; aqui ficam completos como fonte de verdade:
+  - Ali Z: "I went in for the first time for my very first facial. Really nice experience. Relaxing and rejuvenating are just the tip of the experience! Nikolle and her expertise are a delight and gift to Honolulu. Gentle kind and respectful in all aspects. Very professional. Nikolle took her time and focused on giving a top tier pampered experience. Highly recommend in every way."
+  - Sara M: "I've had many facials over the years, but Nikolle's treatments are unlike anything I've experienced before. Her knowledge, gentle touch, and personalized care have transformed my skin."
+  - Melani S: "I was skeptical at first after trying countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded, and my skin feels healthier than ever. Forever grateful."
+  - Ashley B: "I came to Nikolle about a year ago hoping to improve my dark spots. She encouraged me to be patient and trust the process, and I'm so glad I did. Over time, my skin became brighter, healthier, and almost no signs of hyperpigmentation."
+- ESTRUTURA DA PROVA (18/07): dividida em DUAS seções. (1) S5 'Real transformations.' (título = UI microcopy NOSSA): 6 painéis expansíveis com before-after-02..07; rótulos 'Transformation · I..VI' (UI microcopy NOSSA, neutros, sem claim clínico); rótulos Before / After; hint 'hover to reveal' (NOSSA); disclaimer 'Individual results may vary.'. (2) Seção VOZES com o título oficial 'Real experiences, natural results.' + eyebrow 'Voices' (NOSSA); índice 01-04 com os nomes.
+- EXCERPTS DE DISPLAY das Vozes (derivados dos depoimentos reais acima; PENDENTE ok da Nik; completos ficam acima como fonte):
+  - Melani S: "I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded."
+  - Ashley B: "She encouraged me to be patient and trust the process. My skin became brighter, healthier, with almost no signs of hyperpigmentation."
+  - Sara M: "Nikolle's treatments are unlike anything I've experienced before. Her knowledge, gentle touch and personalized care have transformed my skin."
+  - Ali Z: "Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience."
 - Before/after: 3 a 4 pares curados da pasta Fotos/Before e After (fotos cruas, sem tratamento). Rótulos visuais: Before / After.
 
 ## Interlúdio — Imprensa (nova seção entre Seção 5 e 6)

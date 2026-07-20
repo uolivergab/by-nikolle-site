@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — um jardim, duas luzes (fundo compartilhado S4↔S5)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sand-deep:#E1D4C4;--sage:#7B8367;--olive:#5E6646;--olive-deep:#272a1d;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .note{max-width:1240px;margin:0 auto;padding:22px 56px 0;font-size:13px;color:var(--graphite-soft)}
+  .note b{color:var(--olive);font-weight:500}
+
+  /* ========================================================================
+     O JARDIM (fundo único, contínuo, atravessa as DUAS zonas).
+     UM único vídeo de folhagem fixo atrás de tudo. Não há duas seções com
+     dois fundos: há um jardim só. O Programa e as Transformações são só
+     VÉUS diferentes por cima — a mesma folhagem lida como noite, depois manhã.
+     Sem junção, porque não há duas coisas pra juntar.
+  ======================================================================== */
+  .garden{position:relative;isolation:isolate}
+  .garden__bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .garden__bg video,.garden__bg .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* o véu-mestre: pinta o jardim de noite no topo (zona Programa) e o deixa
+     amanhecer conforme desce (zona Transformações), num só gradiente contínuo */
+  .garden__veil{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+  .zones{position:relative;z-index:2}
+
+  /* ---- ZONA PROGRAMA (a folhagem lida como noite/olive) ---- */
+  .zone-prog{min-height:88vh;display:grid;place-items:center;text-align:center}
+  .zone-prog .inner{max-width:620px;padding:0 30px;color:var(--linen)}
+  .zone-prog .kk{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,240,232,.72);margin-bottom:20px}
+  .zone-prog h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(30px,4vw,52px);letter-spacing:.04em;text-transform:uppercase;line-height:1.06}
+  .zone-prog h2 .i{font-style:italic;text-transform:none}
+  .zone-prog p{margin-top:20px;color:rgba(245,240,232,.82);font-size:15px}
+  .zone-prog .cta{display:inline-block;margin-top:30px;border:1px solid rgba(245,240,232,.5);color:var(--linen);padding:13px 26px;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+
+  /* ---- ZONA TRANSFORMAÇÕES (a MESMA folhagem, agora amanhecida) ---- */
+  .zone-proof{padding:40px 0 90px}
+  .zone-proof .in{max-width:1240px;margin:0 auto;padding:0 56px}
+  .topline{max-width:720px;margin-bottom:44px}
+  .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);margin-bottom:16px;text-shadow:0 1px 12px rgba(245,240,232,.6)}
+  h2.big{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite);text-shadow:0 1px 18px rgba(245,240,232,.6)}
+  h2.big .i{font-style:italic;text-transform:none;letter-spacing:0}
+  .panels{display:flex;gap:12px;height:440px}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:3px;outline:1px solid color-mix(in srgb,var(--olive) 26%,transparent);outline-offset:-1px;transition:flex 1s cubic-bezier(.22,.8,.24,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% center;transition:object-position 1s cubic-bezier(.22,.8,.24,1)}
+  .panel.open{flex:4.2}.panel.open img{object-position:center center}
+  .panel .vlabel{position:absolute;left:14px;bottom:14px;z-index:2;writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Cormorant',serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95)}
+  .panel.open .vlabel{opacity:0}
+  .panel .shade{position:absolute;left:0;right:0;top:0;height:44px;z-index:1;background:linear-gradient(180deg,rgba(39,42,29,.34),transparent)}
+  .pfoot{margin-top:16px;font-size:10.5px;letter-spacing:.06em;color:var(--graphite-soft)}
+
+  /* o fim do jardim: o linho assume de vez, pro que vier depois (Vozes) */
+  .land{position:relative;z-index:2;background:linear-gradient(180deg,transparent,var(--linen)78%);height:22vh}
+  .after{position:relative;z-index:2;background:var(--linen);padding:0 0 8vh}
+  .after .tail{background:var(--sand-deep);height:20vh;display:grid;place-items:center;color:#6f6a5c;font-size:11px;letter-spacing:.24em;text-transform:uppercase;max-width:1240px;margin:0 auto;border-radius:3px}
+
+  .toggle{position:fixed;right:18px;bottom:18px;z-index:99;background:var(--graphite);color:var(--linen);border:none;border-radius:100px;padding:11px 18px;font-family:'Hanken Grotesk';font-size:12px;letter-spacing:.06em;cursor:pointer;box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+
+  @media (max-width:880px){
+    .zone-proof .in{padding:0 24px}
+    .topline{margin-bottom:30px}
+    .panels{flex-direction:column;height:560px;gap:9px}
+    .panel.open{flex:4.6}
+    .panel img{object-position:center 28%}
+    .panel .vlabel{writing-mode:horizontal-tb;transform:none;left:14px;bottom:10px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — "um jardim, duas luzes".</b> NÃO existem duas seções aqui: existe UM fundo de folhagem contínuo (fixo) atravessando as duas zonas. O Programa é esse jardim visto como NOITE (véu olive); as Transformações são o MESMO jardim AMANHECIDO (véu linho). Não há divisória porque não há junção. Role da zona escura pra clara devagar. O botão embaixo revela só o fundo, sem os véus, pra você ver que é uma coisa só.
+  </div>
+
+  <div class="garden">
+    <!-- O ÚNICO FUNDO: um jardim só, fixo atrás de tudo -->
+    <div class="garden__bg" id="gbg">
+      <video autoplay muted loop playsinline poster="public/videos/proof-dawn-desktop-poster.jpg">
+        <source src="public/videos/proof-dawn-desktop.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <!-- O VÉU-MESTRE: noite em cima, amanhecer embaixo, num só gradiente -->
+    <div class="garden__veil" id="gveil"></div>
+
+    <div class="zones">
+      <!-- ZONA 1: o jardim como NOITE (Programa) -->
+      <section class="zone-prog">
+        <div class="inner">
+          <div class="kk">By invitation</div>
+          <h2>Skin Wellness <span class="i">program</span></h2>
+          <p>Lasting transformation asks for consistency. A membership for those who want to keep their skin goals with intention.</p>
+          <a class="cta" href="#">Explore the program</a>
+        </div>
+      </section>
+
+      <!-- ZONA 2: o MESMO jardim AMANHECIDO (Transformações) -->
+      <section class="zone-proof">
+        <div class="in">
+          <div class="topline">
+            <div class="k">Real results</div>
+            <h2 class="big">Real <span class="i">transformations.</span></h2>
+          </div>
+          <div class="panels" id="panels"></div>
+          <div class="pfoot">Individual results may vary.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="land"></div>
+  <div class="after"><div class="tail">· · · Vozes / Interlúdio a seguir · · ·</div></div>
+
+  <button class="toggle" onclick="document.body.classList.toggle('bare')">Ver só o jardim (sem véus)</button>
+
+  <script>
+    // véu-mestre: noite (olive-deep) no topo → amanhecer (linho) embaixo.
+    // é UM gradiente contínuo cobrindo as duas zonas, ancorado à rolagem da área do jardim.
+    var gveil=document.getElementById('gveil');
+    function paint(){
+      if(document.body.classList.contains('bare')){gveil.style.background='none';return}
+      var garden=document.querySelector('.garden');
+      var r=garden.getBoundingClientRect();
+      var vh=innerHeight;
+      // progresso da rolagem dentro do jardim: 0 = topo (noite) ... 1 = base (manhã)
+      var prog=Math.min(1,Math.max(0,(-r.top)/(r.height-vh)));
+      // o véu é fixo (cobre a tela toda); pintamos a "linha do amanhecer" descendo com o scroll.
+      // topo da tela sempre mais escuro que a base; conforme rola, tudo clareia.
+      var top=Math.max(0,.90-prog*0.55);      // opacidade do olive no topo da tela
+      var mid=Math.max(0,.62-prog*0.5);
+      var botOlive=Math.max(0,.30-prog*0.4);
+      var linenBot=Math.min(.94,.35+prog*0.6); // linho ganhando a base
+      gveil.style.background=
+        'linear-gradient(180deg,'+
+          'rgba(39,42,29,'+top.toFixed(3)+') 0%,'+
+          'rgba(39,42,29,'+mid.toFixed(3)+') 34%,'+
+          'rgba(39,42,29,'+botOlive.toFixed(3)+') 58%,'+
+          'rgba(245,240,232,'+(linenBot*0.5).toFixed(3)+') 78%,'+
+          'rgba(245,240,232,'+linenBot.toFixed(3)+') 100%)';
+    }
+    addEventListener('scroll',function(){requestAnimationFrame(paint)},{passive:true});
+    addEventListener('resize',paint); paint();
+
+    var fotos=['02','03','04','05','06','07'], rom=['I','II','III','IV','V','VI'];
+    var wrap=document.getElementById('panels');
+    fotos.forEach(function(n,idx){
+      var d=document.createElement('div');
+      d.className='panel'+(idx===0?' open':'');
+      d.innerHTML='<div class="shade"></div><span class="vlabel">Transformation · '+rom[idx]+'</span><img src="public/images/before-after-'+n+'.webp" alt=""/>';
+      d.onmouseenter=function(){[].forEach.call(wrap.children,function(x){x.classList.toggle('open',x===d)})};
+      wrap.appendChild(d);
+    });
+  </script>
+</body>
+</html>

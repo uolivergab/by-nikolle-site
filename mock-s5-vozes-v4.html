@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — v4 · Vozes com as 3 vidas da marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sand-deep:#E1D4C4;--sage:#7B8367;--olive:#5E6646;--olive-deep:#272a1d;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .note{max-width:1240px;margin:0 auto;padding:26px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+  .s4{height:40vh;background:var(--olive-deep);display:grid;place-items:center;color:rgba(245,240,232,.35);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  /* ============ S5 (igual v3) ============ */
+  .proof{position:relative;overflow:hidden}
+  .scene{position:absolute;inset:0;background:url('public/images/proof-foliage-dawn.jpg') center top / cover no-repeat}
+  .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,240,232,.05) 0%,rgba(245,240,232,.28) 40%,rgba(245,240,232,.62) 72%,rgba(245,240,232,.92) 100%)}
+  .dawnseam{position:absolute;left:0;right:0;top:0;height:180px;background:linear-gradient(180deg,var(--olive-deep) 0%,rgba(39,42,29,.55) 34%,rgba(39,42,29,.18) 66%,transparent 100%)}
+  .in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:150px 56px 100px}
+  .topline{max-width:720px;margin-bottom:52px}
+  .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
+  h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+  .panels{display:flex;gap:12px;height:520px}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:3px;cursor:pointer;outline:1px solid color-mix(in srgb,var(--olive) 26%,transparent);outline-offset:-1px;transition:flex 1s cubic-bezier(.22,.8,.24,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% center;transition:object-position 1s cubic-bezier(.22,.8,.24,1);display:block}
+  .panel.open{flex:4.2}
+  .panel.open img{object-position:center center}
+  .panel .vlabel{position:absolute;left:14px;bottom:14px;z-index:2;writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Cormorant',serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95);transition:opacity .5s}
+  .panel.open .vlabel{opacity:0}
+  .panel .lb{position:absolute;top:12px;z-index:2;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95);opacity:0;transition:opacity .6s ease .35s}
+  .panel .lb.b{left:14px}.panel .lb.a{right:14px}
+  .panel .shade{position:absolute;left:0;right:0;top:0;height:44px;z-index:1;background:linear-gradient(180deg,rgba(39,42,29,.34),transparent)}
+  .panel .shadeB{position:absolute;left:0;right:0;bottom:0;height:76px;z-index:1;background:linear-gradient(0deg,rgba(39,42,29,.30),transparent)}
+  .panel .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:1;opacity:0;transition:opacity .6s ease .35s;background:linear-gradient(180deg,transparent,rgba(245,240,232,.55) 15%,rgba(245,240,232,.55) 85%,transparent)}
+  .panel.open .lb,.panel.open .seam{opacity:1}
+  .pfoot{display:flex;align-items:baseline;margin-top:16px}
+  .disc{font-size:10.5px;letter-spacing:.06em;color:var(--graphite-soft)}
+  .phint{margin-left:auto;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent)}
+
+  /* ============ VOZES — A CARTA (v4: as 3 vidas) ============ */
+  .voices{background:var(--linen);padding:104px 0 118px;border-top:1px solid rgba(94,102,70,.08);overflow:hidden}
+  .vin{max-width:1240px;margin:0 auto;padding:0 56px}
+  .vhead{max-width:680px;margin-bottom:58px}
+  .ledger{display:grid;grid-template-columns:minmax(230px,.4fr) 1fr;gap:76px;align-items:center}
+
+  .index{border-left:1px solid color-mix(in srgb,var(--olive) 16%,transparent)}
+  .ientry{position:relative;display:flex;align-items:baseline;gap:16px;padding:18px 0 18px 28px;cursor:pointer;margin-left:-1px;transition:.4s}
+  .ientry .no{font-family:'Cormorant',serif;font-size:15px;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent);transition:.4s}
+  .ientry .name{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--graphite-soft);transition:.4s}
+  .ientry .wmark{position:absolute;left:-1px;top:50%;transform:translateY(-50%) scaleY(0);width:2px;height:56%;background:linear-gradient(180deg,transparent,var(--olive),transparent);transition:transform .5s ease}
+  .ientry:hover .name{color:var(--olive)}
+  .ientry.on .wmark{transform:translateY(-50%) scaleY(1)}
+  .ientry.on .no{color:var(--olive)}
+  .ientry.on .name{color:var(--graphite);letter-spacing:.2em}
+
+  .desk{position:relative;min-height:380px;perspective:1100px}
+  .letter{position:absolute;inset:0;max-width:620px;margin:0 auto;background:color-mix(in srgb,var(--sand) 78%,var(--linen));border:1px solid color-mix(in srgb,var(--olive) 20%,transparent);border-radius:4px;padding:52px 54px 40px;box-shadow:0 24px 60px -30px rgba(67,70,61,.35), 0 2px 0 rgba(255,255,255,.5) inset;
+    display:flex;flex-direction:column;justify-content:center;
+    transition:transform .9s cubic-bezier(.22,.8,.24,1), opacity .9s ease, filter .9s ease;transform-style:preserve-3d}
+  .letter .grain{position:absolute;inset:0;border-radius:4px;opacity:.5;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.44 0 0 0 0 0.38 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* VIDA 1: a luz da manhã pousada no papel, derivando */
+  .letter .lightplay{position:absolute;inset:0;border-radius:4px;pointer-events:none;mix-blend-mode:multiply;opacity:.13;
+    background:url('public/images/proof-foliage-dawn.jpg') 24% 0% / 175% auto no-repeat;
+    animation:lightdrift 46s ease-in-out infinite alternate}
+  @keyframes lightdrift{from{background-position:24% 0%}to{background-position:40% 14%}}
+  .letter .qm{position:absolute;top:16px;left:30px;font-family:'Cormorant',serif;font-style:italic;font-size:84px;line-height:1;color:color-mix(in srgb,var(--olive) 26%,transparent);pointer-events:none}
+  .letter p{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(19px,1.75vw,25px);line-height:1.55;color:var(--graphite);position:relative}
+  .letter .who{margin-top:22px;display:flex;align-items:center;gap:14px;position:relative}
+  /* VIDA 2: a linha d'água se desenha quando a carta assenta */
+  .letter .wline{width:38px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 75%,transparent),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+  .letter.top .wline{transform:scaleX(1);transition:transform 1.15s ease .6s}
+  .letter .nm{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--olive)}
+  .letter.top{transform:rotate(-.8deg);opacity:1;z-index:4}
+  .letter.under1{transform:rotate(1.6deg) translate(10px,10px) scale(.985);opacity:.55;z-index:3;filter:blur(.4px)}
+  .letter.under2{transform:rotate(-2.2deg) translate(-12px,18px) scale(.97);opacity:.3;z-index:2;filter:blur(.8px)}
+  .letter.hidden{transform:rotate(0deg) translate(0,26px) scale(.955);opacity:0;z-index:1}
+  .letter.leaving{transform:rotate(2.5deg) translate(46px,-56px);opacity:0;z-index:5}
+
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .95s ease,transform .95s ease}
+  .rv.in-view{opacity:1;transform:none}
+  .rv.d1{transition-delay:.14s}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.letter{transition:none}.letter .lightplay{animation:none}.panel,.panel img{transition:none}}
+
+  .next{height:28vh;background:var(--sand-deep);display:grid;place-items:center;color:#6f6a5c;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  @media (max-width:880px){
+    .in{padding:118px 24px 68px}
+    .topline{margin-bottom:36px}
+    .panels{flex-direction:column;height:660px;gap:9px}
+    .panel{min-height:0}
+    .panel.open{flex:4.6}
+    .panel img{object-position:center 28%}
+    .panel.open img{object-position:center center}
+    .panel .vlabel{writing-mode:horizontal-tb;transform:none;left:14px;bottom:10px;font-size:11px}
+    .phint{display:none}
+    .voices{padding:70px 0 84px}
+    .vin{padding:0 24px}
+    .vhead{margin-bottom:32px}
+    .ledger{grid-template-columns:1fr;gap:30px}
+    .index{border-left:none;border-top:1px solid color-mix(in srgb,var(--olive) 16%,transparent);display:flex;gap:2px}
+    .ientry{padding:13px 10px 0 0;margin-left:0;margin-top:-1px;flex-direction:column;gap:3px}
+    .ientry .wmark{left:0;top:-1px;transform:scaleX(0);width:70%;height:2px;background:linear-gradient(90deg,var(--olive),transparent);transform-origin:left}
+    .ientry.on .wmark{transform:scaleX(1)}
+    .ientry .name{font-size:9px;letter-spacing:.1em}
+    .desk{min-height:420px}
+    .letter{padding:40px 28px 30px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock v4 — as 3 vidas da marca nas Vozes.</b> Observe a carta de cima: (1) A LUZ DA MANHÃ pousada no papel — a sombra da folhagem da cena da S5 deriva lentamente SOBRE a carta (a mesma manhã, a mesma mesa). (2) Quando uma carta assenta, a LINHA D'ÁGUA da atribuição SE DESENHA da esquerda pra direita (espere a troca de 10s ou clique no Índice). (3) No desktop, mova o mouse sobre a carta: o PAPEL INCLINA sutilmente na tua mão. Sem cantoneira, sem vídeo novo — vida com as assinaturas da marca.
+  </div>
+
+  <div class="s4">· · · fim da Seção 4 (Programa · pico olive) · · ·</div>
+
+  <section class="proof">
+    <div class="scene"></div><div class="veil"></div><div class="dawnseam"></div>
+    <div class="in">
+      <div class="topline rv">
+        <div class="k">Real results</div>
+        <h2>Real <span class="i">transformations.</span></h2>
+      </div>
+      <div class="rv d1">
+        <div class="panels" id="panels"></div>
+        <div class="pfoot"><span class="disc">Individual results may vary.</span><span class="phint">hover to reveal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="voices">
+    <div class="vin">
+      <div class="vhead rv">
+        <div class="k">Voices</div>
+        <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+      </div>
+      <div class="ledger rv d1">
+        <div class="index" id="index"></div>
+        <div class="desk" id="desk"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="next">· · · Interlúdio de Imprensa (sand-deep) · · ·</div>
+
+  <script>
+    var MOBILE = matchMedia('(max-width:880px)');
+    var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // ===== PAINÉIS =====
+    (function(){
+      var fotos=['02','03','04','05','06','07'], rom=['I','II','III','IV','V','VI'];
+      var wrap=document.getElementById('panels');
+      fotos.forEach(function(n,idx){
+        var d=document.createElement('div');
+        d.className='panel'+(idx===0?' open':'');
+        d.innerHTML='<div class="shade"></div><div class="shadeB"></div><span class="vlabel">Transformation · '+rom[idx]+'</span><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><img src="public/images/before-after-'+n+'.webp" alt="Before and after — holistic facial by Nikolle"/>';
+        wrap.appendChild(d);
+      });
+      var panels=[].slice.call(wrap.children);
+      panels.forEach(function(p){
+        p.addEventListener('mouseenter',function(){ if(!MOBILE.matches) panels.forEach(function(x){x.classList.toggle('open',x===p)}) });
+        p.addEventListener('click',function(){ if(MOBILE.matches) panels.forEach(function(x){x.classList.toggle('open',x===p)}) });
+      });
+      function onScroll(){
+        if(!MOBILE.matches) return;
+        var focus=innerHeight*0.45, best=null, bd=1e9;
+        panels.forEach(function(p){
+          var r=p.getBoundingClientRect(), c=r.top+r.height/2, d=Math.abs(c-focus);
+          if(d<bd){bd=d;best=p}
+        });
+        if(best && !best.classList.contains('open')) panels.forEach(function(x){x.classList.toggle('open',x===best)});
+      }
+      addEventListener('scroll',function(){requestAnimationFrame(onScroll)},{passive:true});
+      MOBILE.addEventListener('change',onScroll);
+    })();
+
+    // ===== VOZES =====
+    (function(){
+      var V=[
+        {t:"I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.", w:'Melani S.'},
+        {t:"She encouraged me to be patient and trust the process. My skin became brighter, healthier, with almost no signs of hyperpigmentation.", w:'Ashley B.'},
+        {t:"Nikolle's treatments are unlike anything I've experienced before. Her knowledge, gentle touch and personalized care have transformed my skin.", w:'Sara M.'},
+        {t:"Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience.", w:'Ali Z.'}
+      ];
+      var index=document.getElementById('index'), desk=document.getElementById('desk');
+      var i=0, timer, letters=[];
+      V.forEach(function(v,n){
+        var e=document.createElement('div');
+        e.className='ientry'+(n===0?' on':'');
+        e.innerHTML='<span class="wmark"></span><span class="no">0'+(n+1)+'</span><span class="name">'+v.w+'</span>';
+        e.onclick=function(){go(n);reset()};
+        index.appendChild(e);
+        var L=document.createElement('article');
+        L.className='letter';
+        L.innerHTML='<span class="grain"></span><span class="lightplay"></span><span class="qm">\u201C</span><p>'+v.t+'</p><div class="who"><span class="wline"></span><span class="nm">'+v.w+'</span></div>';
+        desk.appendChild(L); letters.push(L);
+      });
+      function paint(leavingIdx){
+        letters.forEach(function(L,k){
+          L.style.transform=''; // limpa tilt inline
+          var pos=(k-i+V.length)%V.length;
+          L.className='letter '+(pos===0?'top':pos===1?'under1':pos===2?'under2':'hidden');
+          if(k===leavingIdx){L.className='letter leaving'}
+        });
+        index.querySelectorAll('.ientry').forEach(function(e,k){e.classList.toggle('on',k===i)});
+      }
+      function go(n){
+        if(n===i) return;
+        var leaving=i; i=(n+V.length)%V.length;
+        paint(leaving);
+        setTimeout(function(){paint(-1)},60);
+      }
+      function start(){if(REDUCE)return;timer=setInterval(function(){go(i+1)},10000)}
+      function reset(){clearInterval(timer);start()}
+      desk.addEventListener('mouseenter',function(){clearInterval(timer)});
+      desk.addEventListener('mouseleave',start);
+      paint(-1); start();
+
+      // VIDA 3: o papel responde à mão (desktop, sem reduce)
+      if(!REDUCE && matchMedia('(hover: hover)').matches){
+        desk.addEventListener('mousemove',function(ev){
+          var top=letters[i]; if(!top) return;
+          var r=desk.getBoundingClientRect();
+          var x=(ev.clientX-r.left)/r.width-.5, y=(ev.clientY-r.top)/r.height-.5;
+          top.style.transition='transform .25s ease';
+          top.style.transform='rotate(-.8deg) rotateY('+(x*2.6)+'deg) rotateX('+(-y*2.2)+'deg)';
+        });
+        desk.addEventListener('mouseleave',function(){
+          var top=letters[i]; if(!top) return;
+          top.style.transition='';
+          top.style.transform='';
+        });
+      }
+    })();
+
+    (function(){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target)}})},{threshold:.15});
+      document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+    })();
+  </script>
+
+</body>
+</html>

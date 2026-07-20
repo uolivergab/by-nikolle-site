@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — S5 Transformações + Seção Vozes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--olive-deep:#272a1d;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .note{max-width:1240px;margin:0 auto;padding:26px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+  .s4{height:42vh;background:var(--olive-deep);display:grid;place-items:center;color:rgba(245,240,232,.35);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  /* ================= S5 — TRANSFORMAÇÕES (cena do amanhecer, protagonista único) ================= */
+  .proof{position:relative;overflow:hidden}
+  .scene{position:absolute;inset:0;background:url('public/images/proof-foliage-dawn.jpg') center top / cover no-repeat}
+  .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,240,232,.05) 0%,rgba(245,240,232,.28) 40%,rgba(245,240,232,.62) 72%,rgba(245,240,232,.92) 100%)}
+  .dawnseam{position:absolute;left:0;right:0;top:0;height:180px;background:linear-gradient(180deg,var(--olive-deep) 0%,rgba(39,42,29,.55) 34%,rgba(39,42,29,.18) 66%,transparent 100%)}
+  .in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:150px 56px 100px}
+  .topline{max-width:720px;margin-bottom:56px}
+  .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
+  h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+
+  .panels{display:flex;gap:14px;height:520px;max-width:1000px}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:3px;cursor:pointer;outline:1px solid color-mix(in srgb,var(--olive) 26%,transparent);outline-offset:-1px;transition:flex 1s cubic-bezier(.22,.8,.24,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:100% center;transition:object-position 1s cubic-bezier(.22,.8,.24,1);display:block}
+  .panel.open{flex:3.6}
+  .panel.open img{object-position:center center}
+  .panel .vlabel{position:absolute;left:16px;bottom:16px;z-index:2;writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Cormorant',serif;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,240,232,.95);transition:opacity .5s}
+  .panel.open .vlabel{opacity:0}
+  .panel .lb{position:absolute;top:13px;z-index:2;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95);opacity:0;transition:opacity .6s ease .35s}
+  .panel .lb.b{left:15px}.panel .lb.a{right:15px}
+  .panel .shade{position:absolute;left:0;right:0;top:0;height:46px;z-index:1;background:linear-gradient(180deg,rgba(39,42,29,.34),transparent)}
+  .panel .shadeB{position:absolute;left:0;right:0;bottom:0;height:80px;z-index:1;background:linear-gradient(0deg,rgba(39,42,29,.30),transparent)}
+  .panel .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:1;opacity:0;transition:opacity .6s ease .35s;background:linear-gradient(180deg,transparent,rgba(245,240,232,.55) 15%,rgba(245,240,232,.55) 85%,transparent)}
+  .panel.open .lb,.panel.open .seam{opacity:1}
+  .pfoot{display:flex;align-items:baseline;margin-top:16px;max-width:1000px}
+  .disc{font-size:10.5px;letter-spacing:.06em;color:var(--graphite-soft)}
+  .phint{margin-left:auto;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent)}
+
+  /* ================= SEÇÃO VOZES — mosaico editorial ================= */
+  .voices{background:var(--linen);padding:110px 0 120px;border-top:1px solid rgba(94,102,70,.08)}
+  .vin{max-width:1240px;margin:0 auto;padding:0 56px}
+  .vhead{max-width:680px;margin-bottom:64px}
+  .mosaic{display:grid;grid-template-columns:1fr 1fr;gap:32px 36px;max-width:1080px}
+  .colB{transform:translateY(56px)}
+  .letter{background:color-mix(in srgb,var(--sand) 58%,var(--linen));border:1px solid color-mix(in srgb,var(--olive) 18%,transparent);border-radius:4px;padding:40px 40px 32px;position:relative;transition:transform .5s ease, box-shadow .5s ease}
+  .letter:hover{transform:translateY(-6px);box-shadow:0 18px 40px -18px rgba(67,70,61,.18)}
+  .letter .qm{position:absolute;top:14px;left:26px;font-family:'Cormorant',serif;font-style:italic;font-size:78px;line-height:1;color:color-mix(in srgb,var(--olive) 24%,transparent);pointer-events:none}
+  .letter p{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(18px,1.55vw,21.5px);line-height:1.55;color:var(--graphite);margin-top:30px}
+  .letter .who{margin-top:20px;display:flex;align-items:center;gap:13px}
+  .letter .wline{width:34px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 58%,transparent),transparent)}
+  .letter .nm{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
+
+  /* reveal cascata */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .95s ease,transform .95s ease}
+  .rv.in-view{opacity:1;transform:none}
+  .colB.rv{transform:translateY(82px)}
+  .colB.rv.in-view{transform:translateY(56px)}
+  .rv.d1{transition-delay:.14s}.rv.d2{transition-delay:.28s}.rv.d3{transition-delay:.42s}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.colB.rv{transform:translateY(56px)}.panel,.panel img{transition:none}.letter{transition:none}}
+
+  .next{height:30vh;background:#E1D4C4;display:grid;place-items:center;color:#6f6a5c;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  @media (max-width:920px){
+    .in{padding:120px 24px 72px}
+    .panels{height:360px;gap:10px}
+    .panel.open{flex:3}
+    .phint{display:none}
+    .voices{padding:76px 0 84px}
+    .vin{padding:0 24px}
+    .vhead{margin-bottom:40px}
+    .mosaic{grid-template-columns:1fr;gap:20px}
+    .colB{transform:none}
+    .colB.rv{transform:translateY(26px)}
+    .colB.rv.in-view{transform:none}
+    .letter{padding:30px 26px 26px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — arquitetura nova em duas seções.</b> (1) S5 Transformações: a cena do amanhecer com UM protagonista — os painéis expansíveis, agora com rótulos verticais (roubados da tua referência #2) no estado fechado. Passe o mouse. (2) Seção VOZES separada: mosaico editorial 2×2 com coluna deslocada (parentesco com o Interlúdio), cartas entrando em cascata no scroll, lift no hover. 4 vozes TODAS visíveis = curadoria, não escassez. Sem loop, sem repetição.
+  </div>
+
+  <div class="s4">· · · fim da Seção 4 (Programa · pico olive) · · ·</div>
+
+  <!-- ============ S5 TRANSFORMAÇÕES ============ -->
+  <section class="proof">
+    <div class="scene"></div><div class="veil"></div><div class="dawnseam"></div>
+    <div class="in">
+      <div class="topline rv">
+        <div class="k">Real results</div>
+        <h2>Real <span class="i">transformations.</span></h2>
+      </div>
+      <div class="rv d1">
+        <div class="panels">
+          <div class="panel open"><div class="shade"></div><div class="shadeB"></div><span class="vlabel">Transformation · I</span><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><img src="public/images/before-after-02.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+          <div class="panel"><div class="shade"></div><div class="shadeB"></div><span class="vlabel">Transformation · II</span><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><img src="public/images/before-after-03.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+          <div class="panel"><div class="shade"></div><div class="shadeB"></div><span class="vlabel">Transformation · III</span><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><img src="public/images/before-after-04.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+        </div>
+        <div class="pfoot"><span class="disc">Individual results may vary.</span><span class="phint">hover to reveal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO VOZES ============ -->
+  <section class="voices">
+    <div class="vin">
+      <div class="vhead rv">
+        <div class="k">Voices</div>
+        <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+      </div>
+      <div class="mosaic">
+        <div style="display:flex;flex-direction:column;gap:32px">
+          <article class="letter rv d1"><span class="qm">&ldquo;</span><p>I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.</p><div class="who"><span class="wline"></span><span class="nm">Melani S.</span></div></article>
+          <article class="letter rv d3"><span class="qm">&ldquo;</span><p>Nikolle's treatments are unlike anything I've experienced before. Her knowledge, gentle touch and personalized care have transformed my skin.</p><div class="who"><span class="wline"></span><span class="nm">Sara M.</span></div></article>
+        </div>
+        <div class="colB rv d2" style="display:flex;flex-direction:column;gap:32px">
+          <article class="letter"><span class="qm">&ldquo;</span><p>She encouraged me to be patient and trust the process. My skin became brighter, healthier, with almost no signs of hyperpigmentation.</p><div class="who"><span class="wline"></span><span class="nm">Ashley B.</span></div></article>
+          <article class="letter"><span class="qm">&ldquo;</span><p>Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience.</p><div class="who"><span class="wline"></span><span class="nm">Ali Z.</span></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="next">· · · Interlúdio de Imprensa (sand-deep) · · ·</div>
+
+  <script>
+    (function(){
+      var panels=[].slice.call(document.querySelectorAll('.panel'));
+      var touch=matchMedia('(hover: none)').matches;
+      panels.forEach(function(p){
+        if(touch){p.addEventListener('click',function(){panels.forEach(function(x){x.classList.toggle('open',x===p)})})}
+        else{p.addEventListener('mouseenter',function(){panels.forEach(function(x){x.classList.toggle('open',x===p)})})}
+      });
+    })();
+    (function(){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target)}})},{threshold:.15});
+      document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+    })();
+  </script>
+
+</body>
+</html>

@@ -25,7 +25,7 @@ const CATEGORIES: Category[] = [
     key: "signature",
     name: "Signature Facials",
     intro:
-      "Organic, personalized rituals focused on nourishment, glow and deep relaxation.",
+      "Customized holistic facials designed to nourish the skin, restore balance, and support long-term skin health through a natural, results-driven approach.",
     items: [
       {
         name: "Deep Pore Detox Facial",
@@ -57,7 +57,7 @@ const CATEGORIES: Category[] = [
     key: "advanced",
     name: "Advanced Treatments",
     intro:
-      "High performance in cell renewal and targeted skin concerns, with no downtime.",
+      "Non-invasive yet powerful treatments designed to promote deeper skin renewal through advanced technologies that support collagen, improve circulation, and restore overall skin vitality.",
     items: [
       {
         name: "Pigment Balance Treatment",
@@ -203,14 +203,16 @@ export function Services() {
                 CAIXA ALTA só no visual (aria-hidden, uppercase por CSS) +
                 'skin.' em itálico minúsculo peso 500; o leitor de tela lê o
                 sr-only em caixa de sentença. */}
-            <span className="sr-only">Care designed for your skin.</span>
+            <span className="sr-only">
+              Care designed for your unique journey.
+            </span>
             <span
               aria-hidden="true"
               className="font-[550] tracking-[0.03em] uppercase"
             >
               Care designed for your{" "}
               <em className="font-voice font-medium tracking-normal normal-case italic">
-                skin.
+                unique journey.
               </em>
             </span>
           </h2>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — S5 · O Amanhecer (cena + voz editorial + painéis expansíveis)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--olive-deep:#272a1d;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .note{max-width:1240px;margin:0 auto;padding:28px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  /* fim fake da S4 (só pra sentir a costura do amanhecer) */
+  .s4{height:46vh;background:var(--olive-deep);display:grid;place-items:center;color:rgba(245,240,232,.35);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  /* ============ S5 — O AMANHECER ============ */
+  .proof{position:relative;overflow:hidden}
+  .scene{position:absolute;inset:0;background:url('public/images/proof-foliage-dawn.jpg') center top / cover no-repeat}
+  /* véu de legibilidade: quase nada em cima (cena respira), mais denso na zona de conteúdo */
+  .veil{position:absolute;inset:0;background:linear-gradient(180deg,
+    rgba(245,240,232,.06) 0%,
+    rgba(245,240,232,.30) 34%,
+    rgba(245,240,232,.55) 58%,
+    rgba(245,240,232,.86) 100%)}
+  /* costura: a noite da S4 dissolvendo no amanhecer */
+  .dawnseam{position:absolute;left:0;right:0;top:0;height:180px;background:linear-gradient(180deg,var(--olive-deep) 0%,rgba(39,42,29,.55) 34%,rgba(39,42,29,.18) 66%,transparent 100%)}
+
+  .in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:150px 56px 96px}
+
+  .topline{max-width:680px;margin-bottom:64px}
+  .topline .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
+  .topline h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .topline h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+
+  .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:88px;align-items:center}
+
+  /* ===== VOZ: pull-quote editorial pura ===== */
+  .voice{position:relative;padding-top:44px}
+  .voice .qm{position:absolute;top:-6px;left:-6px;font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:110px;line-height:1;color:color-mix(in srgb,var(--olive) 30%,transparent);pointer-events:none}
+  .vslot{position:relative;min-height:250px}
+  .vitem{position:absolute;inset:0;opacity:0;transform:translateY(14px);filter:blur(5px);transition:opacity .9s ease,transform .9s ease,filter .9s ease;pointer-events:none}
+  .vitem.on{opacity:1;transform:none;filter:none;pointer-events:auto}
+  .vitem p{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(23px,2.25vw,31px);line-height:1.48;color:var(--graphite);max-width:560px}
+  .attrib{margin-top:26px;display:flex;align-items:center;gap:16px}
+  .attrib .wline{width:42px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 60%,transparent),transparent)}
+  .attrib .nm{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--olive)}
+  .vctrl{display:flex;align-items:center;gap:12px;margin-top:34px}
+  .arr{width:40px;height:40px;border:1px solid color-mix(in srgb,var(--olive) 34%,transparent);background:transparent;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--olive);transition:.3s}
+  .arr:hover{border-color:var(--olive);background:rgba(245,240,232,.5)}
+  .vdots{display:flex;gap:8px;margin-left:6px}
+  .vdot{width:6px;height:6px;border-radius:50%;background:color-mix(in srgb,var(--olive) 26%,transparent);transition:.4s}
+  .vdot.on{background:var(--olive);width:18px;border-radius:3px}
+
+  /* ===== TRANSFORMAÇÕES: painéis expansíveis ===== */
+  .panels{display:flex;gap:14px;height:470px}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:3px;cursor:pointer;outline:1px solid color-mix(in srgb,var(--olive) 24%,transparent);outline-offset:-1px;transition:flex 1s cubic-bezier(.22,.8,.24,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:100% center;transition:object-position 1s cubic-bezier(.22,.8,.24,1);display:block}
+  .panel.open{flex:3.4}
+  .panel.open img{object-position:center center}
+  .panel .lb{position:absolute;top:12px;z-index:2;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95);opacity:0;transition:opacity .6s ease .35s}
+  .panel .lb.b{left:14px}.panel .lb.a{right:14px}
+  .panel .shade{position:absolute;left:0;right:0;top:0;height:44px;z-index:1;background:linear-gradient(180deg,rgba(39,42,29,.32),transparent)}
+  .panel .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:1;opacity:0;transition:opacity .6s ease .35s;background:linear-gradient(180deg,transparent,rgba(245,240,232,.55) 15%,rgba(245,240,232,.55) 85%,transparent)}
+  .panel.open .lb,.panel.open .seam{opacity:1}
+  .panel .tag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,232,.92);transition:opacity .4s}
+  .panel.open .tag{opacity:0}
+  .pfoot{display:flex;align-items:baseline;margin-top:16px}
+  .disc{font-size:10.5px;letter-spacing:.06em;color:var(--graphite-soft)}
+  .phint{margin-left:auto;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent)}
+
+  /* reveal de entrada */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity 1s ease,transform 1s ease}
+  .rv.in-view{opacity:1;transform:none}
+  .rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.26s}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.vitem{transition:none}.panel,.panel img{transition:none}}
+
+  .next{height:34vh;background:var(--linen);display:grid;place-items:center;color:#8a8d80;font-size:11px;letter-spacing:.24em;text-transform:uppercase;border-top:1px solid rgba(94,102,70,.10)}
+
+  @media (max-width:920px){
+    .in{padding:120px 24px 72px}
+    .topline{margin-bottom:40px}
+    .grid{grid-template-columns:1fr;gap:56px}
+    .voice .qm{font-size:88px}
+    .vslot{min-height:300px}
+    .panels{height:340px;gap:10px}
+    .panel.open{flex:2.8}
+    .phint{display:none}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — S5 "O Amanhecer".</b> Role a partir do bloco escuro (fim da S4): a noite olive DISSOLVE na cena da folhagem amanhecida (a costura cinematográfica). Por cima, dois protagonistas: a VOZ como tipografia editorial pura (troca sozinha a cada 12s, com transição de cinema; hover pausa; setas), e as TRANSFORMAÇÕES como painéis expansíveis — passe o mouse em cada coluna: ela abre e revela o antes/depois completo. No build, a cena vira o vídeo Veo (esta imagem é o poster).
+  </div>
+
+  <div class="s4">· · · fim da Seção 4 (Programa · pico olive) · · ·</div>
+
+  <section class="proof" id="proof">
+    <div class="scene"></div>
+    <div class="veil"></div>
+    <div class="dawnseam"></div>
+
+    <div class="in">
+      <div class="topline rv">
+        <div class="k">Real results</div>
+        <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+      </div>
+
+      <div class="grid">
+        <div class="voice rv d1">
+          <span class="qm">&ldquo;</span>
+          <div class="vslot" id="vslot">
+            <div class="vitem on"><p>I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.</p><div class="attrib"><span class="wline"></span><span class="nm">Melani S.</span></div></div>
+            <div class="vitem"><p>She encouraged me to be patient and trust the process. My skin became brighter, healthier, with almost no signs of hyperpigmentation.</p><div class="attrib"><span class="wline"></span><span class="nm">Ashley B.</span></div></div>
+            <div class="vitem"><p>Nikolle's treatments are unlike anything I've experienced before. Her knowledge and personalized care have transformed my skin.</p><div class="attrib"><span class="wline"></span><span class="nm">Sara M.</span></div></div>
+            <div class="vitem"><p>Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience.</p><div class="attrib"><span class="wline"></span><span class="nm">Ali Z.</span></div></div>
+          </div>
+          <div class="vctrl">
+            <button class="arr" id="vp" aria-label="Previous"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="arr" id="vn" aria-label="Next"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="vdots" id="vdots"></div>
+          </div>
+        </div>
+
+        <div class="rv d2">
+          <div class="panels" id="panels">
+            <div class="panel open"><div class="shade"></div><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><span class="tag">View</span><img src="public/images/before-after-02.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+            <div class="panel"><div class="shade"></div><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><span class="tag">View</span><img src="public/images/before-after-03.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+            <div class="panel"><div class="shade"></div><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><span class="tag">View</span><img src="public/images/before-after-04.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+          </div>
+          <div class="pfoot">
+            <span class="disc">Individual results may vary.</span>
+            <span class="phint">hover to reveal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="next">· · · Interlúdio de Imprensa (sand-deep) · · ·</div>
+
+  <script>
+    // VOZ: auto lenta (12s) + pausa no hover + setas + dots
+    (function(){
+      var items=[].slice.call(document.querySelectorAll('.vitem')),
+          dots=document.getElementById('vdots'), slot=document.getElementById('vslot'),
+          i=0, timer, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      items.forEach(function(_,n){var d=document.createElement('span');d.className='vdot'+(n===0?' on':'');dots.appendChild(d)});
+      function go(n){i=(n+items.length)%items.length;
+        items.forEach(function(el,k){el.classList.toggle('on',k===i)});
+        dots.querySelectorAll('.vdot').forEach(function(d,k){d.classList.toggle('on',k===i)});}
+      function start(){if(reduce)return;timer=setInterval(function(){go(i+1)},12000)}
+      function reset(){clearInterval(timer);start()}
+      document.getElementById('vp').onclick=function(){go(i-1);reset()};
+      document.getElementById('vn').onclick=function(){go(i+1);reset()};
+      slot.addEventListener('mouseenter',function(){clearInterval(timer)});
+      slot.addEventListener('mouseleave',start);
+      start();
+    })();
+    // PAINÉIS: hover expande (desktop), tap alterna (touch)
+    (function(){
+      var panels=[].slice.call(document.querySelectorAll('.panel'));
+      var touch=matchMedia('(hover: none)').matches;
+      panels.forEach(function(p){
+        if(touch){p.addEventListener('click',function(){panels.forEach(function(x){x.classList.toggle('open',x===p)})})}
+        else{p.addEventListener('mouseenter',function(){panels.forEach(function(x){x.classList.toggle('open',x===p)})})}
+      });
+    })();
+    // reveal na entrada
+    (function(){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target)}})},{threshold:.18});
+      document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+    })();
+  </script>
+
+</body>
+</html>

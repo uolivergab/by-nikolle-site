@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Seção 5 cinematográfica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .note{max-width:1200px;margin:0 auto;padding:34px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  .proof{max-width:1200px;margin:0 auto;padding:80px 56px 104px}
+  .topline{margin-bottom:56px;max-width:680px}
+  .topline .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+  .topline h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .topline h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+
+  .body{display:grid;grid-template-columns:minmax(0,480px) 1fr;gap:96px;align-items:start}
+
+  /* PRANCHA — auto-cycle + Ken Burns (a vida ambiente) */
+  .plate{display:flex;flex-direction:column}
+  .frame{position:relative;overflow:hidden;border-radius:3px;aspect-ratio:1/1;outline:1px solid color-mix(in srgb,var(--olive) 22%,transparent);outline-offset:-1px}
+  .frame .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
+  .frame .slide.on{opacity:1}
+  .frame .slide img{width:100%;height:100%;object-fit:cover;display:block;animation:kb 20s ease-in-out infinite alternate}
+  @keyframes kb{from{transform:scale(1.03)}to{transform:scale(1.12) translate(1.5%,-1.5%)}}
+  .frame:hover .slide img{animation-play-state:paused}
+  @media (prefers-reduced-motion:reduce){.frame .slide img{animation:none}}
+  .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:3;transform:translateX(-.5px);background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--linen) 55%,transparent) 12%,color-mix(in srgb,var(--linen) 55%,transparent) 88%,transparent)}
+  .frame::before{content:"";position:absolute;top:0;left:0;right:0;height:64px;z-index:2;background:linear-gradient(180deg,rgba(39,42,29,.26),transparent);pointer-events:none}
+  .tag{position:absolute;top:16px;z-index:4;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,240,232,.9)}
+  .tag.b{left:18px}.tag.a{right:18px}
+  .pnav{display:flex;align-items:center;gap:14px;margin-top:20px}
+  .dots{display:flex;gap:9px}
+  .dot{width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,var(--sage) 32%,transparent);border:none;cursor:pointer;padding:0;transition:.4s}
+  .dot.on{background:var(--olive);width:20px;border-radius:4px}
+  .hint{margin-left:auto;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent)}
+  .disc{margin-top:14px;font-size:10.5px;letter-spacing:.06em;color:color-mix(in srgb,var(--graphite-soft) 80%,transparent)}
+
+  /* VOZ — manual, ancorada, estrutura editorial */
+  .tell{padding-top:6px}
+  .qmark{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:96px;line-height:.5;color:color-mix(in srgb,var(--olive) 28%,transparent);height:56px;display:block}
+  #qbox{transition:opacity .5s ease;min-height:190px}
+  #qtext{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(21px,2vw,28px);line-height:1.5;color:var(--graphite);max-width:520px}
+  .attrib{margin-top:28px;display:flex;align-items:center;gap:18px}
+  .attrib .wline{width:44px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 55%,transparent),transparent)}
+  #qwho{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)}
+  .vnav{display:flex;gap:8px;margin-left:auto}
+  .arr{width:40px;height:40px;border:1px solid color-mix(in srgb,var(--sage) 38%,transparent);background:transparent;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--olive);transition:.3s}
+  .arr:hover{border-color:var(--olive)}
+
+  .foot{max-width:1200px;margin:0 auto;padding:0 56px 80px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  @media (max-width:880px){
+    .proof{padding:52px 24px 80px}.topline{margin-bottom:26px}
+    .body{grid-template-columns:1fr;gap:34px}
+    .frame{max-width:400px;margin:0 auto;width:100%}
+    .pnav{justify-content:center}.hint{display:none}
+    .qmark{font-size:76px;height:44px}
+    #qtext{font-size:clamp(20px,6vw,26px)}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — S5 cinematográfica.</b> As FOTOS passam sozinhas devagar (7s) COM Ken Burns (a imagem respira) — a vida ambiente; passa o mouse pra pausar. A VOZ é MANUAL (setas), com depoimentos reais (excerpt), pra você ler no teu ritmo. Independentes = honesto. No build: crossfade mais rico, reveal na entrada, transição com linha d'água.
+  </div>
+
+  <section class="proof">
+    <div class="topline">
+      <div class="k">Real results</div>
+      <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+    </div>
+
+    <div class="body">
+      <div class="plate">
+        <div class="frame" id="frame">
+          <span class="seam"></span><span class="tag b">Before</span><span class="tag a">After</span>
+          <div class="slide on"><img src="public/images/before-after-02.webp" alt="Before and after of a holistic facial treatment by Nikolle" /></div>
+          <div class="slide"><img src="public/images/before-after-03.webp" alt="Before and after of a holistic facial treatment by Nikolle" /></div>
+          <div class="slide"><img src="public/images/before-after-04.webp" alt="Before and after of a holistic facial treatment by Nikolle" /></div>
+        </div>
+        <div class="pnav">
+          <div class="dots" id="dots"></div>
+          <span class="hint">hover to pause</span>
+        </div>
+        <div class="disc">Individual results may vary.</div>
+      </div>
+
+      <div class="tell">
+        <span class="qmark">&ldquo;</span>
+        <div id="qbox">
+          <div id="qtext">I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.</div>
+          <div class="attrib">
+            <span class="wline"></span>
+            <span id="qwho">Melani S.</span>
+            <span class="vnav">
+              <button class="arr" id="vprev" aria-label="Previous"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="arr" id="vnext" aria-label="Next"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    A vida vem do movimento ambiente (Ken Burns + fotos passando), não de um carrossel apressando a leitura. A voz é tua pra ler. Excerpt dos depoimentos reais (com ok da Nik no texto final).
+  </div>
+
+  <script>
+    // FOTOS: auto-cycle + pausa no hover
+    (function(){
+      var slides=document.querySelectorAll('.frame .slide'), dots=document.getElementById('dots'), frame=document.getElementById('frame'), i=0, timer;
+      slides.forEach(function(_,n){var b=document.createElement('button');b.className='dot'+(n===0?' on':'');b.onclick=function(){go(n);restart();};dots.appendChild(b);});
+      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,k){s.classList.toggle('on',k===i)});dots.querySelectorAll('.dot').forEach(function(d,k){d.classList.toggle('on',k===i)});}
+      function tick(){go(i+1);}
+      function start(){timer=setInterval(tick,7000);}
+      function restart(){clearInterval(timer);start();}
+      frame.addEventListener('mouseenter',function(){clearInterval(timer);});
+      frame.addEventListener('mouseleave',start);
+      start();
+    })();
+    // VOZ: manual (excerpts dos depoimentos reais)
+    (function(){
+      var Q=[
+        {t:"I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.", w:'Melani S.'},
+        {t:"She encouraged me to trust the process, and I'm so glad I did. My skin became brighter, healthier, with almost no signs of hyperpigmentation.", w:'Ashley B.'},
+        {t:"Nikolle's treatments are unlike anything I've experienced before. Her knowledge and personalized care have transformed my skin.", w:'Sara M.'},
+        {t:'Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience.', w:'Ali Z.'}
+      ];
+      var box=document.getElementById('qbox'), t=document.getElementById('qtext'), w=document.getElementById('qwho'), j=0;
+      function show(n){ j=(n+Q.length)%Q.length; box.style.opacity=0; setTimeout(function(){ t.textContent=Q[j].t; w.textContent=Q[j].w; box.style.opacity=1; },400); }
+      document.getElementById('vprev').onclick=function(){show(j-1)};
+      document.getElementById('vnext').onclick=function(){show(j+1)};
+    })();
+  </script>
+
+</body>
+</html>

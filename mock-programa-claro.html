@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Programa claro + Transformações (mesmo mundo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sand-deep:#E1D4C4;--sage:#7B8367;--olive:#5E6646;--olive-deep:#272a1d;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .note{max-width:1240px;margin:0 auto;padding:22px 56px 0;font-size:13px;color:var(--graphite-soft)}
+  .note b{color:var(--olive);font-weight:500}
+  .before{height:32vh;background:var(--sand-deep);display:grid;place-items:center;color:#6f6a5c;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  /* ============ SEÇÃO 4 — PROGRAMA (agora CLARO, mesma luz da S5) ============ */
+  .program{position:relative;min-height:88vh;display:grid;place-items:center;overflow:hidden;isolation:isolate}
+  .program .bg,.program video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}
+  /* véu claro: a folhagem respira, mas o centro ganha linho pro texto graphite ler */
+  .program .veil{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    radial-gradient(86% 78% at 50% 50%, color-mix(in srgb,var(--linen) 78%,transparent) 0%, color-mix(in srgb,var(--linen) 55%,transparent) 46%, color-mix(in srgb,var(--linen) 30%,transparent) 72%, transparent 100%)}
+  /* moldura sutil: o "pico" agora vem de cerimônia/ar, não do escuro. Um filete
+     finíssimo olive delimitando o santuário do carro-chefe. */
+  .program .inner{position:relative;z-index:2;max-width:640px;padding:64px 56px;text-align:center;
+    border:1px solid color-mix(in srgb,var(--olive) 20%,transparent);border-radius:4px;
+    background:color-mix(in srgb,var(--linen) 28%,transparent);backdrop-filter:blur(2px)}
+  .program .kk{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--olive);margin-bottom:20px}
+  .program h2{font-family:'Cormorant',serif;font-weight:550;font-size:clamp(31px,5vw,50px);letter-spacing:.03em;text-transform:uppercase;line-height:1.06;color:var(--graphite)}
+  .program h2 .i{font-style:italic;text-transform:none;font-weight:500;letter-spacing:0}
+  .program p{margin-top:22px;color:var(--graphite-soft);font-size:15px;max-width:480px;margin-left:auto;margin-right:auto}
+  /* botão maré verde (mesma linguagem das outras seções) */
+  .btn{display:inline-block;margin-top:30px;position:relative;overflow:hidden;border:1px solid var(--olive);color:var(--graphite);padding:14px 30px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;background:transparent;transition:color .5s}
+  .btn::before{content:'';position:absolute;inset:0;top:auto;height:0;background:var(--olive);z-index:-1;transition:height .5s cubic-bezier(.22,.8,.24,1)}
+  .btn:hover{color:var(--linen)}
+  .btn:hover::before{height:100%}
+
+  /* ============ COSTURA: agora TRIVIAL, porque é o mesmo mundo ============
+     Não há salto de noite pra dia. As duas seções são a mesma manhã. A junção
+     é só o linho respirando de uma pra outra — sem truque, sem fixed. */
+  .seam{height:8vh;background:linear-gradient(180deg, color-mix(in srgb,var(--linen) 60%,transparent), var(--linen))}
+
+  /* ============ SEÇÃO 5 — TRANSFORMAÇÕES (mesma cena, mesma luz) ============ */
+  .proof{position:relative;overflow:hidden}
+  .proof .bg,.proof video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0}
+  .proof .veil{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(245,240,232,.10) 0%,rgba(245,240,232,.32) 40%,rgba(245,240,232,.64) 72%,rgba(245,240,232,.93) 100%)}
+  .in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:120px 56px 90px}
+  .topline{max-width:720px;margin-bottom:44px}
+  .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);margin-bottom:16px;text-shadow:0 1px 12px rgba(245,240,232,.6)}
+  h2.big{font-family:'Cormorant',serif;font-weight:550;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite);text-shadow:0 1px 18px rgba(245,240,232,.6)}
+  h2.big .i{font-style:italic;text-transform:none;font-weight:500;letter-spacing:0}
+  .panels{display:flex;gap:12px;height:440px}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:3px;outline:1px solid color-mix(in srgb,var(--olive) 26%,transparent);outline-offset:-1px;transition:flex 1s cubic-bezier(.22,.8,.24,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% center;transition:object-position 1s cubic-bezier(.22,.8,.24,1)}
+  .panel.open{flex:4.2}.panel.open img{object-position:center center}
+  .panel .vlabel{position:absolute;left:14px;bottom:14px;z-index:2;writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Cormorant',serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95)}
+  .panel.open .vlabel{opacity:0}
+  .panel .shade{position:absolute;left:0;right:0;top:0;height:44px;z-index:1;background:linear-gradient(180deg,rgba(39,42,29,.34),transparent)}
+  .pfoot{margin-top:16px;font-size:10.5px;letter-spacing:.06em;color:var(--graphite-soft)}
+  .after{height:24vh;background:var(--sand-deep);display:grid;place-items:center;color:#6f6a5c;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  @media (max-width:880px){
+    .program .inner{padding:44px 28px;margin:0 20px}
+    .in{padding:90px 24px 60px}
+    .panels{flex-direction:column;height:560px;gap:9px}
+    .panel.open{flex:4.6}
+    .panel img{object-position:center 28%}
+    .panel .vlabel{writing-mode:horizontal-tb;transform:none;left:14px;bottom:10px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Programa CLARO — as duas seções no mesmo mundo.</b> O Programa deixa de ser um bloco verde-escuro noturno e passa a viver na MESMA luz de amanhecer da S5 (mesma folhagem, mesma paleta clara, texto graphite). O "pico" do carro-chefe agora vem do AR e de uma moldura fininha, não do escuro. Role da S4 pra S5: não há mais salto de dois mundos, é a mesma manhã continuando — a divisória some sozinha. Passe o mouse nos painéis e no botão.
+  </div>
+
+  <div class="before">· · · fim da Seção 3 (Serviços · linho) · · ·</div>
+
+  <!-- SEÇÃO 4: Programa CLARO -->
+  <section class="program">
+    <video autoplay muted loop playsinline poster="public/videos/proof-dawn-desktop-poster.jpg">
+      <source src="public/videos/proof-dawn-desktop.mp4" type="video/mp4" />
+    </video>
+    <div class="veil"></div>
+    <div class="inner">
+      <div class="kk">By invitation</div>
+      <h2>Skin Wellness <span class="i">program</span></h2>
+      <p>Lasting transformation requires consistency. We created an exclusive program for clients who want to maintain their skin goals through regular treatments at special rates.</p>
+      <button class="btn">Discover the Program Benefits</button>
+    </div>
+  </section>
+
+  <div class="seam"></div>
+
+  <!-- SEÇÃO 5: Transformações (mesma cena) -->
+  <section class="proof">
+    <video autoplay muted loop playsinline poster="public/videos/proof-dawn-desktop-poster.jpg">
+      <source src="public/videos/proof-dawn-desktop.mp4" type="video/mp4" />
+    </video>
+    <div class="veil"></div>
+    <div class="in">
+      <div class="topline">
+        <div class="k">Real results</div>
+        <h2 class="big">Real <span class="i">transformations.</span></h2>
+      </div>
+      <div class="panels" id="panels"></div>
+      <div class="pfoot">Individual results may vary.</div>
+    </div>
+  </section>
+
+  <div class="after">· · · Vozes / Interlúdio a seguir · · ·</div>
+
+  <script>
+    var fotos=['02','03','04','05','06','07'], rom=['I','II','III','IV','V','VI'];
+    var wrap=document.getElementById('panels');
+    fotos.forEach(function(n,idx){
+      var d=document.createElement('div');
+      d.className='panel'+(idx===0?' open':'');
+      d.innerHTML='<div class="shade"></div><span class="vlabel">Transformation · '+rom[idx]+'</span><img src="public/images/before-after-'+n+'.webp" alt=""/>';
+      d.onmouseenter=function(){[].forEach.call(wrap.children,function(x){x.classList.toggle('open',x===d)})};
+      wrap.appendChild(d);
+    });
+  </script>
+</body>
+</html>

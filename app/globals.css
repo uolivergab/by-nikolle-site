@@ -61,48 +61,41 @@
     color-mix(in srgb, var(--sage) 32%, transparent)
   );
 
-  /* Seção 4 — Programa "a água funda": véu de contraste sobre o vídeo, sempre
-     presente (garante AA do texto linho independente do estado do vídeo). Três
-     camadas: (1) scrim profundo em olive-deep atrás do texto (a água funda
-     protege a leitura no centro), (2) vinheta que fecha as bordas mais claras do
-     vídeo, (3) lavagem olive contínua que amarra o campo ao pico. Opacidade
-     medida por screenshot até o linho passar AA no frame mais claro do loop. */
-  --s4-veil:
-    radial-gradient(
-      76% 72% at 50% 50%,
-      color-mix(in srgb, var(--olive-deep) 76%, transparent) 0%,
-      color-mix(in srgb, var(--olive-deep) 68%, transparent) 46%,
-      color-mix(in srgb, var(--olive-deep) 22%, transparent) 80%,
-      transparent 100%
-    ),
-    radial-gradient(
-      135% 125% at 50% 32%,
-      transparent 46%,
-      color-mix(in srgb, var(--olive-deep) 52%, transparent) 100%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--olive) 40%, transparent) 0%,
-      color-mix(in srgb, var(--olive) 24%, transparent) 42%,
-      color-mix(in srgb, var(--olive-deep) 58%, transparent) 100%
-    );
+  /* Seção 4 — Programa, agora SOBRE o jardim compartilhado (o fundo próprio saiu
+     pro GardenScene). O véu-mestre já escurece a zona noite; --program-scrim é
+     um reforço LOCAL de contraste (olive-deep radial SÓ atrás do bloco de texto,
+     sem borda dura) que garante o AA do texto linen independente do frame do
+     vídeo e do estado da rolagem. */
+  --program-scrim: radial-gradient(
+    74% 68% at 50% 48%,
+    color-mix(in srgb, var(--olive-deep) 85%, transparent) 0%,
+    color-mix(in srgb, var(--olive-deep) 78%, transparent) 42%,
+    color-mix(in srgb, var(--olive-deep) 45%, transparent) 72%,
+    transparent 92%
+  );
 
-  /* Seção 5 — Prova social: scrim sutil no topo da prancha (contraste dos
-     rótulos Before/After sobre a foto) e a linha d'água fina na costura
-     before|after (a assinatura, linho translúcido sobre a foto, esmaece nas
-     pontas). */
-  --s5-scrim: linear-gradient(
+  /* Seção 5 — Transformações, SOBRE o jardim compartilhado (o fundo próprio e a
+     costura saíram — não há mais emenda com o Program, é um jardim só). Resta o
+     VÉU DE LEGIBILIDADE da seção inteira: transparente no topo (a manhã/folhagem
+     respira e aparece nas frestas das persianas) e denso na base, derretendo pro
+     linho junto com o fim do jardim. */
+  --proof-veil: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--olive-deep) 26%, transparent),
-    transparent
+    transparent 0%,
+    color-mix(in srgb, var(--linen) 45%, transparent) 15%,
+    color-mix(in srgb, var(--linen) 33%, transparent) 26%,
+    transparent 46%,
+    transparent 58%,
+    color-mix(in srgb, var(--linen) 40%, transparent) 78%,
+    color-mix(in srgb, var(--linen) 88%, transparent) 100%
   );
-  --s5-seam: linear-gradient(
-    180deg,
-    transparent,
-    color-mix(in srgb, var(--linen) 55%, transparent) 12%,
-    color-mix(in srgb, var(--linen) 55%, transparent) 88%,
-    transparent
-  );
+  /* Sobre a folhagem o eyebrow pequeno em olive/sage reprova AA; fica em graphite
+     (tom de texto pequeno da marca). O topline ganha contraste por TEXT-SHADOW
+     claro (luz da manhã hugando o texto), NÃO por caixa atrás do título (a
+     "barra branca" que reprovamos). */
+  --proof-eyebrow: var(--graphite);
+  --proof-title-shadow: 0 1px 16px color-mix(in srgb, var(--linen) 60%, transparent);
+  --proof-eyebrow-shadow: 0 1px 11px color-mix(in srgb, var(--linen) 62%, transparent);
 
   /* Seção 5b — Interlúdio de imprensa: campo sand PROFUNDO (fundo de seção) com
      textura de papel + vinheta morna (profundidade, sem cor nova). O filete
@@ -296,6 +289,71 @@
 }
 
 /* ============================================================
+   O JARDIM CONTÍNUO (GardenScene) — fundo compartilhado S4<->S5.
+   Gabarito: mock-jardim-continuo.html. UM vídeo de folhagem que se comporta como
+   fixo atrás das DUAS zonas (sticky recortado à altura do jardim, sem vazar pras
+   vizinhas) + o véu-mestre (noite->amanhecer, opacidades setadas por JS no
+   GardenScene). O reforço de contraste é LOCAL por zona (--program-scrim no
+   Program, --proof-veil + text-shadow na S5), então o mestre é só atmosfera.
+   ============================================================ */
+@layer components {
+  .garden {
+    position: relative;
+    isolation: isolate;
+  }
+  /* recorte à altura do jardim: o backdrop só existe no intervalo de rolagem do
+     jardim, então não aparece atrás de Serviços (acima) nem do Interlúdio (abaixo). */
+  .garden-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* sticky = o "fixo" do jardim: gruda no topo da viewport enquanto o jardim
+     rola, e sai sozinho no fim dele (sem JS de scroll-hijack, sem vazamento). */
+  .garden-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+  .garden-stage video {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .garden-veil {
+    position: absolute;
+    inset: 0;
+  }
+  .garden-content {
+    position: relative;
+    z-index: 1;
+  }
+  /* entrada do jardim: linho (Serviços) -> transparente (noite), pra a descida
+     ser um derretimento e não uma emenda dura. */
+  .garden-sky {
+    height: 13vh;
+    background: linear-gradient(180deg, var(--linen), transparent);
+  }
+  /* fim do jardim: transparente -> linho, pra a folhagem resolver em linho antes
+     da próxima seção. */
+  .garden-land {
+    height: 20vh;
+    background: linear-gradient(180deg, transparent, var(--linen) 82%);
+  }
+  /* reforço de contraste local do Program (linen sobre a folhagem): um escuro
+     radial SÓ atrás do bloco de texto, sem borda dura. */
+  .program-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--program-scrim);
+  }
+}
+
+/* ============================================================
    Seção 2 — O Método (Os Três Pilares). Gabarito: mock-metodo-FINAL.html.
    Só as peças que o utilitário não expressa: keyframes + a ligação das
    animações, que só disparam quando a seção entra na viewport (data-live)
@@ -402,43 +460,186 @@
 }
 
 /* ============================================================
-   Seção 5 — Prova social. Gabarito: mock-secao5-prova-v3.html (+ retoques v4).
-   VALE de leitura: reveal cerimonial que assenta, disparado por data-live
-   quando a seção entra em view; some em prefers-reduced-motion (e sem JS, tudo
-   nasce visível e estático). Só transform/opacity. Os delays de stagger entram
-   inline por índice no TSX. Scrim e costura (linha d'água) vivem como tokens de
-   componente acima. A rotação das vozes e o carrossel são JS no Proof.tsx.
+   Seção 5 — Prova social "O AMANHECER". Gabarito: mock-s5-vozes-v5.html (parte
+   S5). O reveal cerimonial da seção é Framer (whileInView) no Proof.tsx, como
+   nos picos; aqui vivem as PERSIANAS (6 painéis before/after expansíveis), cuja
+   mecânica de expandir é LAYOUT (flex-grow) e por isso mora em CSS, disparada
+   por data-open no TSX: fechado mostra o AFTER (object-position 75%), aberto
+   revela o par com rótulos Before/After + costura d'água central. A expansão é
+   a única exceção sancionada ao "só transform/opacity" (uma persiana é reflow
+   por natureza; não há caminho só-transform sem esmagar a foto). Desktop =
+   colunas (linha) com hover; mobile = acordeão (coluna) com scroll-reveal (JS
+   no TSX). Tudo degrada a estático em prefers-reduced-motion.
    ============================================================ */
-@keyframes s5-rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-/* A costura (linha d'água vertical) se desenha do centro para fora (scaleY),
-   como a divisória sage se desenha do centro — a forma-assinatura da marca. */
-@keyframes s5-seam-draw {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
 @layer components {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Textos e blocos sobem 10px (fade + rise); stagger inline por índice. */
-    .proof[data-live="true"] .s5-rise {
-      animation: s5-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  .proof-panels {
+    display: flex;
+    gap: 12px;
+    height: 520px;
+  }
+  .proof-panel {
+    position: relative;
+    flex: 1 1 0%;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 3px;
+    cursor: pointer;
+    /* reset de <button> */
+    appearance: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    /* fio olive de repouso; vira anel sage no foco de teclado (abaixo). Como o
+       painel tem overflow:hidden, o foco usa outline (não é recortado). */
+    outline: 1px solid color-mix(in srgb, var(--olive) 26%, transparent);
+    outline-offset: -1px;
+    transition: flex-grow 1s cubic-bezier(0.22, 0.8, 0.24, 1);
+  }
+  .proof-panel:focus-visible {
+    outline: 2px solid var(--sage);
+    outline-offset: -2px;
+  }
+  .proof-panel[data-open="true"] {
+    flex-grow: 4.2;
+  }
+  .proof-panel-img {
+    object-fit: cover;
+    object-position: 75% center;
+    transition: object-position 1s cubic-bezier(0.22, 0.8, 0.24, 1);
+  }
+  .proof-panel[data-open="true"] .proof-panel-img {
+    object-position: center center;
+  }
+  /* rótulo vertical (Cormorant caps), some ao abrir */
+  .proof-vlabel {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    z-index: 2;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-display), serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--linen) 95%, transparent);
+    transition: opacity 0.5s ease;
+  }
+  .proof-panel[data-open="true"] .proof-vlabel {
+    opacity: 0;
+  }
+  /* rótulos Before/After, aparecem ao abrir (sobre os scrims) */
+  .proof-edge {
+    position: absolute;
+    top: 12px;
+    z-index: 2;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--linen) 95%, transparent);
+    opacity: 0;
+    transition: opacity 0.6s ease 0.35s;
+  }
+  .proof-edge-before {
+    left: 14px;
+  }
+  .proof-edge-after {
+    right: 14px;
+  }
+  .proof-panel[data-open="true"] .proof-edge {
+    opacity: 1;
+  }
+  /* costura d'água central: cai sobre a emenda before|after da foto quando o
+     object-position volta ao centro (a forma-assinatura da marca) */
+  .proof-seam {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    z-index: 1;
+    opacity: 0;
+    transform: translateX(-0.5px);
+    transition: opacity 0.6s ease 0.35s;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, var(--linen) 55%, transparent) 15%,
+      color-mix(in srgb, var(--linen) 55%, transparent) 85%,
+      transparent
+    );
+  }
+  .proof-panel[data-open="true"] .proof-seam {
+    opacity: 1;
+  }
+  /* scrims topo/base (contraste dos rótulos sobre a foto), sempre presentes */
+  .proof-shade-top,
+  .proof-shade-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .proof-shade-top {
+    top: 0;
+    height: 44px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--olive-deep) 34%, transparent),
+      transparent
+    );
+  }
+  .proof-shade-bottom {
+    bottom: 0;
+    height: 76px;
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--olive-deep) 30%, transparent),
+      transparent
+    );
+  }
+
+  /* Mobile: eixo girado — acordeão vertical (o scroll-reveal é JS no TSX). */
+  @media (max-width: 880px) {
+    .proof-panels {
+      flex-direction: column;
+      height: 660px;
+      gap: 9px;
     }
-    /* A linha d'água da costura se desenha (assenta depois da moldura). */
-    .proof[data-live="true"] .s5-seam {
-      animation: s5-seam-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    .proof-panel {
+      min-height: 0;
+    }
+    .proof-panel[data-open="true"] {
+      flex-grow: 4.6;
+    }
+    .proof-panel-img {
+      object-position: center 28%;
+    }
+    .proof-panel[data-open="true"] .proof-panel-img {
+      object-position: center center;
+    }
+    .proof-vlabel {
+      writing-mode: horizontal-tb;
+      transform: none;
+      left: 14px;
+      bottom: 10px;
+      font-size: 12px;
+    }
+  }
+
+  /* prefers-reduced-motion: a persiana ainda abre, mas seca (sem transições). */
+  @media (prefers-reduced-motion: reduce) {
+    .proof-panel,
+    .proof-panel-img,
+    .proof-vlabel,
+    .proof-edge,
+    .proof-seam {
+      transition: none;
     }
   }
 }

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — Seção 5 REESTRUTURADA · fundo vivo + cards + filmstrip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sand-deep:#E1D4C4;--sage:#7B8367;--olive:#5E6646;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .ctx{height:120px;display:grid;place-items:center;color:#8a8d80;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+
+  .note{max-width:1240px;margin:0 auto;padding:30px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+
+  /* ================= SEÇÃO ================= */
+  .proof{position:relative;padding:96px 0 88px;overflow:hidden}
+
+  /* FUNDO VIVO — reflexo de água (caustics) em código, deriva lentíssima + parallax */
+  .water{position:absolute;inset:-20% 0;pointer-events:none;will-change:transform}
+  .water i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+  .water i:nth-child(1){width:56vw;height:34vw;left:-12vw;top:6%;background:radial-gradient(ellipse at center, rgba(233,222,210,.9), transparent 65%);animation:drift1 26s ease-in-out infinite alternate}
+  .water i:nth-child(2){width:44vw;height:30vw;right:-10vw;top:22%;background:radial-gradient(ellipse at center, rgba(123,131,103,.22), transparent 65%);animation:drift2 32s ease-in-out infinite alternate}
+  .water i:nth-child(3){width:50vw;height:28vw;left:18vw;bottom:-6%;background:radial-gradient(ellipse at center, rgba(225,212,196,.85), transparent 65%);animation:drift3 29s ease-in-out infinite alternate}
+  .water i:nth-child(4){width:30vw;height:22vw;right:14vw;bottom:10%;background:radial-gradient(ellipse at center, rgba(94,102,70,.14), transparent 65%);animation:drift1 36s ease-in-out infinite alternate-reverse}
+  @keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(4vw,-2vw) scale(1.08)}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1.05)}to{transform:translate(-3vw,2vw) scale(1)}}
+  @keyframes drift3{from{transform:translate(0,1vw) scale(1)}to{transform:translate(3vw,-1vw) scale(1.06)}}
+  @media (prefers-reduced-motion:reduce){.water i{animation:none}}
+
+  .in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:0 56px}
+
+  .topline{max-width:680px;margin-bottom:54px}
+  .topline .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+  .topline h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .topline h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+
+  /* ============ CARROSSEL DE CARDS ============ */
+  .stage{position:relative}
+  .track{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;padding:18px 4px 26px;scrollbar-width:none;cursor:grab}
+  .track::-webkit-scrollbar{display:none}
+  .track.grabbing{cursor:grabbing}
+  .card{scroll-snap-align:center;flex:0 0 min(480px,78vw);background:color-mix(in srgb,var(--sand) 72%,var(--linen));border:1px solid color-mix(in srgb,var(--olive) 20%,transparent);border-radius:4px;padding:44px 44px 36px;position:relative;transition:transform .45s ease, opacity .45s ease;transform:scale(.94);opacity:.55}
+  .card.on{transform:scale(1);opacity:1}
+  .card .qm{position:absolute;top:18px;left:30px;font-family:'Cormorant',serif;font-style:italic;font-size:88px;line-height:1;color:color-mix(in srgb,var(--olive) 26%,transparent);pointer-events:none}
+  .card p{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(19px,1.7vw,24px);line-height:1.5;color:var(--graphite);margin-top:34px;min-height:150px}
+  .card .who{margin-top:22px;display:flex;align-items:center;gap:14px}
+  .card .wline{width:38px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 55%,transparent),transparent)}
+  .card .nm{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)}
+  .snav{display:flex;gap:8px;justify-content:flex-end;margin-top:2px}
+  .arr{width:42px;height:42px;border:1px solid color-mix(in srgb,var(--sage) 38%,transparent);background:transparent;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--olive);transition:.3s}
+  .arr:hover{border-color:var(--olive)}
+
+  /* ============ FILMSTRIP DAS FOTOS ============ */
+  .strip-wrap{margin-top:56px;position:relative}
+  .strip-label{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--graphite-soft);margin:0 0 16px}
+  .strip{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .reel{display:flex;gap:20px;width:max-content;animation:reel 38s linear infinite}
+  .strip:hover .reel{animation-play-state:paused}
+  @keyframes reel{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.reel{animation:none}}
+  .cell{position:relative;height:190px;aspect-ratio:1/1;border-radius:3px;overflow:hidden;outline:1px solid color-mix(in srgb,var(--olive) 22%,transparent);outline-offset:-1px}
+  .cell img{width:100%;height:100%;object-fit:cover;display:block}
+  .cell .bar{position:absolute;left:0;right:0;top:0;height:34px;background:linear-gradient(180deg,rgba(39,42,29,.28),transparent);z-index:1}
+  .cell .t{position:absolute;top:9px;z-index:2;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.92)}
+  .cell .t.b{left:12px}.cell .t.a{right:12px}
+  .cell .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:1;background:linear-gradient(180deg,transparent,rgba(245,240,232,.5) 15%,rgba(245,240,232,.5) 85%,transparent)}
+  .disc{margin-top:16px;font-size:10.5px;letter-spacing:.06em;color:color-mix(in srgb,var(--graphite-soft) 80%,transparent)}
+
+  .foot{max-width:1240px;margin:0 auto;padding:26px 56px 90px;font-size:12.5px;color:var(--graphite-soft);line-height:1.7;text-align:center}
+
+  @media (max-width:880px){
+    .in{padding:0 24px}
+    .proof{padding:64px 0 68px}
+    .card{flex-basis:82vw;padding:34px 26px 28px}
+    .card p{min-height:0}
+    .cell{height:150px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock — S5 reestruturada por completo.</b> (1) FUNDO VIVO: reflexo de água em código (caustics da marca) derivando devagar + PARALLAX no scroll — rola a página pra sentir a água responder. (2) CARROSSEL DE CARDS cinematográfico: arrasta com o mouse (drag) ou setas; card ativo acende, vizinhos espiam. (3) FOTOS num FILMSTRIP elegante embaixo, correndo sozinho em loop lento (hover pausa). Depoimentos reais (excerpt).
+  </div>
+
+  <div class="ctx">· · · seção anterior (role para baixo devagar) · · ·</div>
+
+  <section class="proof" id="proof">
+    <div class="water" id="water"><i></i><i></i><i></i><i></i></div>
+
+    <div class="in">
+      <div class="topline">
+        <div class="k">Real results</div>
+        <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+      </div>
+
+      <div class="stage">
+        <div class="track" id="track">
+          <article class="card"><span class="qm">&ldquo;</span><p>I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.</p><div class="who"><span class="wline"></span><span class="nm">Melani S.</span></div></article>
+          <article class="card"><span class="qm">&ldquo;</span><p>She encouraged me to be patient and trust the process. Over time, my skin became brighter, healthier, with almost no signs of hyperpigmentation.</p><div class="who"><span class="wline"></span><span class="nm">Ashley B.</span></div></article>
+          <article class="card"><span class="qm">&ldquo;</span><p>Nikolle's treatments are unlike anything I've experienced before. Her knowledge, gentle touch and personalized care have transformed my skin.</p><div class="who"><span class="wline"></span><span class="nm">Sara M.</span></div></article>
+          <article class="card"><span class="qm">&ldquo;</span><p>Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience. Highly recommend in every way.</p><div class="who"><span class="wline"></span><span class="nm">Ali Z.</span></div></article>
+        </div>
+        <div class="snav">
+          <button class="arr" id="prev" aria-label="Previous"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="arr" id="next" aria-label="Next"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+
+      <div class="strip-wrap">
+        <div class="strip-label">Real transformations</div>
+        <div class="strip">
+          <div class="reel" id="reel">
+            <!-- conjunto x2 para loop contínuo -->
+            <div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/before-after-02.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+            <div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/before-after-03.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+            <div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/before-after-04.webp" alt="Before and after — holistic facial by Nikolle"/></div>
+            <div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/before-after-02.webp" alt=""/></div>
+            <div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/before-after-03.webp" alt=""/></div>
+            <div class="cell"><span class="bar"></span><span class="t b">Before</span><span class="t a">After</span><span class="seam"></span><img src="public/images/before-after-04.webp" alt=""/></div>
+          </div>
+        </div>
+        <div class="disc">Individual results may vary.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ctx">· · · próxima seção (interlúdio de imprensa) · · ·</div>
+
+  <div class="foot">
+    A água (fundo) é a alma da marca finalmente visível — exclusiva da S5, feita em código (leve, sem vídeo). Cards com drag real no build (Framer, com física/inércia). Filmstrip = as transformações como textura viva; clique pode ampliar no build. Tudo degrada em prefers-reduced-motion.
+  </div>
+
+  <script>
+    // PARALLAX do fundo no scroll (a água responde à pessoa)
+    (function(){
+      var w=document.getElementById('water'), reel=document.getElementById('reel');
+      var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduce) return;
+      addEventListener('scroll',function(){
+        var r=document.getElementById('proof').getBoundingClientRect();
+        var p=(innerHeight-r.top)/(innerHeight+r.height);
+        w.style.transform='translateY('+((p-.5)*60)+'px)';
+      },{passive:true});
+    })();
+    // CARROSSEL: drag + setas + card ativo
+    (function(){
+      var track=document.getElementById('track'), cards=[].slice.call(track.children);
+      function mark(){
+        var c=track.getBoundingClientRect(), cx=c.left+c.width/2, best,bd=1e9;
+        cards.forEach(function(el){var r=el.getBoundingClientRect();var d=Math.abs(r.left+r.width/2-cx);if(d<bd){bd=d;best=el}});
+        cards.forEach(function(el){el.classList.toggle('on',el===best)});
+      }
+      track.addEventListener('scroll',function(){requestAnimationFrame(mark)},{passive:true});
+      addEventListener('resize',mark); mark();
+      // drag com mouse
+      var down=false,sx=0,sl=0;
+      track.addEventListener('mousedown',function(e){down=true;sx=e.pageX;sl=track.scrollLeft;track.classList.add('grabbing')});
+      addEventListener('mouseup',function(){down=false;track.classList.remove('grabbing')});
+      addEventListener('mousemove',function(e){if(!down)return;e.preventDefault();track.scrollLeft=sl-(e.pageX-sx)});
+      function step(dir){
+        var w=cards[0].getBoundingClientRect().width+28;
+        track.scrollBy({left:dir*w,behavior:'smooth'});
+      }
+      document.getElementById('prev').onclick=function(){step(-1)};
+      document.getElementById('next').onclick=function(){step(1)};
+    })();
+  </script>
+
+</body>
+</html>

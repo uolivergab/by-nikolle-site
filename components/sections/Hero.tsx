@@ -203,8 +203,9 @@ export function Hero() {
           {...fade(2.9, 1)}
           className="mt-6 mb-[28px] text-[14.5px] font-light leading-[1.7] text-graphite-soft min-[701px]:max-w-[44ch] min-[701px]:text-[15.5px]"
         >
-          Your skin reflects how you live. Discover holistic, personalized
-          facials for healthy aging and deep relaxation.
+          Discover holistic and personalized facial treatments designed to
+          support healthy aging and create deep relaxation through truly clean
+          beauty.
         </motion.p>
 
         <motion.div
@@ -219,7 +220,7 @@ export function Hero() {
             Book My Consultation
           </TideButton>
           <span className="hidden rounded-full border border-sage/55 bg-linen/50 px-4 py-2 text-[12px] leading-[normal] tracking-[0.05em] whitespace-nowrap text-graphite-soft min-[701px]:inline-block">
-            {"Opening Wellness Offer · 20% off your first treatment"}
+            {"Opening Wellness Offer · 15% off your first visit"}
           </span>
         </motion.div>
 
@@ -227,7 +228,7 @@ export function Hero() {
           {...fade(3.3, 1)}
           className="mt-3 text-[11.5px] uppercase leading-[normal] tracking-[0.14em] text-graphite-soft min-[701px]:hidden"
         >
-          20% off your first treatment
+          15% off your first visit
         </motion.p>
 
         <motion.p

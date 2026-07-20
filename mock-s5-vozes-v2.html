@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>by Nikolle — S5 (6 painéis + acordeão mobile) + Vozes (Índice)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--linen:#F5F0E8;--sand:#E9DED2;--sage:#7B8367;--olive:#5E6646;--olive-deep:#272a1d;--graphite:#43463D;--graphite-soft:#5B5E53}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);color:var(--graphite);font-family:'Hanken Grotesk',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .note{max-width:1240px;margin:0 auto;padding:26px 56px 0;font-size:13px;color:var(--graphite-soft);line-height:1.6}
+  .note b{color:var(--olive);font-weight:500}
+  .s4{height:40vh;background:var(--olive-deep);display:grid;place-items:center;color:rgba(245,240,232,.35);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  /* ============ S5 TRANSFORMAÇÕES ============ */
+  .proof{position:relative;overflow:hidden}
+  .scene{position:absolute;inset:0;background:url('public/images/proof-foliage-dawn.jpg') center top / cover no-repeat}
+  .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,240,232,.05) 0%,rgba(245,240,232,.28) 40%,rgba(245,240,232,.62) 72%,rgba(245,240,232,.92) 100%)}
+  .dawnseam{position:absolute;left:0;right:0;top:0;height:180px;background:linear-gradient(180deg,var(--olive-deep) 0%,rgba(39,42,29,.55) 34%,rgba(39,42,29,.18) 66%,transparent 100%)}
+  .in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:150px 56px 100px}
+  .topline{max-width:720px;margin-bottom:52px}
+  .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
+  h2{font-family:'Cormorant',serif;font-weight:500;font-size:clamp(26px,3vw,42px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  h2 .i{font-style:italic;text-transform:none;letter-spacing:0}
+
+  .panels{display:flex;gap:12px;height:520px}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:3px;cursor:pointer;outline:1px solid color-mix(in srgb,var(--olive) 26%,transparent);outline-offset:-1px;transition:flex 1s cubic-bezier(.22,.8,.24,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% center;transition:object-position 1s cubic-bezier(.22,.8,.24,1);display:block}
+  .panel.open{flex:4.2}
+  .panel.open img{object-position:center center}
+  .panel .vlabel{position:absolute;left:14px;bottom:14px;z-index:2;writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Cormorant',serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95);transition:opacity .5s}
+  .panel.open .vlabel{opacity:0}
+  .panel .lb{position:absolute;top:12px;z-index:2;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.95);opacity:0;transition:opacity .6s ease .35s}
+  .panel .lb.b{left:14px}.panel .lb.a{right:14px}
+  .panel .shade{position:absolute;left:0;right:0;top:0;height:44px;z-index:1;background:linear-gradient(180deg,rgba(39,42,29,.34),transparent)}
+  .panel .shadeB{position:absolute;left:0;right:0;bottom:0;height:76px;z-index:1;background:linear-gradient(0deg,rgba(39,42,29,.30),transparent)}
+  .panel .seam{position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:1;opacity:0;transition:opacity .6s ease .35s;background:linear-gradient(180deg,transparent,rgba(245,240,232,.55) 15%,rgba(245,240,232,.55) 85%,transparent)}
+  .panel.open .lb,.panel.open .seam{opacity:1}
+  .pfoot{display:flex;align-items:baseline;margin-top:16px}
+  .disc{font-size:10.5px;letter-spacing:.06em;color:var(--graphite-soft)}
+  .phint{margin-left:auto;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent)}
+
+  /* ============ VOZES — O ÍNDICE ============ */
+  .voices{background:var(--linen);padding:104px 0 110px;border-top:1px solid rgba(94,102,70,.08)}
+  .vin{max-width:1240px;margin:0 auto;padding:0 56px}
+  .vhead{max-width:680px;margin-bottom:58px}
+  .ledger{display:grid;grid-template-columns:minmax(240px,.42fr) 1fr;gap:80px;align-items:start}
+
+  .index{border-left:1px solid color-mix(in srgb,var(--olive) 16%,transparent);padding-left:0}
+  .ientry{position:relative;display:flex;align-items:baseline;gap:16px;padding:18px 0 18px 28px;cursor:pointer;border-left:1px solid transparent;margin-left:-1px;transition:.4s}
+  .ientry .no{font-family:'Cormorant',serif;font-size:15px;color:color-mix(in srgb,var(--graphite-soft) 70%,transparent);transition:.4s}
+  .ientry .name{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--graphite-soft);transition:.4s}
+  .ientry .wmark{position:absolute;left:-1px;top:50%;transform:translateY(-50%) scaleY(0);width:2px;height:56%;background:linear-gradient(180deg,transparent,var(--olive),transparent);transition:transform .5s ease;transform-origin:center}
+  .ientry:hover .name{color:var(--olive)}
+  .ientry.on .wmark{transform:translateY(-50%) scaleY(1)}
+  .ientry.on .no{color:var(--olive)}
+  .ientry.on .name{color:var(--graphite);letter-spacing:.2em}
+
+  .stage{position:relative;padding-top:46px;min-height:280px}
+  .stage .qm{position:absolute;top:-8px;left:-8px;font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:112px;line-height:1;color:color-mix(in srgb,var(--olive) 26%,transparent);pointer-events:none}
+  .q{position:absolute;inset:46px 0 0 0;opacity:0;transform:translateY(14px);filter:blur(5px);transition:opacity .85s ease,transform .85s ease,filter .85s ease;pointer-events:none}
+  .q.on{opacity:1;transform:none;filter:none;pointer-events:auto}
+  .q p{font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.1vw,30px);line-height:1.5;color:var(--graphite);max-width:640px}
+  .q .who{margin-top:24px;display:flex;align-items:center;gap:15px}
+  .q .wline{width:40px;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--sage) 58%,transparent),transparent)}
+  .q .nm{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--olive)}
+
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .95s ease,transform .95s ease}
+  .rv.in-view{opacity:1;transform:none}
+  .rv.d1{transition-delay:.14s}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.q{transition:none}.panel,.panel img{transition:none}}
+
+  .next{height:28vh;background:#E1D4C4;display:grid;place-items:center;color:#6f6a5c;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+
+  /* ============ MOBILE ============ */
+  @media (max-width:880px){
+    .in{padding:118px 24px 68px}
+    .topline{margin-bottom:36px}
+    /* painéis viram ACORDEÃO VERTICAL */
+    .panels{flex-direction:column;height:660px;gap:9px}
+    .panel{min-height:0}
+    .panel.open{flex:4.6}
+    .panel img{object-position:center 28%}
+    .panel.open img{object-position:center center}
+    .panel .vlabel{writing-mode:horizontal-tb;transform:none;left:14px;bottom:10px;font-size:11px}
+    .phint{display:none}
+
+    .voices{padding:70px 0 78px}
+    .vin{padding:0 24px}
+    .vhead{margin-bottom:34px}
+    .ledger{grid-template-columns:1fr;gap:34px}
+    /* índice vira linha horizontal compacta */
+    .index{border-left:none;border-top:1px solid color-mix(in srgb,var(--olive) 16%,transparent);display:flex;gap:4px}
+    .ientry{padding:14px 12px 0 0;border-left:none;border-top:1px solid transparent;margin-left:0;margin-top:-1px;flex-direction:column;gap:4px}
+    .ientry .wmark{left:0;right:auto;top:-1px;transform:scaleX(0);width:70%;height:2px;background:linear-gradient(90deg,var(--olive),transparent);transform-origin:left}
+    .ientry.on .wmark{transform:scaleX(1)}
+    .ientry .name{font-size:9.5px;letter-spacing:.12em}
+    .stage{min-height:330px}
+    .stage .qm{font-size:86px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="note">
+    <b>Mock v2 — os 3 ajustes.</b> (1) S5 agora com 6 TRANSFORMAÇÕES (persianas no desktop, passe o mouse). (2) MOBILE: estreite a janela — os painéis viram ACORDEÃO VERTICAL, tap expande a faixa e o rosto aparece grande. (3) VOZES como ÍNDICE: os 4 nomes numerados à esquerda (estrutura + curadoria), UMA voz grande de cada vez à direita, trocando sozinha (10s) com transição de cinema; clique nos nomes; hover na voz pausa. Mobile: índice vira linha no topo, seção curta.
+  </div>
+
+  <div class="s4">· · · fim da Seção 4 (Programa · pico olive) · · ·</div>
+
+  <section class="proof">
+    <div class="scene"></div><div class="veil"></div><div class="dawnseam"></div>
+    <div class="in">
+      <div class="topline rv">
+        <div class="k">Real results</div>
+        <h2>Real <span class="i">transformations.</span></h2>
+      </div>
+      <div class="rv d1">
+        <div class="panels" id="panels"></div>
+        <div class="pfoot"><span class="disc">Individual results may vary.</span><span class="phint">hover to reveal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="voices">
+    <div class="vin">
+      <div class="vhead rv">
+        <div class="k">Voices</div>
+        <h2>Real experiences,<br>natural <span class="i">results.</span></h2>
+      </div>
+      <div class="ledger rv d1">
+        <div class="index" id="index"></div>
+        <div class="stage" id="stage"><span class="qm">&ldquo;</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="next">· · · Interlúdio de Imprensa (sand-deep) · · ·</div>
+
+  <script>
+    // ===== PAINÉIS (6) =====
+    (function(){
+      var fotos=['02','03','04','05','06','07'];
+      var rom=['I','II','III','IV','V','VI'];
+      var wrap=document.getElementById('panels');
+      fotos.forEach(function(n,idx){
+        var d=document.createElement('div');
+        d.className='panel'+(idx===0?' open':'');
+        d.innerHTML='<div class="shade"></div><div class="shadeB"></div><span class="vlabel">Transformation · '+rom[idx]+'</span><span class="lb b">Before</span><span class="lb a">After</span><span class="seam"></span><img src="public/images/before-after-'+n+'.webp" alt="Before and after — holistic facial by Nikolle"/>';
+        wrap.appendChild(d);
+      });
+      var panels=[].slice.call(wrap.children);
+      var touch=matchMedia('(hover: none)').matches;
+      panels.forEach(function(p){
+        var ev=touch?'click':'mouseenter';
+        p.addEventListener(ev,function(){panels.forEach(function(x){x.classList.toggle('open',x===p)})});
+      });
+    })();
+
+    // ===== VOZES: índice + palco =====
+    (function(){
+      var V=[
+        {t:"I was skeptical after countless treatments for my melasma, but Nikolle's method truly transformed my skin. My melasma has noticeably faded.", w:'Melani S.'},
+        {t:"She encouraged me to be patient and trust the process. My skin became brighter, healthier, with almost no signs of hyperpigmentation.", w:'Ashley B.'},
+        {t:"Nikolle's treatments are unlike anything I've experienced before. Her knowledge, gentle touch and personalized care have transformed my skin.", w:'Sara M.'},
+        {t:"Nikolle and her expertise are a delight and gift to Honolulu. A top-tier, pampered experience.", w:'Ali Z.'}
+      ];
+      var index=document.getElementById('index'), stage=document.getElementById('stage');
+      var i=0, timer, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      V.forEach(function(v,n){
+        var e=document.createElement('div');
+        e.className='ientry'+(n===0?' on':'');
+        e.innerHTML='<span class="wmark"></span><span class="no">0'+(n+1)+'</span><span class="name">'+v.w+'</span>';
+        e.onclick=function(){go(n);reset()};
+        index.appendChild(e);
+        var q=document.createElement('div');
+        q.className='q'+(n===0?' on':'');
+        q.innerHTML='<p>'+v.t+'</p><div class="who"><span class="wline"></span><span class="nm">'+v.w+'</span></div>';
+        stage.appendChild(q);
+      });
+      function go(n){i=(n+V.length)%V.length;
+        index.querySelectorAll('.ientry').forEach(function(e,k){e.classList.toggle('on',k===i)});
+        stage.querySelectorAll('.q').forEach(function(q,k){q.classList.toggle('on',k===i)});}
+      function start(){if(reduce)return;timer=setInterval(function(){go(i+1)},10000)}
+      function reset(){clearInterval(timer);start()}
+      stage.addEventListener('mouseenter',function(){clearInterval(timer)});
+      stage.addEventListener('mouseleave',start);
+      start();
+    })();
+
+    (function(){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target)}})},{threshold:.15});
+      document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+    })();
+  </script>
+
+</body>
+</html>

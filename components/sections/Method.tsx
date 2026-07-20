@@ -159,7 +159,7 @@ export function Method() {
           The by Nikolle Method
         </p>
         <h2 className="mt-5 mb-11 max-w-[560px] font-display text-[clamp(20px,6.4vw,42px)] leading-[1.1] text-graphite min-[761px]:mb-20">
-          <span className="sr-only">A conscious approach to your self-care.</span>
+          <span className="sr-only">A mindful approach to your self-care.</span>
           {/* v2 (mesmo tratamento do Hero): frase estrutural em CAIXA ALTA
               (uppercase só visual, no span aria-hidden) + 'self-care' em itálico
               minúsculo peso 500. O leitor de tela lê o sr-only em caixa de
@@ -168,7 +168,7 @@ export function Method() {
             aria-hidden="true"
             className="font-[550] tracking-[0.03em] whitespace-nowrap uppercase"
           >
-          A conscious approach
+          A mindful approach
           <br />
           {"to your "}
           <em className="font-voice font-medium normal-case tracking-normal whitespace-nowrap italic">
