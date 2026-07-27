@@ -47,6 +47,20 @@
   --card-bg: var(--sand);
   --waterline: var(--sage);
   --nav-bg-scrolled: rgba(245, 240, 232, 0.94);
+  /* NAVBAR SOBRE O HERO: a "superfície" precisa existir mesmo antes da rolagem.
+     O hero virou fotografia full-bleed e os links em grafite caem sobre o
+     cabelo escuro do vídeo (reprova AA com folga). O scrim é um degradê de
+     linho que cobre a FAIXA DOS LINKS e derrete logo abaixo dela: a navbar lê
+     como superfície d'água, não como caixa. Chapar o topo do vídeo inteiro,
+     que foi a 1ª tentativa, virava névoa branca sobre o rosto. */
+  --nav-scrim: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--linen) 82%, transparent) 0%,
+    color-mix(in srgb, var(--linen) 75%, transparent) 32%,
+    color-mix(in srgb, var(--linen) 52%, transparent) 48%,
+    color-mix(in srgb, var(--linen) 20%, transparent) 70%,
+    transparent 100%
+  );
 
   /* Seção 3 — Serviços: véu na base da imagem-âncora (só a base ganha peso, o
      grafite via token) e a linha-guia d'água que liga o nome ao gatilho. */
@@ -74,28 +88,9 @@
     transparent 92%
   );
 
-  /* Seção 5 — Transformações, SOBRE o jardim compartilhado (o fundo próprio e a
-     costura saíram — não há mais emenda com o Program, é um jardim só). Resta o
-     VÉU DE LEGIBILIDADE da seção inteira: transparente no topo (a manhã/folhagem
-     respira e aparece nas frestas das persianas) e denso na base, derretendo pro
-     linho junto com o fim do jardim. */
-  --proof-veil: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--linen) 45%, transparent) 15%,
-    color-mix(in srgb, var(--linen) 33%, transparent) 26%,
-    transparent 46%,
-    transparent 58%,
-    color-mix(in srgb, var(--linen) 40%, transparent) 78%,
-    color-mix(in srgb, var(--linen) 88%, transparent) 100%
-  );
-  /* Sobre a folhagem o eyebrow pequeno em olive/sage reprova AA; fica em graphite
-     (tom de texto pequeno da marca). O topline ganha contraste por TEXT-SHADOW
-     claro (luz da manhã hugando o texto), NÃO por caixa atrás do título (a
-     "barra branca" que reprovamos). */
-  --proof-eyebrow: var(--graphite);
-  --proof-title-shadow: 0 1px 16px color-mix(in srgb, var(--linen) 60%, transparent);
-  --proof-eyebrow-shadow: 0 1px 11px color-mix(in srgb, var(--linen) 62%, transparent);
+  /* Seção 5 — Transformações: o fundo botânico do amanhecer MIGROU para a
+     Seção 2 (Filosofia) em 27/07; a S5 ficou em campo linen limpo. Os véus
+     que viviam aqui foram junto (ver bloco da Seção 2). */
 
   /* Seção 5b — Interlúdio de imprensa: campo sand PROFUNDO (fundo de seção) com
      textura de papel + vinheta morna (profundidade, sem cor nova). O filete
@@ -129,19 +124,34 @@
   --voice-weight: 500;
   --voice-size: 1.12em;
 
-  /* Véu direcional do hero (linen sobre o vídeo, contraste do grafite) */
-  --hero-veil-desktop: linear-gradient(
-    105deg,
-    color-mix(in srgb, var(--linen) 55%, transparent) 0%,
-    color-mix(in srgb, var(--linen) 22%, transparent) 40%,
-    transparent 62%
+  /* ---------------- HERO (mocks aprovados do Gabriel) ----------------
+     A fotografia é FULL-BLEED nos dois breakpoints e não leva lavagem branca:
+     o espaço negativo de linho já vem dentro do próprio asset (sombra de
+     folhagem à esquerda no 16:9, metade superior no 9:16). O único tratamento
+     é um respiro LOCAL e quase imperceptível na zona da copy do desktop. */
+  --hero-ink: #30362f;
+  --hero-olive: #68704d;
+  --hero-border: rgba(94, 102, 70, 0.62);
+  --hero-ivory: #f7f3ec;
+  --hero-ivory-soft: rgba(250, 247, 241, 0.95);
+  /* Texto pequeno em caixa alta (eyebrow e credencial) vive sobre o lençol
+     claro do vídeo: o olive puro dá ~4:1 e reprova AA. Um passo rumo ao ink
+     sobe para ~6:1 sem mudar a leitura de cor da referência. */
+  --hero-olive-ink: color-mix(in srgb, var(--hero-olive) 50%, var(--hero-ink));
+
+  /* Respiro local da coluna de texto do desktop. Máx. 26% de linho e some
+     antes da metade da tela: NÃO é véu, é um sopro. */
+  --hero-copy-breath: linear-gradient(
+    98deg,
+    color-mix(in srgb, var(--linen) 26%, transparent) 0%,
+    color-mix(in srgb, var(--linen) 12%, transparent) 26%,
+    transparent 46%
   );
-  --hero-veil-mobile: linear-gradient(
-    150deg,
-    color-mix(in srgb, var(--linen) 60%, transparent) 0%,
-    color-mix(in srgb, var(--linen) 26%, transparent) 48%,
-    transparent 72%
-  );
+
+  /* Dupla tipográfica EXCLUSIVA da headline do hero. */
+  --font-hero-sans: var(--font-inter-tight), Inter, Arial, sans-serif;
+  --font-hero-italic: var(--font-bodoni-moda), Didot, "Bodoni 72", serif;
+  --font-hero-ui: var(--font-hanken), Inter, Arial, sans-serif;
 }
 
 /* -------- Ponte shadcn/ui -> marca --------
@@ -260,22 +270,6 @@
       0 0 0 7px color-mix(in srgb, var(--sage) 18%, transparent);
   }
 
-  /* Slot vivo do hero: respiro de largura e dissolve dos candidatos */
-  .slot-live {
-    transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .slot-cand {
-    transition:
-      opacity 0.9s ease,
-      filter 0.9s ease;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .slot-live,
-    .slot-cand {
-      transition: none;
-    }
-  }
-
   /* Seção 4 — Programa: botão maré INVERTIDO (linho sobre olive). Reusa o
      TideButton inteiro (mesma mecânica: água que sobe no hover); só troca os
      tokens de cor que o componente já lê. A maré vira linho e o texto vira
@@ -286,106 +280,20 @@
     --button-ink: var(--color-on-peak);
     --button-ink-hover: var(--color-peak);
   }
+
 }
 
 /* ============================================================
-   O JARDIM CONTÍNUO (GardenScene) — fundo compartilhado S4<->S5.
-   Gabarito: mock-jardim-continuo.html. UM vídeo de folhagem que se comporta como
-   fixo atrás das DUAS zonas (sticky recortado à altura do jardim, sem vazar pras
-   vizinhas) + o véu-mestre (noite->amanhecer, opacidades setadas por JS no
-   GardenScene). O reforço de contraste é LOCAL por zona (--program-scrim no
-   Program, --proof-veil + text-shadow na S5), então o mestre é só atmosfera.
-   ============================================================ */
-@layer components {
-  .garden {
-    position: relative;
-    isolation: isolate;
-  }
-  /* recorte à altura do jardim: o backdrop só existe no intervalo de rolagem do
-     jardim, então não aparece atrás de Serviços (acima) nem do Interlúdio (abaixo). */
-  .garden-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  /* sticky = o "fixo" do jardim: gruda no topo da viewport enquanto o jardim
-     rola, e sai sozinho no fim dele (sem JS de scroll-hijack, sem vazamento). */
-  .garden-stage {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-  }
-  .garden-stage video {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .garden-veil {
-    position: absolute;
-    inset: 0;
-  }
-  .garden-content {
-    position: relative;
-    z-index: 1;
-  }
-  /* entrada do jardim: linho (Serviços) -> transparente (noite), pra a descida
-     ser um derretimento e não uma emenda dura. */
-  .garden-sky {
-    height: 13vh;
-    background: linear-gradient(180deg, var(--linen), transparent);
-  }
-  /* fim do jardim: transparente -> linho, pra a folhagem resolver em linho antes
-     da próxima seção. */
-  .garden-land {
-    height: 20vh;
-    background: linear-gradient(180deg, transparent, var(--linen) 82%);
-  }
-  /* reforço de contraste local do Program (linen sobre a folhagem): um escuro
-     radial SÓ atrás do bloco de texto, sem borda dura. */
-  .program-scrim {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: var(--program-scrim);
-  }
-}
-
-/* ============================================================
-   Seção 2 — O Método (Os Três Pilares). Gabarito: mock-metodo-FINAL.html.
-   Só as peças que o utilitário não expressa: keyframes + a ligação das
-   animações, que só disparam quando a seção entra na viewport (data-live)
-   e ficam ausentes em prefers-reduced-motion (o mundo degrada a estático).
-   Layout, tipografia e carrossel vivem como utilitários no Method.tsx.
+   Seção 2 — A Filosofia (Os Três Pilares), NARRATIVA DE SCROLL (27/07).
+   Gabarito: os dois mocks do Gabriel. A coreografia (posições, opacidades,
+   escalas por progresso) vive em motion values no Method.tsx; aqui ficam o
+   marquee, a forma do portal, o CARD com os estados ativo/compacto (mobile)
+   e o desenho dos ícones de traço. O fundo botânico do amanhecer MIGROU da
+   Real Results para cá (a S5 ficou em linen limpo).
    ============================================================ */
 @keyframes method-marquee {
   to {
     transform: translateX(-50%);
-  }
-}
-/* Entrada dos ícones-assinatura. Os assets são line-art de preenchimento
-   (VTracer, sem stroke), então o traço não "se desenha" literalmente: a vida
-   de entrada é uma emersão suave (opacidade + leve subida), em cascata. */
-@keyframes method-icon-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* Respiração viva e dessincronizada (design.md): flutua e inclina de leve. */
-@keyframes method-breathe {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-7px) rotate(1.1deg);
   }
 }
 
@@ -395,25 +303,246 @@
     .method-marquee-track {
       animation: method-marquee 60s linear infinite;
     }
-    /* Ícone emerge quando a seção entra em view; cascata entre os três. */
-    .method[data-live="true"] .method-ico {
-      animation: method-icon-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .method {
+    /* Card: linho com um sopro de luz (nunca branco puro), fio sage. */
+    --ph-card-bg: color-mix(in srgb, #ffffff 14%, var(--linen));
+    --ph-rule: color-mix(in srgb, var(--sage) 55%, transparent);
+    --ph-card-line: color-mix(in srgb, var(--sage) 45%, transparent);
+    --ph-card-line-active: color-mix(in srgb, var(--olive) 60%, transparent);
+  }
+
+  /* ---- Portal fotográfico: forma orgânica (nunca círculo perfeito) ---- */
+  .ph-blob {
+    border-radius: 51% 49% 46% 54% / 41% 43% 59% 57%;
+  }
+  /* Contorno parcial, deslocado da forma: um fio que não fecha. */
+  .ph-blob-line {
+    border: 1px solid var(--ph-rule);
+    border-radius: 52% 48% 45% 55% / 42% 44% 58% 56%;
+    -webkit-mask-image: linear-gradient(205deg, #000 52%, transparent 78%);
+    mask-image: linear-gradient(205deg, #000 52%, transparent 78%);
+    pointer-events: none;
+  }
+
+  /* ---- Card ----
+     Grid com áreas. COMPACTO (mobile inativo) = uma linha: num título ícone
+     seta. ATIVO (e desktop sempre) = anatomia do mock: num+ícone em cima,
+     título, corpo, seta. O corpo colapsa por grid-rows internas (0fr->1fr),
+     nunca por height. */
+  .ph-card {
+    position: relative;
+    display: grid;
+    grid-template-areas:
+      "num title ico arrow"
+      "body body body body";
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    column-gap: 14px;
+    border: 1px solid var(--ph-card-line);
+    border-radius: 22px;
+    background: var(--ph-card-bg);
+    box-shadow: 0 26px 54px -40px color-mix(in srgb, var(--olive) 55%, transparent);
+    padding: 10px 18px;
+    transition:
+      padding 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.45s ease,
+      box-shadow 0.45s ease,
+      opacity 0.45s ease,
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ph-num { grid-area: num; font-size: 17px; line-height: 1; transition: font-size 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+  .ph-title { grid-area: title; font-size: 19px; line-height: 1.05; transition: font-size 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+  .ph-ico { grid-area: ico; display: inline-flex; width: 30px; height: 30px; transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1), height 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+  .ph-arrow { grid-area: arrow; }
+  .ph-body {
+    grid-area: body;
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.45s ease,
+      margin-top 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ph-card[data-active="true"] {
+    grid-template-areas:
+      "num ico"
+      "title title"
+      "body body"
+      "arrow arrow";
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    border-color: var(--ph-card-line-active);
+    box-shadow: 0 34px 64px -38px color-mix(in srgb, var(--olive) 72%, transparent);
+    padding: 18px 22px 12px;
+  }
+  .ph-card[data-active="true"] .ph-num { font-size: 24px; }
+  .ph-card[data-active="true"] .ph-title { font-size: 24px; margin-top: 4px; }
+  .ph-card[data-active="true"] .ph-ico { width: 40px; height: 40px; }
+  .ph-card[data-active="true"] .ph-arrow { margin-top: 6px; }
+  .ph-card[data-active="true"] .ph-body {
+    grid-template-rows: 1fr;
+    margin-top: 6px;
+    opacity: 1;
+  }
+
+  /* Abaixo do desktop: um ativo por vez; os outros, compactos e recuados. */
+  @media (max-width: 1199.98px) {
+    .ph-card:not([data-active="true"]) {
+      opacity: 0.75;
+      transform: scale(0.97);
     }
-    .method[data-live="true"] .method-pillar:nth-child(2) .method-ico {
-      animation-delay: 0.25s;
+  }
+
+  /* Desktop: os três sempre na anatomia expandida (a hierarquia vem dos
+     motion values + estados). */
+  @media (min-width: 1200px) {
+    .ph-card,
+    .ph-card[data-active="true"] {
+      grid-template-areas:
+        "num ico"
+        "title title"
+        "body body"
+        "arrow arrow";
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      padding: 24px 28px 18px;
     }
-    .method[data-live="true"] .method-pillar:nth-child(3) .method-ico {
-      animation-delay: 0.5s;
+    .ph-num,
+    .ph-card[data-active="true"] .ph-num {
+      font-size: 30px;
     }
-    /* Depois de emergir, respira em loop com tempos dessincronizados. */
-    .method[data-live="true"] .method-ico svg {
-      animation: method-breathe 6s ease-in-out infinite 2.6s;
+    .ph-title,
+    .ph-card[data-active="true"] .ph-title {
+      font-size: clamp(26px, 2.2vw, 31px);
+      margin-top: 6px;
     }
-    .method[data-live="true"] .method-pillar:nth-child(2) .method-ico svg {
-      animation: method-breathe 7.5s ease-in-out infinite 2.8s;
+    .ph-ico,
+    .ph-card[data-active="true"] .ph-ico {
+      width: 52px;
+      height: 52px;
     }
-    .method[data-live="true"] .method-pillar:nth-child(3) .method-ico svg {
-      animation: method-breathe 9s ease-in-out infinite 3s;
+    .ph-body,
+    .ph-card[data-active="true"] .ph-body {
+      grid-template-rows: 1fr;
+      margin-top: 8px;
+      opacity: 1;
+    }
+    .ph-arrow,
+    .ph-card[data-active="true"] .ph-arrow {
+      margin-top: 8px;
+    }
+  }
+
+  /* ---- Ícones de traço: desenham quando o card fica ativo (uma vez) ---- */
+  .ph-ico path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .ph-card[data-drawn="true"] .ph-ico path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ph-card[data-drawn="true"] .ph-ico path:nth-of-type(2) {
+    transition-delay: 0.3s;
+  }
+  .ph-card[data-drawn="true"] .ph-ico path:nth-of-type(3) {
+    transition-delay: 0.55s;
+  }
+  .ph-card[data-drawn="true"] .ph-ico path:nth-of-type(4) {
+    transition-delay: 0.75s;
+  }
+
+  /* ---- Hover: só ponteiro fino, e sem 3D ---- */
+  @media (hover: hover) and (pointer: fine) {
+    .ph-card:hover {
+      border-color: var(--ph-card-line-active);
+      transform: translateY(-6px);
+    }
+    .ph-card:hover .ph-arrow svg {
+      transform: translate(3px, -3px);
+    }
+    .ph-arrow svg {
+      transition: transform 0.3s ease;
+    }
+  }
+
+  /* ---- Reveals por estado (a opacidade vive AQUI, não em motion value:
+       bindings de opacity re-anexados a cada re-render congelavam; classe +
+       transição é estável) ---- */
+  .ph-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.8s ease var(--rd, 0s),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0s);
+  }
+  .method[data-intro="true"] .ph-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Entrada dos cards no desktop: o y contínuo vem do motion value; a
+     opacidade entra quando o card é alcançado (data-drawn) e a hierarquia
+     ativa/inativa e a composição final vêm dos estados. */
+  @media (min-width: 1200px) {
+    .ph-slot {
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .ph-slot:has(.ph-card[data-drawn="true"]) {
+      opacity: 0.85;
+    }
+    .ph-slot:has(.ph-card[data-active="true"]) {
+      opacity: 1;
+    }
+    .method[data-final="true"] .ph-slot {
+      opacity: 1;
+    }
+  }
+
+  /* CTA: revela na composição final. Foco do teclado força visibilidade. */
+  .ph-cta {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .method[data-final="true"] .ph-cta,
+  .ph-cta:focus-within {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---- Reduced motion: tudo assentado, tudo visível ---- */
+  @media (prefers-reduced-motion: reduce) {
+    .ph-card,
+    .ph-num,
+    .ph-title,
+    .ph-ico,
+    .ph-body,
+    .ph-arrow svg,
+    .ph-reveal,
+    .ph-cta,
+    .ph-slot {
+      transition: none;
+    }
+    .ph-reveal,
+    .ph-cta {
+      opacity: 1;
+      transform: none;
+    }
+    .ph-ico path {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+    .ph-card:not([data-active="true"]) {
+      opacity: 1;
+      transform: none;
     }
   }
 }
@@ -780,5 +909,542 @@
     .press[data-live="true"] .press-rise {
       animation: press-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
+  }
+}
+
+/* ============================================================
+   Seção 7 — FAQ. VALE (design.md item 7): acordeão limpo numerado, campo
+   linho, muito ar. Reveal por data-live como as demais vales (sem JS tudo
+   nasce visível e estático; some em prefers-reduced-motion). Indicador do
+   item = o "+" de fios d'água: traço horizontal sage (permanente) + traço
+   vertical que se recolhe ao abrir; ao abrir, o traço horizontal ONDULA uma
+   vez (a assinatura da marca como gesto, nunca estampa). Só transform/opacity.
+   Delays de stagger entram inline por índice no TSX.
+   ============================================================ */
+@keyframes f7-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* A ondulação única do traço horizontal ao abrir: um pulso d'água discreto
+   (sobe, assenta, para), nunca loop. */
+@keyframes f7-ripple {
+  0% {
+    transform: translateY(0) scaleX(1);
+  }
+  30% {
+    transform: translateY(-2px) scaleX(1.25);
+  }
+  62% {
+    transform: translateY(1px) scaleX(1.08);
+  }
+  100% {
+    transform: translateY(0) scaleX(1);
+  }
+}
+
+@layer components {
+  /* Traços do indicador: hairlines sage; o vertical se recolhe ao abrir. */
+  .faq-dash-v {
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.3s ease;
+  }
+  [data-open="true"] .faq-dash-v {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .faq[data-live="true"] .f7-rise {
+      animation: f7-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    [data-open="true"] .faq-dash-h {
+      animation: f7-ripple 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s 1 both;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-dash-v {
+      transition: none;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 8 — Footer. Fecho olive escuro (2ª e última aparição do olive como
+   campo, junto do Programa). Lockup cerimonial: logo + linha d'água + REFLEXO
+   a ~11% (o 2º e ÚLTIMO uso do reflexo no site inteiro, por lei da
+   forma-assinatura). Reveal por data-live como as demais seções; a linha se
+   desenha do centro; tudo degrada em prefers-reduced-motion. Só
+   transform/opacity.
+   ============================================================ */
+@keyframes ft-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ft-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .footer[data-live="true"] .ft-rise {
+      animation: ft-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .footer[data-live="true"] .ft-line {
+      animation: ft-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 5v — VOZES "A Carta" (design.md 5v; gabarito mock-s5-vozes-v5.html).
+   Campo linho, SEM vídeo (sala de leitura silenciosa). Pilha de cartas: top
+   legível + under1/under2 espiando + hidden; a que sai voa em 'leaving'.
+   AS 3 VIDAS: (1) lightplay — a sombra do amanhecer deriva lentíssima sobre o
+   papel (multiply 13%, 46s alternate); (2) a linha d'água se desenha quando a
+   carta assenta no topo (1.15s, delay .6s); (3) tilt segue o mouse (inline via
+   JS/refs, só hover-capable). Grão de papel em TILE data-URI (lição do
+   Interlúdio: nunca feTurbulence full-bleed em dpr alto). Reveal por
+   data-live; tudo degrada em prefers-reduced-motion. Só transform/opacity
+   (filter blur estático por camada, não animado).
+   ============================================================ */
+@keyframes vz-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes vz-lightdrift {
+  from {
+    background-position: 24% 0%;
+  }
+  to {
+    background-position: 40% 14%;
+  }
+}
+
+@layer components {
+  .vz-letter {
+    position: absolute;
+    inset: 0;
+    max-width: 620px;
+    margin: 0 auto;
+    background: color-mix(in srgb, var(--sand) 78%, var(--linen));
+    border: 1px solid color-mix(in srgb, var(--olive) 20%, transparent);
+    border-radius: 4px;
+    /* Sombra de papel (exceção sancionada, família documental) + fio de luz
+       no topo do papel (highlight branco translúcido, material do mock). */
+    box-shadow:
+      0 24px 60px -30px color-mix(in srgb, var(--graphite) 35%, transparent),
+      inset 0 2px 0 rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition:
+      transform 0.9s cubic-bezier(0.22, 0.8, 0.24, 1),
+      opacity 0.9s ease,
+      filter 0.9s ease;
+    transform-style: preserve-3d;
+  }
+  .vz-top {
+    transform: rotate(-0.8deg);
+    opacity: 1;
+    z-index: 4;
+  }
+  .vz-under1 {
+    transform: rotate(1.6deg) translate(10px, 10px) scale(0.985);
+    opacity: 0.55;
+    z-index: 3;
+    filter: blur(0.4px);
+  }
+  .vz-under2 {
+    transform: rotate(-2.2deg) translate(-12px, 18px) scale(0.97);
+    opacity: 0.3;
+    z-index: 2;
+    filter: blur(0.8px);
+  }
+  .vz-hiddenpos {
+    transform: rotate(0deg) translate(0, 26px) scale(0.955);
+    opacity: 0;
+    z-index: 1;
+  }
+  .vz-leaving {
+    transform: rotate(2.5deg) translate(46px, -56px);
+    opacity: 0;
+    z-index: 5;
+  }
+  /* Grão de papel: tile 240x240 rasterizado uma vez (barato em qualquer dpr). */
+  .vz-grain {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    opacity: 0.5;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.44 0 0 0 0 0.38 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .vz-lightplay {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.13;
+    background: url("/images/proof-foliage-dawn.jpg") 24% 0% / 175% auto
+      no-repeat;
+  }
+  /* Linha d'água da carta: desenha quando a carta assenta no topo. */
+  .vz-wline {
+    width: 38px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--sage) 75%, transparent),
+      transparent
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .vz-top .vz-wline {
+    transform: scaleX(1);
+    transition: transform 1.15s ease 0.6s;
+  }
+  /* Filete d'água do índice: vertical no desktop, horizontal no mobile. */
+  .vz-wmark {
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 2px;
+    height: 56%;
+    background: linear-gradient(180deg, transparent, var(--olive), transparent);
+    transition: transform 0.5s ease;
+  }
+  .vz-ientry[data-on="true"] .vz-wmark {
+    transform: translateY(-50%) scaleY(1);
+  }
+  @media (max-width: 880px) {
+    .vz-wmark {
+      left: 0;
+      top: -1px;
+      transform: scaleX(0);
+      width: 70%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--olive), transparent);
+      transform-origin: left;
+    }
+    .vz-ientry[data-on="true"] .vz-wmark {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .voices[data-live="true"] .vz-rise {
+      animation: vz-rise 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .voices[data-live="true"] .vz-lightplay {
+      animation: vz-lightdrift 46s ease-in-out infinite alternate;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vz-letter,
+    .vz-wline,
+    .vz-wmark {
+      transition: none;
+    }
+  }
+}
+
+/* ============================================================
+   Seção 6b — Coming Soon (Integrative Wellness Coaching Program). VALE curto
+   entre o Sobre e o FAQ: o anúncio nasce das credenciais recém-apresentadas
+   (IIN, Ayurveda). ESTREIA do card 'pedra sobre o linho' com os MENISCOS da
+   forma-assinatura: fios sage côncavos em 2 cantos opostos que SE DESENHAM no
+   reveal (stroke draw 600ms, device sancionado no design.md). Reveal por
+   data-live; degrada em prefers-reduced-motion.
+   ============================================================ */
+@keyframes cs-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cs-draw {
+  from {
+    stroke-dashoffset: 64;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@layer components {
+  .cs-menisco path {
+    stroke-dasharray: 64;
+    stroke-dashoffset: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .coming[data-live="true"] .cs-rise {
+      animation: cs-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .coming[data-live="true"] .cs-menisco path {
+      animation: cs-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
+    }
+  }
+}
+
+
+/* ============================================================
+   Seção 1 — HERO. Gabarito ABSOLUTO: os dois mocks aprovados do Gabriel
+   (desktop 1672x943 e mobile 943x1672). Toda medida abaixo foi derivada deles.
+
+   PRINCÍPIOS DA CORREÇÃO (o que estava errado na versão anterior):
+   - A fotografia é FULL-BLEED nos dois breakpoints. No mobile ela NÃO é um card
+     com margem: o espaço negativo de linho do topo faz parte do próprio asset
+     9:16, e o texto pousa sobre ele.
+   - Sem lavagem branca. O único tratamento é --hero-copy-breath, um sopro local
+     de 26% na zona da copy do desktop.
+   - A headline é uma DUPLA tipográfica: Inter Tight 500 (estrutura) + Bodoni
+     Moda itálico (as três palavras emocionais). Não é mais serifa uniforme.
+   - Três linhas REAIS no markup, nunca quebra automática.
+   ============================================================ */
+
+@layer components {
+  /* ---------- HEADLINE ---------- */
+  .hero-title {
+    color: var(--hero-ink);
+    /* mobile: 3 linhas centradas, ~74% da largura */
+    font-size: clamp(30px, 8vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+  @media (min-width: 768px) {
+    .hero-title {
+      /* desktop: a linha 1 encosta em ~56% da largura, medido no mock */
+      /* teto duplo: largura (a linha 1 encosta em ~55% da tela, como no mock) e
+         ALTURA (sem ele o parágrafo invade o CTA em laptop de 732px) */
+      font-size: clamp(52px, min(5.9vw, 10.3vh), 96px);
+      line-height: 0.94;
+      letter-spacing: -0.045em;
+    }
+  }
+  .hero-title-line {
+    display: block;
+    white-space: nowrap;
+  }
+  .hero-sans {
+    font-family: var(--font-hero-sans);
+    /* o briefing pediu 500, mas medido contra o mock a haste do Medium cheio
+       fica mais grossa que a referência: 460 é o que bate no olho */
+    font-weight: 460;
+    font-style: normal;
+  }
+  /* A didone é opticamente menor no mesmo corpo: +6% devolve a mesma altura de
+     x e faz a linha ler como UMA composição, não como duas fontes coladas. */
+  .hero-italic {
+    font-family: var(--font-hero-italic);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.06em;
+    letter-spacing: -0.035em;
+  }
+
+  /* ---------- MOLDURA ---------- */
+  /* Desktop: retângulo fino que enquadra a modelo, atrás de tudo.
+     Mobile: moldura ABERTA — laterais + topo partido em dois segmentos, com o
+     vão central caindo sobre o cabelo. */
+  .hero-frame-rule {
+    position: absolute;
+    background: var(--hero-border);
+  }
+
+  /* ---------- CONVITE (CTA) ---------- */
+  .hero-cta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--hero-ivory-soft);
+    color: var(--hero-olive);
+    font-family: var(--font-hero-ui);
+    text-transform: uppercase;
+    cursor: pointer;
+    isolation: isolate;
+    transition:
+      color 0.5s ease 0.05s,
+      transform 0.15s ease;
+  }
+  .hero-cta:active {
+    transform: scale(0.99);
+  }
+  .hero-cta:hover {
+    color: var(--hero-ivory);
+  }
+  /* a maré da casa: olive sobe e inverte a peça */
+  .hero-cta__fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  .hero-cta__water {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-olive);
+    transform: translateY(100%);
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hero-cta:hover .hero-cta__water {
+    transform: translateY(0);
+  }
+  .hero-cta__disc {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--hero-olive);
+    color: var(--hero-ivory);
+    transform: translateY(-50%);
+    transition:
+      background-color 0.5s ease,
+      color 0.5s ease;
+  }
+  .hero-cta:hover .hero-cta__disc {
+    background: var(--hero-ivory);
+    color: var(--hero-olive);
+  }
+  /* A GOTA: ondulação única a cada 6.4s saindo do disco. Roda sozinha, sem
+     cursor, e é o que mantém a peça viva no mobile. Sussurro, nunca pulso. */
+  .hero-cta__drop {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px solid var(--hero-olive);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hero-cta:hover .hero-cta__drop {
+    border-color: var(--hero-ivory);
+  }
+  .hero-cta__arrow {
+    transition:
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hero-cta__arrow--in {
+    position: absolute;
+    opacity: 0;
+    transform: translateX(-190%);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .hero-cta:hover .hero-cta__arrow--out {
+      opacity: 0;
+      transform: translateX(190%);
+    }
+    .hero-cta:hover .hero-cta__arrow--in {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* ---------- ENTRADA ----------
+     Discreta por ordem do briefing: fade + 8px de subida nas linhas, fotografia
+     de 1.015 para 1. Os estados iniciais vivem no fill-mode `both`, NUNCA numa
+     transform base: se a animação não rodar, o hero nasce legível. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero[data-live="true"] .hero-rise {
+      animation: hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) both;
+    }
+    .hero[data-live="true"] .hero-fade {
+      animation: hero-fade 1.1s ease-out var(--d, 0s) both;
+    }
+    .hero-media video {
+      animation: hero-settle 2.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-cta__drop {
+      animation: hero-drop 6.4s cubic-bezier(0.22, 1, 0.36, 1) 2.2s infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-cta,
+    .hero-cta__water,
+    .hero-cta__disc,
+    .hero-cta__arrow {
+      transition: none;
+    }
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hero-settle {
+  from {
+    transform: scale(1.015);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes hero-drop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.66);
+  }
+  7% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
   }
 }

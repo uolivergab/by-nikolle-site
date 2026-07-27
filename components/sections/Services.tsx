@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 // "scroll lateral": a imagem gruda e o menu rola ao lado) — empilhado no mobile.
 // Copy 100% do roteiro.md (intocável). Gabarito visual: mock-secao3-servicos-v5.html.
 
-type Service = { name: string; duration: string; price: string; desc: string };
+type Service = { name: string; duration?: string; price: string; desc: string };
 type AddOn = { name: string; price: string; desc: string };
 type Category = {
   key: string;
@@ -19,7 +19,11 @@ type Category = {
   addons?: AddOn[];
 };
 
-// Categorias, intros, nomes, durações, preços e descrições: roteiro.md Seção 3.
+// Categorias, intros, nomes, durações, preços e descrições: roteiro.md Seção 3
+// (revisão Nikolle 26/07): entra a Skin Consultation (obrigatória para novos
+// clientes), descrições novas em todos os tratamentos, Add-Ons agora DENTRO de
+// Signature Facials (LED e Intro to Marma Points; Ultrasound e Extended Massage
+// saíram) e a categoria nova Nervous System Reset.
 const CATEGORIES: Category[] = [
   {
     key: "signature",
@@ -28,28 +32,46 @@ const CATEGORIES: Category[] = [
       "Customized holistic facials designed to nourish the skin, restore balance, and support long-term skin health through a natural, results-driven approach.",
     items: [
       {
+        name: "Skin Consultation + Customized Holistic Facial",
+        duration: "80 min",
+        price: "$150",
+        desc: "A 20 minutes consultation to assess your skin concerns and goals, followed by a customized holistic facial tailored to your skin's current needs. All first-time clients are required to book this treatment.",
+      },
+      {
         name: "Deep Pore Detox Facial",
         duration: "75 min",
         price: "$145",
-        desc: "Deep cleansing and purification for congested or acne-prone skin.",
+        desc: "Clarifying and balancing treatment that deeply cleanses pores, removes impurities and excess oil. Ideal for congested, oily or acne-prone skin.",
       },
       {
         name: "Stimulating Herbal Facial",
         duration: "60 min",
         price: "$140",
-        desc: "An invigorating treatment that stimulates circulation, ideal for fatigued or mature skin.",
+        desc: "Invigorating herbal treatment designed to stimulate circulation and reveal radiant skin. Ideal for mature or fatigued skin.",
       },
       {
         name: "Superfood Renewal Facial",
         duration: "60 min",
         price: "$135",
-        desc: "A bath of nourishment to restore hydration and vitality to dry, lackluster skin.",
+        desc: "Nourishing treatment to restore hydration, brightness and vitality. Ideal for normal, dry, dull, dehydrated or tired skin.",
       },
       {
         name: "Soothing Recovery Facial",
         duration: "60 min",
         price: "$125",
-        desc: "Calming care to reduce inflammation and strengthen the barrier of sensitive or reactive skin.",
+        desc: "Calming and restorative treatment to strengthen the skin barrier, reduce inflammation and support sensitive, reactive or stressed skin.",
+      },
+    ],
+    addons: [
+      {
+        name: "LED Light Therapy",
+        price: "+15 min · $20",
+        desc: "Reduces inflammation and stimulates collagen.",
+      },
+      {
+        name: "Intro to Marma Points",
+        price: "+15 min · $25",
+        desc: "More time for deep relaxation and tension release.",
       },
     ],
   },
@@ -60,44 +82,47 @@ const CATEGORIES: Category[] = [
       "Non-invasive yet powerful treatments designed to promote deeper skin renewal through advanced technologies that support collagen, improve circulation, and restore overall skin vitality.",
     items: [
       {
-        name: "Pigment Balance Treatment",
-        duration: "75 min",
-        price: "$165",
-        desc: "Focused on improving the appearance of dark spots, melasma and sun damage for a more even, luminous tone.",
-      },
-      {
         name: "Age Corrective Treatment",
         duration: "75 min",
         price: "$165",
-        desc: "Focused on softening fine lines and restoring the skin's firmness and elasticity.",
+        desc: "Targets visible signs of aging including fine lines, dehydration and loss of elasticity for smoother, firmer-looking skin.",
       },
       {
-        name: "Dermal Infusion Micro-Crystal",
+        name: "Pigment Balance Treatment",
+        duration: "75 min",
+        price: "$165",
+        desc: "Helps improve the appearance of pigmentation, sun damage and uneven skin tone for a brighter, more balanced complexion.",
+      },
+      {
+        name: "Dermal Infusion Micro-Crystal Treatment",
         duration: "90 min",
         price: "$230",
-        desc: "The gentle alternative to microneedling. Stimulates collagen production and deep skin renewal.",
+        desc: "Advanced skin renewal treatment designed to stimulate collagen production and enhance product infusion for smoother, brighter, radiant skin. A gentle alternative to traditional microneedling with no downtime.",
       },
     ],
   },
   {
-    key: "addons",
-    name: "Add-Ons",
-    intro: "Elevate your session.",
-    addons: [
+    key: "reset",
+    name: "Nervous System Reset",
+    intro:
+      "A restorative experience designed to calm the nervous system, reduce stress, and promote deep relaxation and balance.",
+    items: [
       {
-        name: "LED Light Therapy",
-        price: "+$25",
-        desc: "Reduces inflammation and stimulates collagen.",
+        name: "Deep Relaxation Facial",
+        duration: "60 min",
+        price: "$125",
+        desc: "A soothing facial designed to nourish the skin while promoting deep relaxation. This treatment includes a prolonged facial, scalp, neck, and shoulder massage, introductory Marma point stimulation, and vibrational sound to calm the mind.",
       },
       {
-        name: "Ultrasound Infusion",
-        price: "+$30",
-        desc: "Deep hydration through enhanced absorption of active ingredients.",
+        name: "Marma Therapy",
+        duration: "60 min",
+        price: "$110",
+        desc: "An Ayurvedic energy therapy that stimulates vital energy points to encourage the flow of prana (life force), release tension, and support the body's natural healing response. This treatment includes Marma point stimulation on the head, face, neck, shoulders, and feet, combined with vibrational sound to promote nervous system balance and overall well-being.",
       },
       {
-        name: "Extended Facial Massage",
-        price: "+$20",
-        desc: "More time for deep relaxation and tension release.",
+        name: "Monthly sessions",
+        price: "$95",
+        desc: "To support your nervous system through regular care.",
       },
     ],
   },
@@ -189,7 +214,7 @@ export function Services() {
             className="s3-rise mt-4 font-voice text-[17px] font-medium text-sage italic"
             style={delay(90)}
           >
-            Every treatment, tailored to your skin.
+            Every treatment tailored to your skin needs.
           </p>
         </div>
 
@@ -204,7 +229,7 @@ export function Services() {
                 'skin.' em itálico minúsculo peso 500; o leitor de tela lê o
                 sr-only em caixa de sentença. */}
             <span className="sr-only">
-              Care designed for your unique journey.
+              Care designed for your unique needs
             </span>
             <span
               aria-hidden="true"
@@ -212,7 +237,7 @@ export function Services() {
             >
               Care designed for your{" "}
               <em className="font-voice font-medium tracking-normal normal-case italic">
-                unique journey.
+                unique needs
               </em>
             </span>
           </h2>
@@ -220,7 +245,8 @@ export function Services() {
             className="s3-rise mt-5 mb-8 max-w-[420px] text-[15.5px] leading-[1.6] text-graphite-soft min-[981px]:mb-13"
             style={delay(110)}
           >
-            Real results through a holistic and non-invasive approach.
+            A holistic and personalized approach to help you look, feel, and
+            live well.
           </p>
 
           <div>
@@ -317,8 +343,12 @@ export function Services() {
                                 {item.name}
                               </span>
                               <span className="text-[13.5px] whitespace-nowrap text-graphite-soft">
-                                {item.duration}
-                                {" · "}
+                                {item.duration && (
+                                  <>
+                                    {item.duration}
+                                    {" · "}
+                                  </>
+                                )}
                                 <span className="font-medium text-graphite">
                                   {item.price}
                                 </span>
@@ -330,11 +360,24 @@ export function Services() {
                           </div>
                         ))}
 
+                        {cat.addons && (
+                          <div
+                            className="s3-rise mt-3 border-t border-sage/25 pt-5"
+                            style={delay(base + 480)}
+                          >
+                            <p className="text-[11px] uppercase tracking-[0.22em] text-graphite-soft">
+                              Add-Ons
+                            </p>
+                            <p className="mt-1 font-voice text-[16px] font-medium text-sage italic">
+                              Elevate your session.
+                            </p>
+                          </div>
+                        )}
                         {cat.addons?.map((addon, i) => (
                           <div
                             key={addon.name}
                             className="s3-rise flex items-baseline gap-3 border-t border-sage/[0.09] py-3 first:border-t-0"
-                            style={delay(base + 190 + i * 70)}
+                            style={delay(base + 520 + i * 70)}
                           >
                             <span className="font-display text-[18px] font-medium text-graphite">
                               {addon.name}
@@ -354,6 +397,15 @@ export function Services() {
               );
             })}
           </div>
+
+          {/* Nota do roteiro (revisão 26/07): o programa de wellness que vem aí.
+              A seção própria "Coming Soon" da home entra depois, com mock. */}
+          <p
+            className="s3-rise mt-9 font-voice text-[18px] font-medium text-olive italic"
+            style={delay(420)}
+          >
+            Coming soon: Integrative Wellness Coaching Program
+          </p>
         </div>
       </div>
     </section>

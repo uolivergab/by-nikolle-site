@@ -67,7 +67,7 @@ export function About() {
               alt="Portrait of Nikolle, founder of by Nikolle."
               fill
               sizes="(max-width: 880px) min(calc(100vw - 48px), 340px), 460px"
-              className="object-cover [object-position:center_30%]"
+              className="object-cover [object-position:center_10%]"
             />
           </div>
         </div>
@@ -114,28 +114,62 @@ export function About() {
             className="s6-rise mt-4 mb-8 font-voice text-[clamp(18px,1.6vw,22px)] font-medium text-sage italic"
             style={delay(220)}
           >
-            Beauty is the reflection of your balance.
+            True beauty begins from within
           </p>
 
-          {/* Nota dela: Hanken, 2 parágrafos, morno. Texto integral do roteiro.md
-              (o 2º parágrafo segue o roteiro: 'naturally. All of this through...',
-              não a variante encurtada do mock). */}
+          {/* Nota dela: Hanken, texto NOVO integral do roteiro.md (revisão
+              Nikolle 26/07): abertura Aloha + 3 parágrafos. O em-dash do
+              original virou vírgula no P3 (regra 7, sem travessão visível). */}
           <div
             className="s6-rise text-[15.5px] leading-[1.75] text-graphite-soft"
             style={delay(280)}
           >
             <p className="mb-4">
-              By Nikolle was born from my passion for integrative health,
-              nutrition, Ayurveda and holistic skincare. Over the years, my view
-              of aesthetics has evolved deeply. I came to understand that skin
-              health goes far beyond the surface: it is a direct reflection of
-              our inner balance, our nervous system and our daily habits.
-            </p>
-            <p>
               {
-                "My mission is not to deliver invasive treatments or unrealistic standards. My focus is to support your skin's barrier, building its resilience and vitality naturally. All of this through intentional treatments that work in perfect harmony with your body. To me, true transformation happens from the inside out, uniting beauty, nutrition and calm."
+                "Aloha, I'm Nikolle, founder of By Nikolle | skin • nourishment • balance."
               }
             </p>
+            <p className="mb-4">
+              With over a decade of experience in skincare, By Nikolle was born
+              from my passion for holistic skincare, integrative health,
+              nutrition, and spirituality, and from the desire to create a space
+              where skin health, wellness, and conscious living come together.
+            </p>
+            <p className="mb-4">
+              Over the years, my vision of aesthetics and health has deeply
+              evolved. Through my studies and personal journey, I came to
+              understand that skin health goes far beyond surface-level
+              treatments, it reflects the balance of the body, mind, and daily
+              habits.
+            </p>
+            <p>
+              Today, By Nikolle is a reflection of my own evolution, bringing
+              together holistic skincare and wellness to support transformation
+              from the inside out.
+            </p>
+          </div>
+
+          {/* Credentials & Training (roteiro.md, revisão 26/07 — a Nik pediu
+              'mantenha como está'): bloco novo; acabamento fino na passada de
+              design. */}
+          <div className="s6-rise mt-7" style={delay(340)}>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-graphite-soft">
+              Credentials & Training
+            </p>
+            <ul className="mt-3 space-y-1.5 text-[13.5px] leading-[1.6] text-graphite-soft">
+              <li>Licensed Esthetician - Flávia Leal Beauty Institute | Boston, MA</li>
+              <li>
+                Certified Integrative Nutrition Health Coach - Institute of
+                Integrative Nutrition (IIN) | Online
+              </li>
+              <li>Certified Marma Therapist - Ayuskama Ayurveda | Rishikesh, India</li>
+              <li>Ayurveda Nutrition & Cooking - Ayuskama Ayurveda | Rishikesh, India</li>
+              <li>
+                200-Hour Yoga Teacher Training - World Peace Yoga School | Bali,
+                Indonesia
+              </li>
+              <li>Reiki Level I & II Practitioner - Starseed Healing Journeys | Hawaii</li>
+            </ul>
           </div>
 
           {/* Assinatura Parisienne — o único toque à mão do site, o pico humano.
@@ -147,7 +181,7 @@ export function About() {
               aria-hidden="true"
               className="s6-sign inline-block font-signature text-[52px] leading-none text-graphite"
             >
-              Nikolle
+              Nikolle Coelho
             </span>
           </div>
 
@@ -155,12 +189,12 @@ export function About() {
               hover, texto -> linho): 1 linha (nowrap), SEM sublinhado, link para
               #program. No mobile full-width com texto reduzido (11.5px / 0.08em)
               para caber em 1 linha em ~360-375px. */}
-          <div className="s6-rise mt-6" style={delay(360)}>
+          <div className="s6-rise mt-6" style={delay(420)}>
             <TideButton
               href="#program"
-              className="w-full px-4 text-[11.5px] tracking-[0.08em] min-[881px]:w-auto min-[881px]:px-8 min-[881px]:text-[13px] min-[881px]:tracking-[0.14em]"
+              className="w-full px-4 text-[10.5px] tracking-[0.05em] min-[881px]:w-auto min-[881px]:px-8 min-[881px]:text-[13px] min-[881px]:tracking-[0.14em]"
             >
-              Explore the Skin Wellness Program
+              Explore the Holistic Skincare Programs
             </TideButton>
           </div>
         </div>

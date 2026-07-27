@@ -4,8 +4,13 @@ import { Method } from "@/components/sections/Method";
 import { Services } from "@/components/sections/Services";
 import { Program } from "@/components/sections/Program";
 import { Proof } from "@/components/sections/Proof";
+import { Voices } from "@/components/sections/Voices";
 import { Press } from "@/components/sections/Press";
 import { About } from "@/components/sections/About";
+import { ComingSoon } from "@/components/sections/ComingSoon";
+import { Faq } from "@/components/sections/Faq";
+import { Footer } from "@/components/sections/Footer";
+import { WelcomeGift } from "@/components/ui/WelcomeGift";
 
 export default function Home() {
   return (
@@ -17,9 +22,15 @@ export default function Home() {
         <Services />
         <Program />
         <Proof />
+        <Voices />
         <Press />
         <About />
+        <ComingSoon />
+        <Faq />
       </main>
+      <Footer />
+      {/* Convite de boas-vindas (roteiro.md): aparece aos ~30s, 1x por sessão. */}
+      <WelcomeGift />
     </>
   );
 }

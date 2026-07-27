@@ -1,6 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant, Hanken_Grotesk, Parisienne } from "next/font/google";
+import {
+  Bodoni_Moda,
+  Cormorant,
+  Hanken_Grotesk,
+  Inter_Tight,
+  Parisienne,
+} from "next/font/google";
 import "./globals.css";
+
+// ---- Dupla EXCLUSIVA da headline do hero (mocks aprovados do Gabriel) ----
+// O hero é a única peça do site com este par. O resto segue o sistema v2
+// (Cormorant + Hanken). Estrutural: Inter Tight 500, tracking apertado.
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+// Emocional: Bodoni Moda ITÁLICO, a didone de alto contraste das palavras
+// Conscious / Health / Well-Being.
+const bodoniModa = Bodoni_Moda({
+  subsets: ["latin"],
+  style: ["italic", "normal"],
+  variable: "--font-bodoni-moda",
+  display: "swap",
+});
 
 // Display E voz da marca na MESMA família: Cormorant variável (SISTEMA v2).
 // Roman para o caps do display (peso 500-600) e itálico para a voz (peso ~500).
@@ -49,7 +73,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${hanken.variable} ${parisienne.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${hanken.variable} ${parisienne.variable} ${interTight.variable} ${bodoniModa.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

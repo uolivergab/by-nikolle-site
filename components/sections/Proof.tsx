@@ -4,14 +4,12 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-// Seção 5 — Transformações "O Amanhecer" (design.md 5-RETIFICADO; gabarito
-// mock-s5-vozes-v5.html). Fundo PRÓPRIO: cena do amanhecer (vídeo de folhagem-
-// sombra proof-dawn-* + poster) + costura olive no topo (a S4 dissolvendo) +
-// véu de legibilidade linear. PROTAGONISTA: 6 PERSIANAS before/after
-// (before-after-02..07): desktop colunas que expandem no hover; mobile acordeão
-// vertical com scroll-reveal. Título com text-shadow claro (sem caixa atrás).
-// Copy 100% do roteiro.md (intocável). Os DEPOIMENTOS escritos saíram desta
-// seção (viram a seção "Vozes" num prompt futuro).
+// Seção 5 — Transformações (design.md 5-RETIFICADO). O fundo botânico do
+// amanhecer MIGROU para a Seção 2/Filosofia em 27/07 (decisão do Gabriel):
+// esta seção ficou em campo LINEN limpo, com a costura olive no topo (a S4
+// dissolvendo) preservada. PROTAGONISTA: 6 PERSIANAS before/after
+// (before-after-02..07): desktop colunas que expandem no hover; mobile
+// acordeão vertical com scroll-reveal. Copy 100% do roteiro.md (intocável).
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -93,56 +91,15 @@ export function Proof() {
   };
 
   return (
-    <section className="proof relative overflow-hidden">
-      {/* Fundo PRÓPRIO: cena do amanhecer (vídeo de folhagem-sombra). Só um
-          carrega por largura (701px). Pausa/estático em reduced-motion. */}
-      <div aria-hidden="true" className="absolute inset-0 z-0">
-        <video
-          className="hidden h-full w-full object-cover object-top min-[701px]:block"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster="/videos/proof-dawn-desktop-poster.jpg"
-          tabIndex={-1}
-        >
-          <source src="/videos/proof-dawn-desktop.mp4" type="video/mp4" />
-        </video>
-        <video
-          className="block h-full w-full object-cover object-top min-[701px]:hidden"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster="/videos/proof-dawn-mobile-poster.jpg"
-          tabIndex={-1}
-        >
-          <source src="/videos/proof-dawn-mobile.mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Costura no topo: o olive-deep da S4 continua e dissolve (a noite virando
-          manhã), pra a entrada da seção não ser uma emenda dura. */}
+    <section className="proof relative overflow-hidden bg-linen">
+      {/* Costura no topo: o olive-deep da S4 continua e dissolve sobre o linho,
+          pra a entrada da seção não ser uma emenda dura. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[180px]"
         style={{
           background:
             "linear-gradient(180deg, var(--olive-deep) 0%, color-mix(in srgb, var(--olive-deep) 55%, transparent) 34%, color-mix(in srgb, var(--olive-deep) 18%, transparent) 66%, transparent 100%)",
-        }}
-      />
-
-      {/* Véu de legibilidade DA SEÇÃO: transparente no topo (a folhagem respira e
-          aparece nas frestas das persianas) e denso na base, derretendo pro
-          linho. Sem caixa atrás do título (a "barra branca" reprovada). */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1]"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(245,240,232,0.05) 0%, rgba(245,240,232,0.28) 40%, rgba(245,240,232,0.62) 72%, rgba(245,240,232,0.92) 100%)",
         }}
       />
 
@@ -154,10 +111,12 @@ export function Proof() {
         viewport={{ once: true, amount: 0.2 }}
       >
         <motion.div variants={rise} className="max-w-[720px]">
-          <p className="mb-4 text-[11px] uppercase tracking-[0.28em] text-[color:var(--olive)] [text-shadow:0_1px_11px_color-mix(in_srgb,var(--linen)_62%,transparent)]">
+          {/* Sem os text-shadows de leitura sobre folhagem: o campo agora é
+              linen chapado. Eyebrow em graphite-soft (padrão AA da casa). */}
+          <p className="mb-4 text-[11px] uppercase tracking-[0.28em] text-graphite-soft">
             Real results
           </p>
-          <h2 className="font-display leading-[1.08] text-graphite [font-size:clamp(26px,3vw,42px)] [text-shadow:0_1px_16px_color-mix(in_srgb,var(--linen)_60%,transparent)]">
+          <h2 className="font-display leading-[1.08] text-graphite [font-size:clamp(26px,3vw,42px)]">
             <span className="sr-only">Real transformations.</span>
             <span
               aria-hidden="true"
