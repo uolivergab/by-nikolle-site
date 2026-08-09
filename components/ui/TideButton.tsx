@@ -36,6 +36,8 @@ type TideButtonProps = {
   /** Para botões que abrem/fecham painel (ex.: Programas). */
   ariaExpanded?: boolean;
   ariaControls?: string;
+  /** Tira a peça da ordem de tabulação quando o painel-pai está fechado. */
+  tabIndex?: number;
 };
 
 export function TideButton({
@@ -49,6 +51,7 @@ export function TideButton({
   type = "button",
   ariaExpanded,
   ariaControls,
+  tabIndex,
 }: TideButtonProps) {
   const reduced = useReducedMotion();
   const hostRef = useRef<HTMLElement>(null);
@@ -113,6 +116,7 @@ export function TideButton({
         href={href}
         className={classes}
         onClick={onClick}
+        tabIndex={tabIndex}
         {...motionProps}
       >
         {inner}
@@ -126,6 +130,7 @@ export function TideButton({
       type={type}
       className={classes}
       onClick={onClick}
+      tabIndex={tabIndex}
       aria-expanded={ariaExpanded}
       aria-controls={ariaControls}
       {...motionProps}

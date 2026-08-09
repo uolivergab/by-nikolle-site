@@ -92,19 +92,16 @@ export function Proof() {
 
   return (
     <section className="proof relative overflow-hidden bg-linen">
-      {/* Costura no topo: o olive-deep da S4 continua e dissolve sobre o linho,
-          pra a entrada da seção não ser uma emenda dura. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[180px]"
-        style={{
-          background:
-            "linear-gradient(180deg, var(--olive-deep) 0%, color-mix(in srgb, var(--olive-deep) 55%, transparent) 34%, color-mix(in srgb, var(--olive-deep) 18%, transparent) 66%, transparent 100%)",
-        }}
-      />
-
+      {/* FRONTEIRA COM O PROGRAMA (retificada 08/08). A costura era um degradê
+          de 180px do olive-deep até transparente: como ele desbota SOBRE o
+          linho, o meio do percurso caía num cinza morto e a seção parecia estar
+          vazando cor (o mesmo cinza que já havia reprovado na saga do jardim
+          compartilhado). Agora a fronteira é uma LINHA RETA: o campo olive
+          termina no fim da S4 e o linho começa aqui, dois campos chapados se
+          encontrando numa horizontal exata. O respiro logo abaixo do corte é
+          quem dá a elegância, não o esfumado. */}
       <motion.div
-        className="relative z-[2] mx-auto max-w-[1240px] px-6 pt-[150px] pb-16 min-[881px]:px-14 min-[881px]:pt-[150px] min-[881px]:pb-24"
+        className="relative mx-auto max-w-[1240px] px-6 pt-20 pb-16 min-[881px]:px-14 min-[881px]:pt-28 min-[881px]:pb-24"
         variants={container}
         initial="hidden"
         whileInView="visible"

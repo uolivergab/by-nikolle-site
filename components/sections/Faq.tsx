@@ -14,6 +14,9 @@ import { cn } from "@/lib/utils";
 
 type FaqItem = { q: string; a: string[] };
 
+// Quantas perguntas ficam à vista antes do "More Info" (revisão 30/07).
+const VISIBLE_COUNT = 5;
+
 const ITEMS: FaqItem[] = [
   {
     q: "Is holistic skincare effective?",
@@ -92,6 +95,11 @@ export function Faq() {
   const sectionRef = useRef<HTMLElement>(null);
   const [live, setLive] = useState(false);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  // REVISÃO 30/07 (item 6 da Nikolle): a seção "ficou muito comprida". Mesmo
+  // com todas as perguntas fechadas, 11 linhas empilhadas são muito chão. As
+  // primeiras ficam à vista e o resto entra pelo botão "More Info" (rótulo que
+  // ela mesma sugeriu). Nada de conteúdo saiu.
+  const [showAll, setShowAll] = useState(false);
 
   // Dispara o reveal quando a seção entra em view (uma vez). Sem observer/JS o
   // conteúdo nasce visível e estático (as animações só existem sob data-live).
@@ -148,7 +156,7 @@ export function Faq() {
           </span>
         </h2>
 
-        <div className="mt-10 min-[881px]:mt-14">
+        <div id="faq-list" className="mt-10 min-[881px]:mt-14">
           {ITEMS.map((item, i) => {
             const open = openIdx === i;
             const num = String(i + 1).padStart(2, "0");
@@ -158,11 +166,15 @@ export function Faq() {
               <div
                 key={item.q}
                 data-open={open ? "true" : undefined}
+                hidden={!showAll && i >= VISIBLE_COUNT}
                 className={cn(
                   "f7-rise border-t border-sage/20",
-                  i === ITEMS.length - 1 && "border-b border-sage/20",
+                  // A borda de baixo acompanha o último item VISÍVEL.
+                  (showAll
+                    ? i === ITEMS.length - 1
+                    : i === VISIBLE_COUNT - 1) && "border-b border-sage/20",
                 )}
-                style={delay(120 + i * 60)}
+                style={delay(120 + Math.min(i, VISIBLE_COUNT) * 60)}
               >
                 <h3>
                   <button
@@ -221,6 +233,39 @@ export function Faq() {
             );
           })}
         </div>
+
+        {/* Gatilho do resto das perguntas. Some depois de aberto: a lista
+            inteira já está à vista e não há copy sancionada para o rótulo
+            inverso. */}
+        {!showAll && (
+          <div className="f7-rise mt-9" style={delay(120 + VISIBLE_COUNT * 60)}>
+            <button
+              type="button"
+              onClick={() => setShowAll(true)}
+              aria-controls="faq-list"
+              className="focus-ripple group inline-flex cursor-pointer items-center gap-3 border-b border-olive/45 pb-2 text-[11.5px] uppercase leading-[normal] tracking-[0.22em] text-graphite transition-colors hover:border-olive"
+            >
+              More Info
+              <svg
+                width="13"
+                height="8"
+                viewBox="0 0 13 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
+              >
+                <path
+                  d="M1 1.5 6.5 6.5 12 1.5"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

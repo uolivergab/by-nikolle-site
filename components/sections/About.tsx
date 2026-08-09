@@ -17,6 +17,16 @@ import { TideButton } from "@/components/ui/TideButton";
 // (terceira voz, uso único) se revela esquerda->direita ('sendo escrita') por
 // clip-path progressivo, não stroke-draw.
 
+// REVISÃO 30/07 (item 6 da Nikolle):
+// (a) TÍTULO: "Nice to meet you," virou "Aloha, I'm Nikolle." e o texto deixou
+//     de repetir o nome logo abaixo (ela: "não é necessário repetir meu nome
+//     novamente; começar diretamente com Founder of By Nikolle").
+// (b) A seção estava COMPRIDA DEMAIS ("gostaria de manter todo o conteúdo
+//     atual, porém mostrar apenas o início do texto e adicionar um botão abaixo
+//     para expandir"). Nada foi cortado: a carta abre com a apresentação e o
+//     primeiro parágrafo, e o resto (2 parágrafos + credenciais) vive atrás do
+//     botão "Full Story", que é um dos rótulos que ela mesma sugeriu.
+
 // Delay (ms) do stagger de reveal por elemento (valor dinâmico por índice),
 // inerte sem data-live e sob prefers-reduced-motion (igual às S3/S5).
 const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
@@ -24,6 +34,7 @@ const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const [live, setLive] = useState(false);
+  const [openStory, setOpenStory] = useState(false);
 
   // Dispara o reveal quando a seção entra em view (uma vez). Sem observer/JS o
   // conteúdo nasce visível e estático (as animações só existem sob data-live).
@@ -94,12 +105,12 @@ export function About() {
             className="s6-rise font-display leading-[1.12] text-graphite [font-size:clamp(30px,3.4vw,46px)]"
             style={delay(160)}
           >
-            <span className="sr-only">{"Nice to meet you, I'm Nikolle."}</span>
+            <span className="sr-only">{"Aloha, I'm Nikolle."}</span>
             <span
               aria-hidden="true"
               className="font-[550] tracking-[0.03em] whitespace-nowrap uppercase"
             >
-              Nice to meet you,
+              Aloha,
               <br />
               {"I'm "}
               <em className="font-voice font-medium tracking-normal normal-case italic">
@@ -124,52 +135,95 @@ export function About() {
             className="s6-rise text-[15.5px] leading-[1.75] text-graphite-soft"
             style={delay(280)}
           >
+            {/* Abertura SEM repetir o nome (o título já disse). */}
             <p className="mb-4">
-              {
-                "Aloha, I'm Nikolle, founder of By Nikolle | skin • nourishment • balance."
-              }
+              {"Founder of By Nikolle | skin • nourishment • balance."}
             </p>
-            <p className="mb-4">
+            <p>
               With over a decade of experience in skincare, By Nikolle was born
               from my passion for holistic skincare, integrative health,
               nutrition, and spirituality, and from the desire to create a space
               where skin health, wellness, and conscious living come together.
             </p>
-            <p className="mb-4">
-              Over the years, my vision of aesthetics and health has deeply
-              evolved. Through my studies and personal journey, I came to
-              understand that skin health goes far beyond surface-level
-              treatments, it reflects the balance of the body, mind, and daily
-              habits.
-            </p>
-            <p>
-              Today, By Nikolle is a reflection of my own evolution, bringing
-              together holistic skincare and wellness to support transformation
-              from the inside out.
-            </p>
           </div>
 
-          {/* Credentials & Training (roteiro.md, revisão 26/07 — a Nik pediu
-              'mantenha como está'): bloco novo; acabamento fino na passada de
-              design. */}
-          <div className="s6-rise mt-7" style={delay(340)}>
-            <p className="text-[11px] uppercase tracking-[0.22em] text-graphite-soft">
-              Credentials & Training
-            </p>
-            <ul className="mt-3 space-y-1.5 text-[13.5px] leading-[1.6] text-graphite-soft">
-              <li>Licensed Esthetician - Flávia Leal Beauty Institute | Boston, MA</li>
-              <li>
-                Certified Integrative Nutrition Health Coach - Institute of
-                Integrative Nutrition (IIN) | Online
-              </li>
-              <li>Certified Marma Therapist - Ayuskama Ayurveda | Rishikesh, India</li>
-              <li>Ayurveda Nutrition & Cooking - Ayuskama Ayurveda | Rishikesh, India</li>
-              <li>
-                200-Hour Yoga Teacher Training - World Peace Yoga School | Bali,
-                Indonesia
-              </li>
-              <li>Reiki Level I & II Practitioner - Starseed Healing Journeys | Hawaii</li>
-            </ul>
+          {/* O RESTO DA CARTA + as credenciais: presentes no DOM, revelados pelo
+              botão. grid-template-rows 0fr->1fr é a mecânica de expansão da casa
+              (mesma do FAQ e do painel dos Programas). */}
+          <div
+            id="about-full-story"
+            className="grid transition-[grid-template-rows] duration-[520ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none"
+            style={{ gridTemplateRows: openStory ? "1fr" : "0fr" }}
+          >
+            <div className="overflow-hidden">
+              <div className="pt-4 text-[15.5px] leading-[1.75] text-graphite-soft">
+                <p className="mb-4">
+                  Over the years, my vision of aesthetics and health has deeply
+                  evolved. Through my studies and personal journey, I came to
+                  understand that skin health goes far beyond surface-level
+                  treatments, it reflects the balance of the body, mind, and
+                  daily habits.
+                </p>
+                <p>
+                  Today, By Nikolle is a reflection of my own evolution,
+                  bringing together holistic skincare and wellness to support
+                  transformation from the inside out.
+                </p>
+              </div>
+
+              {/* Credentials & Training (roteiro.md — a Nik pediu 'mantenha
+                  como está'; segue integral, só passou para dentro do painel). */}
+              <div className="mt-7">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-graphite-soft">
+                  Credentials & Training
+                </p>
+                <ul className="mt-3 space-y-1.5 text-[13.5px] leading-[1.6] text-graphite-soft">
+                  <li>Licensed Esthetician - Flávia Leal Beauty Institute | Boston, MA</li>
+                  <li>
+                    Certified Integrative Nutrition Health Coach - Institute of
+                    Integrative Nutrition (IIN) | Online
+                  </li>
+                  <li>Certified Marma Therapist - Ayuskama Ayurveda | Rishikesh, India</li>
+                  <li>Ayurveda Nutrition & Cooking - Ayuskama Ayurveda | Rishikesh, India</li>
+                  <li>
+                    200-Hour Yoga Teacher Training - World Peace Yoga School |
+                    Bali, Indonesia
+                  </li>
+                  <li>Reiki Level I & II Practitioner - Starseed Healing Journeys | Hawaii</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* O gatilho. Sem rótulo alternado (não inventamos copy): quem marca
+              o estado é o chevron que gira, e o aria-expanded para o leitor. */}
+          <div className="s6-rise mt-6" style={delay(340)}>
+            <button
+              type="button"
+              onClick={() => setOpenStory((prev) => !prev)}
+              aria-expanded={openStory}
+              aria-controls="about-full-story"
+              className="focus-ripple group inline-flex cursor-pointer items-center gap-3 border-b border-olive/45 pb-2 text-[11.5px] uppercase leading-[normal] tracking-[0.22em] text-graphite transition-colors hover:border-olive"
+            >
+              Full Story
+              <svg
+                width="13"
+                height="8"
+                viewBox="0 0 13 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                className={`transition-transform duration-[420ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none ${openStory ? "rotate-180" : ""}`}
+              >
+                <path
+                  d="M1 1.5 6.5 6.5 12 1.5"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
 
           {/* Assinatura Parisienne — o único toque à mão do site, o pico humano.

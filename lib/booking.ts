@@ -7,6 +7,8 @@ const BOOKING_SMS_BODY = [
   "",
   "My name is ______.",
   "",
+  "Contact number: ______.",
+  "",
   "I'm interested in:",
   "☐ Holistic Facial",
   "☐ Nervous System Reset",
@@ -18,5 +20,11 @@ const BOOKING_SMS_BODY = [
   "Thank you! I look forward to my experience with you.",
 ].join("\n");
 
+// NÚMERO CORRIGIDO 30/07 pela Nikolle: o agendamento vai para o (808) 457-8823.
+// O 721-7476 saiu do site inteiro (era o destino antigo do SMS e o 1º telefone
+// do footer); ela confirmou que este é o ÚNICO número correto.
+export const BOOKING_PHONE_DISPLAY = "(808) 457-8823";
+export const BOOKING_PHONE_E164 = "+18084578823";
+
 // Sintaxe ?&body= deliberada (compat iOS/Android; ver design.md, testar nos dois).
-export const BOOKING_SMS_HREF = `sms:+18087217476?&body=${encodeURIComponent(BOOKING_SMS_BODY)}`;
+export const BOOKING_SMS_HREF = `sms:${BOOKING_PHONE_E164}?&body=${encodeURIComponent(BOOKING_SMS_BODY)}`;

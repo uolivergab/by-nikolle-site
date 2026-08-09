@@ -13,18 +13,31 @@
 
 ---
 
+## REVISÃO NIKOLLE 30/07 (lista escrita + 5 áudios + print da copy do pop-up)
+
+> Fonte: lista "Ajustes e Melhorias do Website" + áudios transcritos. O que virou
+> COPY está marcado abaixo em cada seção; o que é forma está no design.md.
+> Mudanças de copy desta onda: separador antes de Kakaʻako, slot vivo devolvido,
+> título do Sobre, abertura do Sobre sem repetir o nome, rótulos "Full Story" e
+> "More Info" (nomes sugeridos por ela), telefone único, "Contact number" no SMS,
+> e a copy nova do pop-up.
+
 ## Seção 1 — Hero
 
 - LOGO GRANDE centralizada no topo do hero, acima da overline (pedido da Nik; a logo pequena
   da navbar permanece). IMPLEMENTADA 27/07: decorativa (aria-hidden), 60px desktop / 44px
   mobile, centrada, entra em fade junto da overline.
-- Overline: Holistic Wellness Kakaʻako
-  (substitui 'Holistic Facial Treatments in Kakaʻako' e 'Holistic Facials · Kakaʻako'; a Nik
-  escreveu 'Kakaako' sem ʻokina, mantemos a ʻokina padrão do site — confirmar com ela) [PENDENTE NIK]
+- Overline: Holistic Wellness · Kakaʻako
+  (REVISÃO 30/07: ela escreveu "Holistic Wellness . Kaka'ako" e pediu "adicionar o ícone do
+  potinho antes de Kaka'ako" — lemos o "potinho" como o SEPARADOR · que faltava, e é isso que
+  explica o "o nome está escrito incorretamente". A ʻokina padrão do site foi mantida.
+  Se ela quis dizer outra coisa com "potinho", é 1 linha de ajuste.) [CONFIRMAR NIK]
 - Headline: A conscious approach to skincare, health, and well-being
-  - SLOT VIVO REMOVIDO (27/07, 2ª passada): a headline é ESTÁTICA e termina sempre em
-    'Well-Being', como nos mocks aprovados. O ciclo well-being/skin/nourishment/balance
-    saiu do código por ordem do Gabriel.
+  - SLOT VIVO DEVOLVIDO 30/07 por pedido direto da Nikolle ("eu gostaria que cada palavra
+    aparecesse: Skincare, depois Health, e depois Well-being... gostei muito desse efeito que
+    já tava"). A frase virou 'A Conscious Approach to [slot]' em 2 linhas, e o slot cicla
+    Skincare -> Health -> Well-Being em dissolve lento. A frase integral do roteiro segue
+    inteira no sr-only. REVOGA a remoção de 27/07 (que tinha sido ordem do Gabriel).
   - TRATAMENTO (mocks do Gabriel, 2ª passada 27/07): caixa de título em TRÊS LINHAS REAIS,
     'A *Conscious* Approach' / 'to Skincare, *Health*,' / 'and *Well-Being*', com as
     estruturais em Inter Tight e as itálicas em Bodoni Moda. 3 linhas em desktop E mobile.
@@ -39,14 +52,32 @@
   mobile 9:16) processados em ping-pong de 12s + posters, em public/videos/hero-*.
   Falta o ok da Nik na cena nova.
 
-## Pop-up de boas-vindas (IMPLEMENTADO 27/07 em components/ui/WelcomeGift.tsx;
-## aparece ~30s de navegação; 1x por sessão; fechável)
+## Pop-up de boas-vindas (REDESENHADO 30/07 em components/ui/WelcomeGift.tsx;
+## modal centrado e grande, com retrato; aparece ~20s de navegação; 1x por sessão)
 
-- Título: A special welcome gift for new clients
-- Texto: Enjoy 15% off your first holistic skincare experience and discover a conscious approach to healthy, radiant skin.
-- Botão: Start your skin journey  (abre o SMS de agendamento)
+> COPY SUBSTITUÍDA 30/07 pela própria Nikolle (print no WhatsApp: "Da tempo de
+> mudar o q esta escrito no pop up? Gostaria q fosse assim"). A copy antiga fica
+> como histórico no fim do bloco.
+
+- Título: Begin Your Wellness Journey
+- Texto: Whether you're seeking holistic skincare or a Nervous System Reset, each session is designed to support your skin, body, and overall well-being.
+- Linha da oferta: Enjoy 20% off your first visit.  (era 15%; subiu para 20% a pedido da Nikolle, 09/08)
+- Botão: Reserve My Visit  (abre o SMS de agendamento)
+- FOTO: pedido dela é "uma das minhas fotos profissionais". Implementado com o
+  retrato aprovado (retrato-nikolle.webp), que dispensa a edição de máscara.
+  Se ela quiser a foto de ATENDIMENTO, depende do asset editado (máscara branca)
+  [AGUARDA ASSET].
+- HISTÓRICO (copy da v1, substituída 30/07): título 'A special welcome gift for
+  new clients'; texto 'Enjoy 15% off your first holistic skincare experience and
+  discover a conscious approach to healthy, radiant skin.'; botão 'Start your
+  skin journey'.
 - NOTA MODO A: executar como convite discreto e elegante. Sem urgência, sem countdown, sem
   pulso. Fechável no X e no Esc, foco acessível, 1x por sessão (sessionStorage).
+- QUANDO APARECE (09/08): dois gatilhos, o que vier primeiro. TETO de 20s no relógio (era 30s,
+  encurtado a pedido do Gabriel) e ATALHO por interesse aos 30% da rolagem, que é o fim dos
+  Serviços nos dois breakpoints (a pessoa acabou de ver os tratamentos e os preços). O atalho
+  só arma aos 8s, para não pegar quem só folheou. O convite só é GASTO quando a pessoa de
+  fato o vê: com a aba em segundo plano ele espera ela voltar.
 
 ## Seção 2 — Marquee de palavras (a faixa que passa abaixo do hero)
 
@@ -107,10 +138,15 @@
 - Dermal Infusion Micro-Crystal Treatment | $230 (90 min): Advanced skin renewal treatment designed to stimulate collagen production and enhance product infusion for smoother, brighter, radiant skin. A gentle alternative to traditional microneedling with no downtime.
 
 ### Nervous System Reset (CATEGORIA NOVA — 3ª categoria)
+
+> PREÇOS REVISADOS 09/08 pela Nikolle (WhatsApp): Deep Relaxation Facial $125 -> $130,
+> Marma Therapy $110 -> $115, e 'Monthly sessions | $95' virou
+> 'Marma Monthly Sessions | $99'.
+
 - Intro: A restorative experience designed to calm the nervous system, reduce stress, and promote deep relaxation and balance.
-- Deep Relaxation Facial | $125 (60 min): A soothing facial designed to nourish the skin while promoting deep relaxation. This treatment includes a prolonged facial, scalp, neck, and shoulder massage, introductory Marma point stimulation, and vibrational sound to calm the mind.
-- Marma Therapy | $110 (60 min): An Ayurvedic energy therapy that stimulates vital energy points to encourage the flow of prana (life force), release tension, and support the body's natural healing response. This treatment includes Marma point stimulation on the head, face, neck, shoulders, and feet, combined with vibrational sound to promote nervous system balance and overall well-being.
-- Monthly sessions | $95: To support your nervous system through regular care.
+- Deep Relaxation Facial | $130 (60 min): A soothing facial designed to nourish the skin while promoting deep relaxation. This treatment includes a prolonged facial, scalp, neck, and shoulder massage, introductory Marma point stimulation, and vibrational sound to calm the mind.
+- Marma Therapy | $115 (60 min): An Ayurvedic energy therapy that stimulates vital energy points to encourage the flow of prana (life force), release tension, and support the body's natural healing response. This treatment includes Marma point stimulation on the head, face, neck, shoulders, and feet, combined with vibrational sound to promote nervous system balance and overall well-being.
+- Marma Monthly Sessions | $99: To support your nervous system through regular care.
 
 - Nota ao fim da seção de serviços: Coming soon: Integrative Wellness Coaching Program
 
@@ -181,24 +217,41 @@
 
 ## Interlúdio — Imprensa (entre Transformações/Vozes e Sobre)
 
-- Divisória de cima (label, UI microcopy NOSSA): In the Press · Honolulu · 2024
-- Masthead (UI microcopy NOSSA; SEM tracinho antes): As seen in Honolulu Magazine
-- Headline (UI microcopy NOSSA): Named Best natural facial. ('natural facial' em itálico)
-- Pull-quote (CITAÇÃO REAL da Honolulu Magazine): "Coelho delivers bespoke holistic skin rejuvenation. You leave with a radiant glow and a relaxed state of mind."
-- Fólio: Honolulu Magazine · Best of Honolulu 2024 Winner
-- Divisória de baixo (label): Est. Kaka'ako
-- Assets: recorte-revista-honolulu.png + selo-best-of-honolulu.png (artefatos/documentos).
+> REFORMULADO 27/07 (briefing do Gabriel, "experiência editorial de scroll"): a seção deixou
+> de ser o clipping estático e virou cena sticky com narrativa. A copy abaixo foi FIXADA pelo
+> briefing (substitui a v1; a citação encurtada é recorte da citação real, decisão do Gabriel).
+
+- Eyebrow (pill): IN THE PRESS
+- Headline sans (monumental): NAMED BEST
+- Complemento itálico: natural facial.
+- Microcopy de reconhecimento: BEST OF HONOLULU 2024 WINNER
+- Quote (recorte da citação real da Honolulu Magazine): You leave with a radiant glow and a relaxed state of mind.
+- Fonte da citação: HONOLULU MAGAZINE · 2024
+- CTA: VIEW THE FEATURE  (não há URL externa real da matéria; abre o recorte da revista em nova aba)
+- Microcopy de entrada: SCROLL TO UNFOLD
+- Indicadores de progressão (discretos): 01 / 03 · 02 / THE FEATURE UNFOLDS · 03 / 03
+- Assets: public/images/press/ (press-background-desktop/mobile.png, press-magazine-honolulu.png,
+  press-serum-sculpture.png, press-best-of-honolulu-seal.png).
+- HISTÓRICO (copy da v1, substituída 27/07): divisórias 'In the Press · Honolulu · 2024' /
+  "Est. Kaka'ako"; masthead 'As seen in Honolulu Magazine'; headline 'Named Best natural facial.';
+  pull-quote completa "Coelho delivers bespoke holistic skin rejuvenation. You leave with a radiant
+  glow and a relaxed state of mind."; fólio 'Honolulu Magazine · Best of Honolulu 2024 Winner'.
 
 ## Seção 6 — Sobre Nikolle (The Founder)
 
 - Eyebrow: The Founder  (mantém — pedido explícito da Nik)
-- Título: Nice to meet you, I'm Nikolle.
-  (o PDF mantém este heading; o 'Aloha...' abaixo é a abertura do TEXTO — confirmar com a Nik
-  se ela prefere o Aloha como título) [PENDENTE NIK]
+- Título: Aloha, I'm Nikolle.
+  (RESOLVIDO 30/07: era [PENDENTE NIK] e ela bateu o martelo — "substituir 'Nice to meet you'
+  por 'Aloha, I'm Nikolle.'". Tratamento v2: 'ALOHA,' / "I'M Nikolle." com o nome em itálico.)
+- Botão de expansão da seção (rótulo sugerido por ela): Full Story
+  (a seção "ficou muito comprida": abre com a apresentação + 1º parágrafo, e o restante do
+  texto + as credenciais entram no clique. Nada de conteúdo foi cortado.)
 - Subtítulo: True beauty begins from within
   (substitui 'Beauty is the reflection of your balance.')
 - Texto (NOVO, substitui o anterior por inteiro):
-  - Abertura: Aloha, I'm Nikolle, founder of By Nikolle | skin • nourishment • balance.
+  - Abertura: Founder of By Nikolle | skin • nourishment • balance.
+    (ENCURTADA 30/07 a pedido dela: "não é necessário repetir meu nome novamente logo abaixo;
+    começar diretamente com Founder of By Nikolle". O 'Aloha, I'm Nikolle' subiu para o título.)
   - P1: With over a decade of experience in skincare, By Nikolle was born from my passion for holistic skincare, integrative health, nutrition, and spirituality, and from the desire to create a space where skin health, wellness, and conscious living come together.
   - P2: Over the years, my vision of aesthetics and health has deeply evolved. Through my studies and personal journey, I came to understand that skin health goes far beyond surface-level treatments, it reflects the balance of the body, mind, and daily habits.
     (o em-dash do original virou vírgula — regra 7)
@@ -215,6 +268,10 @@
 - FOTO: aumentar o retrato para NÃO cortar o topo do cabelo (ajustar enquadramento/aspect).
 
 ## Seção 7 — FAQ
+
+- Botão de expansão (rótulo sugerido por ela, revisão 30/07): More Info
+  (a seção "ficou muito comprida": as 5 primeiras perguntas ficam à vista e as demais entram
+  no clique. Nenhuma pergunta foi removida.)
 
 - Título: What you need to know before booking.
   (mantido — aprovado 27/07; o rótulo 'Frequently Asked Questions' do PDF não vira heading)
@@ -249,9 +306,10 @@
   está riscada. Lemos como substituição, padrão das demais anotações dela; se a Nik quiser
   as duas, é 1 linha de ajuste.) [PENDENTE NIK só nesse detalhe]
 - Localização: Moa Wellness Center — Kakaʻako, Honolulu, HI
-- Agendamento: Text to Book: (808) 721-7476 e (808) 457-8823
-  (REAUDITORIA DO PDF COM CORES 27/07: o 2º número está em LARANJA = adição intencional
-  da Nik; os DOIS entram no footer. O SMS estruturado do site continua indo pro 721-7476.)
+- Agendamento: Text to Book: (808) 457-8823
+  (CORRIGIDO 30/07 pela Nikolle: "a mensagem de booking está sendo enviada para o número
+  errado. O único número correto é: 808 457 8823". O 721-7476 SAIU do site inteiro e o SMS
+  passou a apontar para o 457-8823. Revoga a leitura de 27/07, que mantinha os dois.)
 - Instagram: @by_nikolle_snb  (MUDOU — antes @bynikolle)
 - Studio Hours:
   - Tuesday - Friday · 10:30 AM - 6:00 PM
@@ -276,6 +334,8 @@
 Hi Nikolle! I'd like to schedule my first visit.
 
 My name is ______.
+
+Contact number: ______.
 
 I'm interested in:
 ☐ Holistic Facial

@@ -29,7 +29,8 @@ export default function Home() {
         <Faq />
       </main>
       <Footer />
-      {/* Convite de boas-vindas (roteiro.md): aparece aos ~30s, 1x por sessão. */}
+      {/* Convite de boas-vindas (roteiro.md): 1x por sessão, aos ~20s ou a 30%
+          da rolagem, o que vier primeiro. */}
       <WelcomeGift />
     </>
   );

@@ -1,26 +1,44 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { Logo } from "@/components/brand/Logo";
 import { HeroInvite } from "@/components/ui/HeroInvite";
 import { BOOKING_SMS_HREF } from "@/lib/booking";
 
-// Hero — gabarito ABSOLUTO: os dois mocks aprovados do Gabriel (desktop
-// 1672x943, mobile 943x1672). roteiro.md manda na copy; design.md item 1 traz a
-// geometria medida nos mocks.
+// Hero — gabarito: os dois mocks aprovados do Gabriel (desktop 1672x943, mobile
+// 943x1672). roteiro.md manda na copy; design.md item 1 traz a geometria.
 //
-// LEIS DESTA SEÇÃO (o que a versão anterior errava):
+// LEIS DESTA SEÇÃO:
 // 1. A fotografia é FULL-BLEED nos dois breakpoints. No mobile ela NÃO é um
 //    card com margem: o espaço negativo de linho do topo faz parte do próprio
 //    asset 9:16 e o texto pousa sobre ele.
-// 2. A headline tem TRÊS LINHAS REAIS no markup e uma DUPLA tipográfica:
-//    Inter Tight 500 na estrutura, Bodoni Moda itálico em Conscious / Health /
-//    Well-Being. A última palavra é FIXA: "Well-Being" (o slot que ciclava saiu,
-//    ver design.md).
+// 2. DUPLA TIPOGRÁFICA: Inter Tight na estrutura, Bodoni Moda itálico nas
+//    palavras emocionais. Uma itálica por linha.
 // 3. Sem lavagem branca sobre a foto. Só um sopro local na coluna de texto do
 //    desktop, e nada no mobile (o linho do asset já dá o contraste).
+//
+// REVISÃO 30/07 (três pedidos diretos da Nikolle):
+// (a) LOGO GRANDE de volta, centralizada no topo. A razão dela é de negócio e é
+//     boa: "as pessoas entram no site e não sabem o nome do meu business, tá
+//     sumido". Ela também resolveu o conflito das duas logos que tinha feito a
+//     versão anterior sair (a grande centralizada AQUI, a "pequenininha do lado"
+//     na navbar, que encolheu junto).
+// (b) A FRASE VOLTA A RESPIRAR: as palavras Skincare / Health / Well-Being
+//     aparecem uma de cada vez no fim da frase, em dissolve lento. Isso encurta
+//     a headline de 3 para 2 linhas, que é justamente o espaço vertical que a
+//     logo grande precisava. O slot é um inline-grid com as três candidatas
+//     empilhadas na mesma célula: a largura já nasce da palavra mais larga, sem
+//     medir nada em JS e sem a caixa pular na troca.
+// (c) FRASES MENORES (overline e apoio) para o visual ficar mais limpo, sem
+//     cair no "letra pequena demais" que ela criticou na referência de IA.
 
 const OKINA = "ʻ"; // ʻokina de Kakaʻako
+
+// Palavras do slot, na ordem que a Nikolle pediu. A frase inteira do roteiro
+// vive no sr-only; aqui só a renderização.
+const SLOT_WORDS = ["Skincare", "Health", "Well-Being"];
+const SLOT_HOLD_MS = 2600;
 
 // Atraso de entrada de cada peça, em segundos.
 const d = (seconds: number) => ({ "--d": `${seconds}s` }) as CSSProperties;
@@ -28,6 +46,27 @@ const d = (seconds: number) => ({ "--d": `${seconds}s` }) as CSSProperties;
 export function Hero() {
   const reduced = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Slot vivo. Nasce em "Skincare" (a primeira da lista dela), então a frase
+  // está inteira no ar já no SSR, sem buraco esperando JS. Com reduced-motion
+  // o ciclo não roda e a frase descansa em "Well-Being", o fecho do roteiro.
+  const [slot, setSlot] = useState(0);
+  useEffect(() => {
+    if (reduced) return;
+    const timer = setInterval(
+      () => setSlot((prev) => (prev + 1) % SLOT_WORDS.length),
+      SLOT_HOLD_MS,
+    );
+    return () => clearInterval(timer);
+  }, [reduced]);
+  const activeSlot = reduced ? SLOT_WORDS.length - 1 : slot;
+
+  // TENTATIVA DESCARTADA (registrada para não se repetir): medir a palavra ativa
+  // e transicionar a LARGURA do slot, para a frase fechar colada em todos os
+  // estados. A medição realimenta o layout que ela mesma mede, e o resultado
+  // medido no browser foi a palavra piscando e sumindo por ciclos inteiros. A
+  // caixa fica com a largura da candidata mais larga, que é estável, e o vão
+  // resolve-se no alinhamento (ver .hero-slot no globals.css).
 
   // Deriva de saída MUITO contida (o briefing pede o estado estático aprovado
   // como prioridade, e proíbe parallax intenso): a copy só se apaga enquanto o
@@ -120,19 +159,35 @@ export function Hero() {
         <span className="hero-frame-rule top-[56%] bottom-[10%] right-[5.5%] w-px md:hidden" />
       </div>
 
-      {/* ---------- 4. COPY ----------
-          Mobile: centrada, eyebrow a 17% da altura.
-          Desktop: à esquerda (3.6vw), bloco centrado a 52% da altura, que é
-          onde o mock o coloca (eyebrow em 264 de 943). */}
+      {/* ---------- 4. COPY (agora encabeçada pela LOGO GRANDE) ----------
+          Mobile: tudo centrado sobre o campo de linho do próprio asset 9:16.
+          Desktop: à esquerda (3.6vw), bloco centrado na faixa que sobra.
+          A logo grande vive DENTRO deste bloco, não no centro geométrico da
+          tela: no desktop o meio da cena é o rosto da modelo, e a marca ali
+          fica ilegível e suja a fotografia. Encabeçando a coluna de texto ela
+          ganha o destaque que a Nikolle pediu e continua pousada no campo
+          claro. */}
       <motion.div
         style={{ opacity: copyOpacity }}
-        className="absolute inset-x-0 top-[max(92px,11.5%)] z-[3] px-[5.5vw] text-center md:inset-x-auto md:top-[53.5%] md:left-[3.6vw] md:max-w-[58vw] md:-translate-y-1/2 md:px-0 md:text-left"
+        className="absolute inset-x-0 top-[max(96px,11.5%)] z-[3] px-[5.5vw] text-center md:inset-x-auto md:top-[54%] md:left-[3.6vw] md:max-w-[58vw] md:-translate-y-1/2 md:px-0 md:text-left"
       >
-        <p
-          style={d(0.15)}
-          className="hero-rise mb-[22px] font-(family-name:--font-hero-ui) text-[11.5px] uppercase leading-[normal] tracking-[0.26em] text-(--hero-olive-ink) md:mb-[clamp(24px,4.9vh,46px)] md:text-[15px] md:tracking-[0.28em]"
+        {/* Decorativa para o leitor de tela: o h1 logo abaixo nomeia a página e
+            a navbar já carrega a marca acessível. */}
+        <span
+          aria-hidden="true"
+          style={d(0.08)}
+          className="hero-rise mb-[26px] block md:mb-[clamp(22px,4.4vh,40px)]"
         >
-          {`Holistic Wellness Kaka${OKINA}ako`}
+          {/* Mobile um passo menor (30/07): a 44vw a marca gritava; a 37vw ela
+              comanda a tela sem perder a elegância. Desktop inalterado. */}
+          <Logo className="mx-auto h-auto w-[clamp(132px,37vw,170px)] text-(--hero-ink) md:mx-0 md:w-[clamp(196px,15.5vw,262px)]" />
+        </span>
+
+        <p
+          style={d(0.22)}
+          className="hero-rise mb-[18px] font-(family-name:--font-hero-ui) text-[10.5px] uppercase leading-[normal] tracking-[0.26em] text-(--hero-olive-ink) md:mb-[clamp(20px,4vh,36px)] md:text-[13px] md:tracking-[0.28em]"
+        >
+          {`Holistic Wellness · Kaka${OKINA}ako`}
         </p>
 
         <h1 className="hero-title">
@@ -140,26 +195,34 @@ export function Hero() {
             A Conscious Approach to Skincare, Health, and Well-Being
           </span>
           <span aria-hidden="true">
-            <span style={d(0.3)} className="hero-title-line hero-rise">
+            <span style={d(0.34)} className="hero-title-line hero-rise">
               <span className="hero-sans">A </span>
               <span className="hero-italic">Conscious</span>
               <span className="hero-sans"> Approach</span>
             </span>
-            <span style={d(0.42)} className="hero-title-line hero-rise">
-              <span className="hero-sans">to Skincare, </span>
-              <span className="hero-italic">Health</span>
-              <span className="hero-sans">,</span>
-            </span>
-            <span style={d(0.54)} className="hero-title-line hero-rise">
-              <span className="hero-sans">and </span>
-              <span className="hero-italic">Well-Being</span>
+            <span style={d(0.46)} className="hero-title-line hero-rise">
+              <span className="hero-sans">to </span>
+              {/* SLOT: as três candidatas empilhadas na mesma célula do grid.
+                  A largura é a da palavra mais larga desde o primeiro frame,
+                  então a linha nunca reflui na troca. */}
+              <span className="hero-slot">
+                {SLOT_WORDS.map((word, i) => (
+                  <span
+                    key={word}
+                    data-on={i === activeSlot ? "true" : undefined}
+                    className="hero-slot-word hero-italic"
+                  >
+                    {word}
+                  </span>
+                ))}
+              </span>
             </span>
           </span>
         </h1>
 
         <p
-          style={d(0.72)}
-          className="hero-fade mx-auto mt-[26px] max-w-[78vw] font-(family-name:--font-hero-ui) text-[15px] font-light leading-[1.68] text-(--hero-ink) md:mx-0 md:mt-[clamp(26px,5.9vh,56px)] md:max-w-[520px] md:text-[19px] md:leading-[1.62]"
+          style={d(0.64)}
+          className="hero-fade mx-auto mt-[22px] max-w-[78vw] font-(family-name:--font-hero-ui) text-[14px] font-light leading-[1.68] text-(--hero-ink) md:mx-0 md:mt-[clamp(22px,4.6vh,44px)] md:max-w-[470px] md:text-[17px] md:leading-[1.62]"
         >
           Discover personalized holistic facials and integrative wellness
           designed to nurture your skin, nourish your body, and restore balance.
@@ -192,15 +255,20 @@ export function Hero() {
         />
       </motion.div>
 
-      {/* ---------- 6. CTA ---------- */}
+      {/* ---------- 6. CTA ----------
+          No desktop o convite tinha largura fixa de até 900px e lia como uma
+          BARRA atravessando a cena, não como um botão. Agora a pill se dimensiona
+          pelo próprio conteúdo (texto + respiro + a pista do disco), que é o que
+          faz uma peça parecer desenhada em vez de esticada. O mobile mantém a
+          largura cheia, onde ela é a área de toque da tela inteira. */}
       <div
         style={d(0.95)}
-        className="hero-rise absolute bottom-[2.5svh] left-1/2 z-[4] w-[84%] -translate-x-1/2 md:bottom-[clamp(48px,10vh,95px)] md:w-[min(900px,54vw)]"
+        className="hero-rise absolute bottom-[2.5svh] left-1/2 z-[4] w-[84%] -translate-x-1/2 md:bottom-[clamp(48px,10vh,95px)] md:left-[3.6vw] md:w-auto md:translate-x-0"
       >
         <HeroInvite
           href={BOOKING_SMS_HREF}
-          className="h-[clamp(50px,6.6svh,58px)] w-full pr-[58px] pl-[26px] text-[11px] tracking-[0.2em] md:h-[clamp(56px,7.2vh,70px)] md:pr-[78px] md:pl-[42px] md:text-[13.5px] md:tracking-[0.21em]"
-          discClassName="right-[5px] h-[clamp(40px,5.4svh,48px)] w-[clamp(40px,5.4svh,48px)] md:right-[7px] md:h-[clamp(44px,5.75vh,56px)] md:w-[clamp(44px,5.75vh,56px)]"
+          className="h-[clamp(50px,6.6svh,58px)] w-full pr-[58px] pl-[26px] text-[11px] tracking-[0.2em] md:h-[clamp(54px,6.6vh,64px)] md:w-auto md:pr-[76px] md:pl-[40px] md:text-[12.5px] md:tracking-[0.2em]"
+          discClassName="right-[5px] h-[clamp(40px,5.4svh,48px)] w-[clamp(40px,5.4svh,48px)] md:right-[6px] md:h-[clamp(42px,5.4vh,52px)] md:w-[clamp(42px,5.4vh,52px)]"
         >
           Book My Consultation
         </HeroInvite>
