@@ -210,7 +210,15 @@ export function Press() {
   // ---- Contínuo (motion values; só transform) ----
   // Fundo: deriva vertical lentíssima + câmera assentando (a camada é um slot
   // trocável: substituir o <Image> por <video> no futuro não muda a cena).
-  const bgY = useTransform(sp, [0, 1], ["0vh", "-3vh"]);
+  // UNIDADE VERTICAL DA CENA: svh, nunca vh (corrigido 09/08). O palco é
+  // height:100svh e o wrapper 170svh, mas todo o percurso viajava em vh. No
+  // Safari do iPhone vh é o viewport GRANDE (barra de URL escondida) e svh é o
+  // PEQUENO (barra visível), com 10% a 15% de diferença; no DevTools os dois
+  // são iguais, porque a emulação não simula a barra. Resultado: no celular
+  // real cada deslocamento passava ~12% do ponto (a revista chegava mais baixa,
+  // a folha de papel ficava pendurada), e nada disso aparecia no DevTools.
+  // Caixa e percurso agora medem pela MESMA régua.
+  const bgY = useTransform(sp, [0, 1], ["0svh", "-3svh"]);
   const bgScale = useTransform(sp, [0, 0.4], [1.045, 1]);
 
   // DESKTOP — entradas curtas e elegantes + deriva de saída diferenciada
@@ -218,14 +226,14 @@ export function Press() {
   // revista 0.32 < serum 0.55 < selo 0.72).
   const dNamedX = useTransform(sp, [0.06, 0.26], ["-3.2vw", "0vw"], { ease: EASE_OUT });
   const dNatX = useTransform(sp, [0.1, 0.3], ["3vw", "0vw"], { ease: EASE_OUT });
-  const dHeadY = useTransform(sp, [0.6, 0.92], ["0vh", "-3vh"]);
-  const dSheetY = useTransform(sp, [0.17, 0.42, 1], ["15vh", "0vh", "-2.2vh"], { ease: EASE_OUT });
-  const dSheet2Y = useTransform(sp, [0.2, 0.46, 1], ["18vh", "0vh", "-3vh"], { ease: EASE_OUT });
-  const dMagY = useTransform(sp, [0.22, 0.5, 1], ["24vh", "0vh", "-3.6vh"], { ease: EASE_OUT });
+  const dHeadY = useTransform(sp, [0.6, 0.92], ["0svh", "-3svh"]);
+  const dSheetY = useTransform(sp, [0.17, 0.42, 1], ["15svh", "0svh", "-2.2svh"], { ease: EASE_OUT });
+  const dSheet2Y = useTransform(sp, [0.2, 0.46, 1], ["18svh", "0svh", "-3svh"], { ease: EASE_OUT });
+  const dMagY = useTransform(sp, [0.22, 0.5, 1], ["24svh", "0svh", "-3.6svh"], { ease: EASE_OUT });
   const dMagR = useTransform(sp, [0.22, 0.5], [-6.5, -2.5]);
-  const dSerumY = useTransform(sp, [0.26, 0.7, 1], ["78vh", "0vh", "-6.5vh"], { ease: EASE_OUT });
+  const dSerumY = useTransform(sp, [0.26, 0.7, 1], ["78svh", "0svh", "-6.5svh"], { ease: EASE_OUT });
   const dSerumR = useTransform(sp, [0.26, 0.7], [5, 0]);
-  const dSealY = useTransform(sp, [0.4, 0.66, 1], ["52vh", "0vh", "-5vh"], { ease: EASE_OUT });
+  const dSealY = useTransform(sp, [0.4, 0.66, 1], ["52svh", "0svh", "-5svh"], { ease: EASE_OUT });
   const dSealR = useTransform(sp, [0.4, 0.66], [-4, 6]);
 
   // MOBILE — os 2 pratos. A pilha de papel viaja como UM OBJETO (o y e a
@@ -234,7 +242,7 @@ export function Press() {
   // principal e nada mais: a revista SOBE para o lugar da headline, e é essa
   // subida única que conta a seção inteira. Tudo em transform, opacidade é
   // das fases.
-  const mHeadY = useTransform(sp, [0, 0.18, 0.44], ["0vh", "-1.5vh", "-30vh"], { ease: EASE_SCRUB });
+  const mHeadY = useTransform(sp, [0, 0.18, 0.44], ["0svh", "-1.5svh", "-30svh"], { ease: EASE_SCRUB });
   // Na chegada a revista está mais perto (1.06) e mais baixa: ela DEITA na
   // metade de baixo, embaixo do título. Ao subir, ela também assenta de
   // tamanho, e é esse "vir para o lugar" que faz a troca ler como uma coisa
@@ -242,17 +250,23 @@ export function Press() {
   // A subida ocupa METADE da rolagem presa (0.03 a 0.52), não um terço: com o
   // percurso espremido num terço, sobrava um trecho longo em que a rolagem não
   // produzia nada, e cena parada com o dedo andando lê como travamento.
-  const mStackY = useTransform(sp, [0.02, 0.6, 1], ["40vh", "0vh", "-1vh"], { ease: EASE_SCRUB });
+  const mStackY = useTransform(sp, [0.02, 0.6, 1], ["40svh", "0svh", "-1svh"], { ease: EASE_SCRUB });
   const mStackS = useTransform(sp, [0.02, 0.6], [1.06, 1], { ease: EASE_SCRUB });
-  const mSheetY = useTransform(sp, [0.04, 0.56], ["5vh", "0vh"], { ease: EASE_SCRUB });
-  const mSheet2Y = useTransform(sp, [0.04, 0.6], ["8vh", "0vh"], { ease: EASE_SCRUB });
+  // FOLHAS: o percurso encolheu (era 5vh e 8vh). Na CHEGADA a rolagem está em
+  // zero, ou seja, o offset está no máximo, e é justamente esse o quadro que a
+  // pessoa vê primeiro: com 5vh e 8vh o papel de trás pendurava meia folha
+  // branca abaixo da revista e lia como bug de layout, não como pilha. Agora
+  // elas só espiam, e quem faz o escalonamento é sobretudo a rotação própria
+  // de cada uma (3.4deg e -5deg), que existe mesmo com o percurso em zero.
+  const mSheetY = useTransform(sp, [0.04, 0.56], ["2.2svh", "0svh"], { ease: EASE_SCRUB });
+  const mSheet2Y = useTransform(sp, [0.04, 0.6], ["3.6svh", "0svh"], { ease: EASE_SCRUB });
   const mMagR = useTransform(sp, [0.02, 0.62], [-6.5, -3.2]);
   // O selo é o carimbo: desce atrás da revista e assenta no canto DEPOIS dela,
   // que é o que faz a cena inteira parecer uma coisa só assentando.
-  const mSealY = useTransform(sp, [0.2, 0.66, 1], ["44vh", "0vh", "-3vh"], { ease: EASE_SCRUB });
+  const mSealY = useTransform(sp, [0.2, 0.66, 1], ["44svh", "0svh", "-3svh"], { ease: EASE_SCRUB });
   const mSealR = useTransform(sp, [0.2, 0.66], [-8, 5]);
   // A citação e o CTA sobem um passo curto atrás do artefato (o pé da cena).
-  const mQuoteY = useTransform(sp, [0.4, 0.74], ["12vh", "0vh"], { ease: EASE_SCRUB });
+  const mQuoteY = useTransform(sp, [0.4, 0.74], ["12svh", "0svh"], { ease: EASE_SCRUB });
 
   // ---- Deriva de cursor (desktop, pointer fine, sem reduce): serum e selo
   // respiram ±6-10px com mola; nunca seguem o cursor direto. ----
