@@ -30,17 +30,21 @@ function Arrow({ className }: { className?: string }) {
 
 export function HeroInvite({
   href,
+  onClick,
   className,
   discClassName,
   children,
 }: {
-  href: string;
+  /** Sem href, a peça vira <button> (ex.: abre o formulário de agendamento). */
+  href?: string;
+  onClick?: React.MouseEventHandler<HTMLElement>;
   className?: string;
   discClassName?: string;
   children: React.ReactNode;
 }) {
-  return (
-    <a href={href} className={cn("hero-cta focus-ripple", className)}>
+  const classes = cn("hero-cta focus-ripple", className);
+  const inner = (
+    <>
       <span aria-hidden="true" className="hero-cta__fill">
         <span className="hero-cta__water" />
       </span>
@@ -52,6 +56,19 @@ export function HeroInvite({
         <Arrow className="hero-cta__arrow hero-cta__arrow--out" />
         <Arrow className="hero-cta__arrow hero-cta__arrow--in" />
       </span>
-    </a>
+    </>
+  );
+
+  if (href) {
+    return (
+      <a href={href} onClick={onClick} className={classes}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <button type="button" onClick={onClick} className={classes}>
+      {inner}
+    </button>
   );
 }

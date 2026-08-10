@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
+import { openBookingDialog } from "@/components/ui/BookingDialog";
 import { TideButton } from "@/components/ui/TideButton";
-import { BOOKING_SMS_HREF } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
 // Navbar "a superfície" (design.md): fixa, transparente sobre o hero; ao rolar
@@ -136,7 +136,10 @@ export function Navbar() {
                   href={link.href}
                   tabIndex={open ? undefined : -1}
                   onClick={() => setOpen(false)}
-                  className="nav-curtain-link focus-ripple group relative block py-[10px] font-display text-[clamp(30px,9.5vw,44px)] leading-[1.16] font-medium tracking-[0.03em] uppercase text-graphite"
+                  // Escala 10/08 (pedido da Nikolle: "diminuir o tamanho
+                  // dessas fontes"): os links da cortina descem um passo
+                  // (44px max -> 33px max), mantendo o toque >= 44px pelo py.
+                  className="nav-curtain-link focus-ripple group relative block py-[12px] font-display text-[clamp(24px,7.4vw,33px)] leading-[1.16] font-medium tracking-[0.04em] uppercase text-graphite"
                 >
                   {link.label}
                   {/* A linha d'água da marca aflorando sob o link. */}
@@ -155,9 +158,11 @@ export function Navbar() {
           >
             <TideButton
               size="lg"
-              href={BOOKING_SMS_HREF}
               tabIndex={open ? undefined : -1}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                openBookingDialog();
+              }}
             >
               Book My Consultation
             </TideButton>
@@ -273,7 +278,7 @@ export function Navbar() {
         <div className="col-start-3 justify-self-end">
           <TideButton
             size="sm"
-            href={BOOKING_SMS_HREF}
+            onClick={openBookingDialog}
             className="h-[42px] w-[92px] px-0 py-0 text-[10.5px] tracking-[0.18em] md:h-[44px] md:w-[112px] md:text-[11.5px]"
           >
             Book

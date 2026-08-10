@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { openBookingDialog } from "@/components/ui/BookingDialog";
 import { TideButton } from "@/components/ui/TideButton";
-import { BOOKING_SMS_HREF } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
 // Seção 4 — Skin Wellness Program. PICO da marca: fundo de vídeo de folhagem-luz
@@ -235,7 +235,7 @@ export function Program() {
               <div className="mt-9 w-full min-[701px]:w-auto">
                 <TideButton
                   size="lg"
-                  href={BOOKING_SMS_HREF}
+                  onClick={openBookingDialog}
                   className="tide-invert w-full px-5 tracking-[0.16em] no-underline min-[701px]:w-auto min-[701px]:px-8"
                 >
                   Book My Consultation

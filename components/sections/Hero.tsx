@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Logo } from "@/components/brand/Logo";
 import { HeroInvite } from "@/components/ui/HeroInvite";
-import { BOOKING_SMS_HREF } from "@/lib/booking";
+import { openBookingDialog } from "@/components/ui/BookingDialog";
 
 // Hero — gabarito: os dois mocks aprovados do Gabriel (desktop 1672x943, mobile
 // 943x1672). roteiro.md manda na copy; design.md item 1 traz a geometria.
@@ -178,9 +178,11 @@ export function Hero() {
           style={d(0.08)}
           className="hero-rise mb-[26px] block md:mb-[clamp(22px,4.4vh,40px)]"
         >
-          {/* Mobile um passo menor (30/07): a 44vw a marca gritava; a 37vw ela
-              comanda a tela sem perder a elegância. Desktop inalterado. */}
-          <Logo className="mx-auto h-auto w-[clamp(132px,37vw,170px)] text-(--hero-ink) md:mx-0 md:w-[clamp(196px,15.5vw,262px)]" />
+          {/* Escala 10/08 (pedido da Nikolle: "aumentar levemente o logo, um
+              pouquinho mais visível p que dê p ler skin, nourishment, balance"):
+              +10% nos dois breakpoints. No mobile fica ENTRE o 37vw de 30/07 e
+              o 44vw que gritava; a tagline da logo passa a ser legível. */}
+          <Logo className="mx-auto h-auto w-[clamp(146px,40.5vw,187px)] text-(--hero-ink) md:mx-0 md:w-[clamp(216px,17vw,288px)]" />
         </span>
 
         <p
@@ -266,7 +268,7 @@ export function Hero() {
         className="hero-rise absolute bottom-[2.5svh] left-1/2 z-[4] w-[84%] -translate-x-1/2 md:bottom-[clamp(48px,10vh,95px)] md:left-[3.6vw] md:w-auto md:translate-x-0"
       >
         <HeroInvite
-          href={BOOKING_SMS_HREF}
+          onClick={openBookingDialog}
           className="h-[clamp(50px,6.6svh,58px)] w-full pr-[58px] pl-[26px] text-[11px] tracking-[0.2em] md:h-[clamp(54px,6.6vh,64px)] md:w-auto md:pr-[76px] md:pl-[40px] md:text-[12.5px] md:tracking-[0.2em]"
           discClassName="right-[5px] h-[clamp(40px,5.4svh,48px)] w-[clamp(40px,5.4svh,48px)] md:right-[6px] md:h-[clamp(42px,5.4vh,52px)] md:w-[clamp(42px,5.4vh,52px)]"
         >

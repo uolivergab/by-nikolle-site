@@ -11,6 +11,7 @@ import { ComingSoon } from "@/components/sections/ComingSoon";
 import { Faq } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 import { WelcomeGift } from "@/components/ui/WelcomeGift";
+import { BookingDialog } from "@/components/ui/BookingDialog";
 
 export default function Home() {
   return (
@@ -32,6 +33,9 @@ export default function Home() {
       {/* Convite de boas-vindas (roteiro.md): 1x por sessão, aos ~20s ou a 30%
           da rolagem, o que vier primeiro. */}
       <WelcomeGift />
+      {/* Formulário de agendamento (10/08): os CTAs abrem este diálogo, que
+          coleta os dados em campos reais e monta o SMS já preenchido. */}
+      <BookingDialog />
     </>
   );
 }

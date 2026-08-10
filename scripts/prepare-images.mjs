@@ -34,6 +34,14 @@ const projectJobs = [
   { src: "assets/photos/cena-tratamento-ultrassom.png", out: "cena-tratamento-ultrassom.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
   { src: "assets/photos/retrato-nikolle.png", out: "retrato-nikolle.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
   { src: "assets/photos/espaco-recepcao.png", out: "espaco-recepcao.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
+  // Onda 09-10/08 (feedback da Nikolle): a foto de atendimento EDITADA que ela
+  // enviou (âncora dos Serviços, exibida inteira) e a foto do pop-up com a
+  // máscara editada para branca (popup-atendimento-branca.jpg é a saída q95 da
+  // dessaturação seletiva; o HEIC original segue na pasta como fonte. Para
+  // refazer a edição: ffmpeg converte o HEIC — o sharp recusa o iref dele — e
+  // o script da dessaturação está no histórico da sessão 10/08).
+  { src: "assets/photos/cena-atendimento-editada.jpg", out: "cena-atendimento-editada.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
+  { src: "assets/photos/popup-atendimento-branca.jpg", out: "popup-atendimento.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
 ];
 
 // Before/After (prefixo do arquivo de origem -> nome de saída). Só conversão de formato.

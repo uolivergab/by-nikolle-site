@@ -62,11 +62,14 @@
 - Título: Begin Your Wellness Journey
 - Texto: Whether you're seeking holistic skincare or a Nervous System Reset, each session is designed to support your skin, body, and overall well-being.
 - Linha da oferta: Enjoy 20% off your first visit.  (era 15%; subiu para 20% a pedido da Nikolle, 09/08)
-- Botão: Reserve My Visit  (abre o SMS de agendamento)
-- FOTO: pedido dela é "uma das minhas fotos profissionais". Implementado com o
-  retrato aprovado (retrato-nikolle.webp), que dispensa a edição de máscara.
-  Se ela quiser a foto de ATENDIMENTO, depende do asset editado (máscara branca)
-  [AGUARDA ASSET].
+- Botão: Reserve My Visit  (desde 10/08 abre o FORMULÁRIO de agendamento, que monta o SMS
+  já preenchido; antes abria o SMS direto)
+- FOTO: RESOLVIDO 10/08 — ela enviou a foto específica do pop-up ("imagem para pop up",
+  09/08) e reprovou o retrato repetido do Sobre. Entrou popup-atendimento.webp com a
+  MÁSCARA EDITADA PARA BRANCA (dessaturação seletiva nossa; original HEIC guardado em
+  assets/photos/). Redesenho completo 10/08: foto em coluna inteira no desktop
+  (max-w 1040px), convite de tela quase cheia no mobile, papel de linho, moldura de fio
+  d'água na foto, linha d'água antes da oferta.
 - HISTÓRICO (copy da v1, substituída 30/07): título 'A special welcome gift for
   new clients'; texto 'Enjoy 15% off your first holistic skincare experience and
   discover a conscious approach to healthy, radiant skin.'; botão 'Start your
@@ -114,8 +117,12 @@
 - Legenda da imagem-âncora: Every treatment tailored to your skin needs.
   (substitui 'Every treatment, tailored to your skin.')
 - Label do gatilho do acordeão (UI microcopy NOSSA; Nikolle revisa depois): View services
-- IMAGEM: substituir a foto atual pela foto nova editada que a Nik vai enviar (máscara branca
-  no rosto); usar a foto INTEIRA, sem cortar. [AGUARDA ASSET]
+- IMAGEM: RESOLVIDO 10/08 — a foto editada chegou (WhatsApp 09/08, "imagem versão aditada
+  atendendo a cliente") e entrou como cena-atendimento-editada.webp, INTEIRA, sem cortar
+  (o quadro usa a proporção natural 1082x1350 do asset nos dois breakpoints).
+- FORMATO: RESTAURADO 10/08 ao acordeão aprovado em 30/07 (pedido dela 09/08: "quero como
+  estava... um abaixo do outro... o fundo com a mesma tonalidade do restante do site").
+  O trilho + carta de 08/08 saiu.
 
 ### Signature Facials
 - Intro: Customized holistic facials designed to nourish the skin, restore balance, and support long-term skin health through a natural, results-driven approach.
@@ -217,25 +224,21 @@
 
 ## Interlúdio — Imprensa (entre Transformações/Vozes e Sobre)
 
-> REFORMULADO 27/07 (briefing do Gabriel, "experiência editorial de scroll"): a seção deixou
-> de ser o clipping estático e virou cena sticky com narrativa. A copy abaixo foi FIXADA pelo
-> briefing (substitui a v1; a citação encurtada é recorte da citação real, decisão do Gabriel).
+> RESTAURADO 10/08 (revisão da Nikolle 09/08: "the best of Honolulu eu quero como estava...
+> Gosto da versão antiga", com print do interlúdio estático). A cena editorial de scroll de
+> 27/07 saiu do site; a copy dela fica como histórico abaixo. A copy ativa volta a ser a v1:
 
-- Eyebrow (pill): IN THE PRESS
-- Headline sans (monumental): NAMED BEST
-- Complemento itálico: natural facial.
-- Microcopy de reconhecimento: BEST OF HONOLULU 2024 WINNER
-- Quote (recorte da citação real da Honolulu Magazine): You leave with a radiant glow and a relaxed state of mind.
-- Fonte da citação: HONOLULU MAGAZINE · 2024
-- CTA: VIEW THE FEATURE  (não há URL externa real da matéria; abre o recorte da revista em nova aba)
-- Microcopy de entrada: SCROLL TO UNFOLD
-- Indicadores de progressão (discretos): 01 / 03 · 02 / THE FEATURE UNFOLDS · 03 / 03
-- Assets: public/images/press/ (press-background-desktop/mobile.png, press-magazine-honolulu.png,
-  press-serum-sculpture.png, press-best-of-honolulu-seal.png).
-- HISTÓRICO (copy da v1, substituída 27/07): divisórias 'In the Press · Honolulu · 2024' /
-  "Est. Kaka'ako"; masthead 'As seen in Honolulu Magazine'; headline 'Named Best natural facial.';
-  pull-quote completa "Coelho delivers bespoke holistic skin rejuvenation. You leave with a radiant
-  glow and a relaxed state of mind."; fólio 'Honolulu Magazine · Best of Honolulu 2024 Winner'.
+- Divisórias (filete duplo com label): In the Press · Honolulu · 2024  /  Est. Kaka'ako
+- Masthead: As seen in Honolulu Magazine
+- Headline: Named Best natural facial.
+- Pull-quote (citação REAL completa da Honolulu Magazine): Coelho delivers bespoke holistic skin rejuvenation. You leave with a radiant glow and a relaxed state of mind.
+- Fólio: Honolulu Magazine · Best of Honolulu 2024 Winner
+- Assets: public/images/recorte-revista-honolulu.png + selo-best-of-honolulu.png.
+- HISTÓRICO (copy da cena de scroll 27/07-09/08, fora do site desde 10/08): pill IN THE PRESS;
+  headline NAMED BEST + natural facial.; microcopy BEST OF HONOLULU 2024 WINNER; quote encurtada
+  "You leave with a radiant glow and a relaxed state of mind."; fonte HONOLULU MAGAZINE · 2024;
+  CTA VIEW THE FEATURE; hint SCROLL TO UNFOLD; indicadores 01/03 · 02/THE FEATURE UNFOLDS · 03/03.
+  Os assets dela seguem em public/images/press/ sem uso (podar = decisão do Gabriel).
 
 ## Seção 6 — Sobre Nikolle (The Founder)
 
@@ -265,6 +268,11 @@
   - Reiki Level I & II Practitioner - Starseed Healing Journeys | Hawaii
 - CTA: Explore the Holistic Skincare Programs  (nome novo do programa)
 - Assinatura: Nikolle Coelho  (antes era só 'Nikolle'; segue na Parisienne com a revelação)
+  - POSIÇÃO (revisão Nikolle 09/08, implementada 10/08): a assinatura NÃO aparece na página
+    principal; vive DENTRO do Full Story ("somente quando click p mais info"), fechando a
+    carta expandida, depois das credenciais.
+- Legenda sob o retrato (NOVA, enviada pela Nikolle via WhatsApp 09/08, implementada 10/08):
+  Holistic Skincare Practitioner and Nutritional Health Coach
 - FOTO: aumentar o retrato para NÃO cortar o topo do cabelo (ajustar enquadramento/aspect).
 
 ## Seção 7 — FAQ

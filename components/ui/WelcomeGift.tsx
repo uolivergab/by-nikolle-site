@@ -8,36 +8,39 @@ import {
   useReducedMotion,
   useScroll,
 } from "framer-motion";
+import { openBookingDialog } from "@/components/ui/BookingDialog";
 import { TideButton } from "@/components/ui/TideButton";
-import { BOOKING_SMS_HREF } from "@/lib/booking";
 
-// Pop-up de boas-vindas — REDESENHADO 30/07 (item 1 da revisão da Nikolle):
-// "redesenhar completamente, torná-lo significativamente maior e centralizado
-// na tela, utilizar uma das minhas fotos profissionais, elegante e sofisticado".
+// Pop-up de boas-vindas — REDESENHADO 10/08 (revisão da Nikolle 09/08: "pedi
+// para refazer o design dele e manteve praticamente como estava, além de ter
+// adicionado uma foto repetida... tanta foto que te mandei, pq não usar outra
+// deu atendendo?").
 //
-// A carta discreta do canto virou CONVITE CENTRADO: retrato à esquerda, texto à
-// direita, papel sand sobre um véu de grafite. Continua MODO A e continua
-// discreto no comportamento, que é o que protege o posicionamento: uma vez por
-// sessão, sem urgência, sem countdown, sem pulso, sem contador. O que mudou é a
-// PRESENÇA, não a pressão. Quando ele chega, ver o bloco dos gatilhos abaixo.
+// O que mudou de verdade desta vez:
+// (1) A FOTO é a que ela enviou PARA o pop-up (atendimento, máscara editada
+//     para branca — popup-atendimento.webp), não mais o retrato repetido do
+//     Sobre. No desktop ela é METADE da peça, coluna inteira; no mobile é o
+//     topo alto do convite.
+// (2) ESCALA: max-w 1040px no desktop (era 880) e convite de tela quase cheia
+//     no mobile. "Significativamente maior e centralizado", como ela pediu.
+// (3) COMPOSIÇÃO nova: papel de LINHO (não mais sand), moldura de fio d'água
+//     recuada sobre a fotografia (a gramática do hero), linha d'água curta
+//     antes da oferta, e a linha dos 20% como o centro emocional da peça
+//     (voz itálica em olive, maior que o corpo).
+// (4) O CTA abre o FORMULÁRIO de agendamento (BookingDialog), que monta o SMS
+//     já preenchido — o caminho novo de 10/08.
 //
-// Sendo agora um diálogo modal de verdade (centralizado e cobrindo a cena), ele
-// assume as obrigações de um: aria-modal, foco levado para dentro e devolvido
-// ao fechar, Tab preso no painel, Esc e clique no véu fecham, rolagem travada.
-//
-// FOTO: o retrato aprovado da Nikolle. Ela pediu "uma das minhas fotos
-// profissionais" e, na mesma linha, pediu para editar a máscara da foto de
-// atendimento para branca. O retrato dispensa essa edição (não tem máscara) e
-// serve melhor ao tom de carta pessoal. Se ela quiser especificamente a foto de
-// atendimento, é troca de asset editado, não de código.
+// O que NÃO mudou (é o que protege o Modo A): copy aprovada dela, uma vez por
+// sessão, sem urgência, sem countdown, sem pulso, e as obrigações de diálogo
+// modal (aria-modal, foco preso e devolvido, Esc, véu clicável, rolagem
+// travada). Gatilhos abaixo.
 
 // DOIS GATILHOS, o que vier primeiro (09/08). O relógio é o TETO: aos 20s o
-// convite chega de qualquer jeito (era 30s, e 30 passava da sessão curta).
-// O atalho é o INTERESSE: 30% da rolagem cai no fim dos Serviços nos dois
-// breakpoints (desktop 17,5%-31,5%, mobile 14%-32,2%), ou seja, a pessoa acabou
-// de ler os tratamentos e os preços, que é quando a oferta significa alguma
-// coisa. O atalho só ARMA aos 8s, senão quem folheia a página em dois gestos
-// leva o convite na cara antes de ter lido qualquer coisa.
+// convite chega de qualquer jeito. O atalho é o INTERESSE: 30% da rolagem cai
+// no fim dos Serviços, quando os tratamentos e preços acabaram de ser lidos.
+// O atalho só ARMA aos 8s, senão quem folheia leva o convite na cara antes de
+// ler qualquer coisa. ABA EM SEGUNDO PLANO: o convite espera a pessoa voltar
+// (o flag só grava quando ela VÊ; rAF parado queimava o convite invisível).
 const SHOW_DELAY_MS = 20_000;
 const SCROLL_TRIGGER = 0.3;
 const SCROLL_ARM_MS = 8_000;
@@ -51,16 +54,7 @@ export function WelcomeGift() {
   const panelRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
 
-  // Agenda a aparição única da sessão. O flag grava no momento em que mostra,
-  // então navegações/reloads na mesma sessão não repetem o convite.
-  //
-  // ABA EM SEGUNDO PLANO (corrigido 09/08, causa de "o pop-up sumiu"): o
-  // setTimeout dispara mesmo com a aba escondida, mas o Framer é movido por
-  // requestAnimationFrame, que fica PARADO enquanto a aba não pinta. O convite
-  // era montado invisível (opacity 0) e, pior, o flag de "já mostrei" era
-  // gravado ali: a pessoa gastava o único convite da sessão sem nunca vê-lo, e
-  // nenhum F5 trazia ele de volta (sessionStorage sobrevive a recarga). Agora,
-  // se a aba estiver escondida na hora, o convite ESPERA ela voltar.
+  // Agenda a aparição única da sessão (flag grava no momento em que MOSTRA).
   useEffect(() => {
     let shown = false;
     try {
@@ -98,8 +92,7 @@ export function WelcomeGift() {
     const timer = setTimeout(reveal, SHOW_DELAY_MS);
 
     // Atalho: a profundidade de rolagem, armada só depois da carência.
-    // scrollYProgress é motion value, então a leitura por quadro NÃO passa pelo
-    // React (nada de listener de scroll na mão, nada de re-render por quadro).
+    // scrollYProgress é motion value: a leitura por quadro NÃO passa pelo React.
     const armTimer = setTimeout(() => {
       if (done) return;
       if (scrollYProgress.get() >= SCROLL_TRIGGER) {
@@ -163,7 +156,7 @@ export function WelcomeGift() {
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 min-[701px]:p-8">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 min-[861px]:p-10">
           {/* Véu: grafite translúcido, discreto. Clique fecha. */}
           <motion.button
             type="button"
@@ -182,18 +175,21 @@ export function WelcomeGift() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="welcome-gift-title"
-            initial={{ opacity: 0, y: reduced ? 0 : 22, scale: reduced ? 1 : 0.985 }}
+            initial={{ opacity: 0, y: reduced ? 0 : 24, scale: reduced ? 1 : 0.982 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 0, scale: 1 }}
-            transition={{ duration: reduced ? 0.3 : 0.75, ease: EASE }}
-            className="relative grid w-full max-w-[420px] overflow-hidden rounded-[4px] border border-olive/20 bg-sand shadow-[0_28px_80px_-24px_color-mix(in_srgb,var(--graphite)_42%,transparent)] min-[701px]:max-w-[880px] min-[701px]:grid-cols-[0.82fr_1fr]"
+            transition={{ duration: reduced ? 0.3 : 0.8, ease: EASE }}
+            // MOBILE: flex-coluna com a foto em altura FIXA e a carta rolável
+            // (linha de grid em % contra max-h estoura e corta o CTA — medido).
+            // DESKTOP: grid de 2 colunas, foto esticando na linha inteira.
+            className="relative flex max-h-[min(94svh,720px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
           >
             {/* Linha d'água que se desenha no topo (forma-assinatura). */}
             <motion.span
               aria-hidden="true"
               initial={{ scaleX: reduced ? 1 : 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 0.95, ease: EASE, delay: reduced ? 0 : 0.4 }}
+              transition={{ duration: 0.95, ease: EASE, delay: reduced ? 0 : 0.45 }}
               className="absolute inset-x-0 top-0 z-[2] h-px origin-center bg-sage"
             />
 
@@ -202,7 +198,7 @@ export function WelcomeGift() {
               data-autofocus
               onClick={() => setOpen(false)}
               aria-label="Close"
-              className="focus-ripple absolute top-2 right-2 z-[3] flex h-11 w-11 items-center justify-center rounded-[2px] text-graphite transition-colors hover:text-olive min-[701px]:text-graphite-soft"
+              className="focus-ripple absolute top-2 right-2 z-[3] flex h-11 w-11 items-center justify-center rounded-[2px] text-linen transition-colors hover:text-sand min-[861px]:text-graphite-soft min-[861px]:hover:text-olive"
             >
               <svg
                 width="13"
@@ -220,22 +216,38 @@ export function WelcomeGift() {
               </svg>
             </button>
 
-            {/* RETRATO: no mobile vira uma faixa horizontal no topo (a foto
-                continua presente, mas sem empurrar o texto para fora da tela). */}
-            <div className="relative h-[180px] w-full min-[701px]:h-auto">
-              <Image
-                src="/images/retrato-nikolle.webp"
-                alt="Nikolle Coelho, founder of By Nikolle."
-                fill
-                sizes="(max-width: 700px) 100vw, 360px"
-                className="object-cover object-[center_18%] min-[701px]:object-[center_28%]"
+            {/* A FOTOGRAFIA: a foto de atendimento que ela enviou para o pop-up
+                (máscara editada para branca). Metade da peça no desktop, topo
+                alto no mobile. A câmera assenta devagar (scale 1.045 -> 1) e a
+                moldura de fio d'água recuada é a gramática do hero. */}
+            <div className="relative h-[min(34svh,290px)] shrink-0 overflow-hidden min-[861px]:h-auto">
+              <motion.div
+                initial={{ scale: reduced ? 1 : 1.045 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: reduced ? 0 : 2.4, ease: EASE }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src="/images/popup-atendimento.webp"
+                  alt="Nikolle performing a facial treatment."
+                  fill
+                  loading="eager"
+                  sizes="(max-width: 860px) 100vw, 500px"
+                  className="object-cover object-[center_30%]"
+                />
+              </motion.div>
+              {/* Moldura recuada de fio d'água sobre a foto (linen 55%). */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-3 border border-linen/55"
               />
             </div>
 
-            <div className="px-7 pt-8 pb-8 min-[701px]:px-11 min-[701px]:py-12">
+            {/* A CARTA: papel de linho, muito ar, a oferta como centro. */}
+            <div className="flex min-h-0 flex-col justify-center overflow-y-auto px-7 py-7 min-[861px]:px-14 min-[861px]:py-12">
               <h2
                 id="welcome-gift-title"
-                className="pr-8 font-display text-[clamp(25px,4.6vw,34px)] leading-[1.18] text-graphite"
+                className="font-display text-[clamp(26px,6.4vw,31px)] leading-[1.14] text-graphite min-[861px]:text-[clamp(30px,3vw,40px)]"
               >
                 <span className="sr-only">Begin Your Wellness Journey</span>
                 <span
@@ -249,24 +261,34 @@ export function WelcomeGift() {
                 </span>
               </h2>
 
-              <p className="mt-5 max-w-[46ch] text-[14.5px] leading-[1.72] text-graphite-soft min-[701px]:mt-6 min-[701px]:text-[15px]">
+              <p className="mt-4 max-w-[46ch] text-[14.5px] leading-[1.7] text-graphite-soft min-[861px]:mt-6 min-[861px]:text-[15.5px] min-[861px]:leading-[1.75]">
                 {
                   "Whether you're seeking holistic skincare or a Nervous System Reset, each session is designed to support your skin, body, and overall well-being."
                 }
               </p>
 
-              {/* O desconto entra como linha sóbria, não como selo de oferta.
-                  20% desde 09/08 (pedido da Nikolle; era 15%). */}
-              <p className="mt-5 font-voice text-[clamp(17px,2vw,20px)] italic text-olive">
+              {/* Linha d'água curta + a oferta como o centro emocional da peça.
+                  20% desde 09/08 (pedido da Nikolle; era 15%). Sem selo, sem
+                  pulso: uma linha de voz. */}
+              <motion.span
+                aria-hidden="true"
+                initial={{ scaleX: reduced ? 1 : 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.9, ease: EASE, delay: reduced ? 0 : 0.75 }}
+                className="mt-5 block h-px w-[44px] origin-left bg-sage min-[861px]:mt-7"
+              />
+              <p className="mt-4 font-voice text-[clamp(19px,4.8vw,22px)] italic text-olive min-[861px]:text-[clamp(21px,2.2vw,25px)]">
                 Enjoy 20% off your first visit.
               </p>
 
-              <div className="mt-7 min-[701px]:mt-8">
+              <div className="mt-6 min-[861px]:mt-9">
                 <TideButton
                   size="lg"
-                  href={BOOKING_SMS_HREF}
-                  className="w-full min-[701px]:w-auto"
-                  onClick={() => setOpen(false)}
+                  className="w-full min-[861px]:w-auto min-[861px]:px-10"
+                  onClick={() => {
+                    setOpen(false);
+                    openBookingDialog();
+                  }}
                 >
                   Reserve My Visit
                 </TideButton>

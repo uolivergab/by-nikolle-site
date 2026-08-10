@@ -14,6 +14,7 @@
 :root {
   --linen: #f5f0e8;
   --sand: #e9ded2;
+  --sand-deep: #e1d4c4; /* interlúdio de imprensa (5b): sand como FUNDO de seção, tom guardado, uso único. NÃO é cor nova da paleta (design.md 5b) */
   --sage: #7b8367;
   --olive: #5e6646;
   --olive-deep: #272a1d; /* água funda: piso do pico da Seção 4 (véu), derivado do olive */
@@ -61,25 +62,19 @@
     transparent 100%
   );
 
-  /* Seção 3 — Serviços (REFORMULADA): véu na base da imagem-âncora, a LINHA
-     D'ÁGUA que corre sob a categoria ativa do trilho, a tinta das notas em
-     itálico sobre linho (sage puro reprova AA em texto pequeno, então a nota
-     caminha um passo rumo ao grafite e mantém o tom) e a sombra difusa da
-     carta de tratamentos. */
+  /* Seção 3 — Serviços (acordeão RESTAURADO 10/08 a pedido da Nikolle: "quero
+     como estava"): véu na base da imagem-âncora (só a base ganha peso, o
+     grafite via token) e a linha-guia d'água que liga o nome ao gatilho. */
   --s3-frame-veil: linear-gradient(
     180deg,
     transparent 58%,
     color-mix(in srgb, var(--graphite) 15%, transparent)
   );
-  --s3-waterline: linear-gradient(
+  --s3-leader: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--olive) 92%, transparent),
-    color-mix(in srgb, var(--sage) 52%, transparent)
+    color-mix(in srgb, var(--sage) 60%, transparent),
+    color-mix(in srgb, var(--sage) 32%, transparent)
   );
-  --s3-quill: color-mix(in srgb, var(--sage) 42%, var(--graphite));
-  --s3-card-shadow: 0 26px 54px -30px
-    color-mix(in srgb, var(--graphite) 34%, transparent);
-  --s3-row-veil: color-mix(in srgb, var(--linen) 46%, transparent);
 
   /* Seção 4 — Programa, agora SOBRE o jardim compartilhado (o fundo próprio saiu
      pro GardenScene). O véu-mestre já escurece a zona noite; --program-scrim é
@@ -98,23 +93,32 @@
      Seção 2 (Filosofia) em 27/07; a S5 ficou em campo linen limpo. Os véus
      que viviam aqui foram junto (ver bloco da Seção 2). */
 
-  /* Seção 5b — IN THE PRESS (experiência editorial de scroll, briefing 27/07).
-     O fundo virou ASSET próprio (gesso quente + sombra de folhagem + cáusticas
-     d'água em public/images/press/), então os tokens antigos de campo, grão e
-     vinheta saíram. A dupla tipográfica é a MESMA do hero (Inter Tight fina +
-     Bodoni Moda itálica) — reutilizada por ordem do briefing ("verifique as
-     fontes disponíveis antes de instalar"); a exclusividade do hero acabou: o
-     par agora é a voz dos dois momentos editoriais do site. O ink desce um
-     passo rumo ao olive-deep (a tinta do key visual); o label mistura
-     graphite-soft com graphite para manter AA >= 4.5:1 nas caps pequenas
-     sobre as zonas claras do gesso. Papéis: as folhas atrás da revista. */
-  --press-sans: var(--font-inter-tight), Inter, Arial, sans-serif;
-  --press-italic: var(--font-bodoni-moda), Didot, "Bodoni 72", serif;
-  --press-ink: color-mix(in srgb, var(--graphite) 72%, var(--olive-deep));
-  --press-label: color-mix(in srgb, var(--graphite-soft) 55%, var(--graphite));
-  --press-paper: color-mix(in srgb, var(--linen) 58%, white);
-  --press-paper-2: color-mix(in srgb, var(--sand) 62%, white);
-  --press-shadow: color-mix(in srgb, var(--olive-deep) 32%, transparent);
+  /* Seção 5b — Interlúdio de imprensa (RESTAURADO 10/08 a pedido da Nikolle:
+     "gosto da versão antiga"; a cena editorial de scroll de 27/07-09/08 saiu).
+     Campo sand PROFUNDO (fundo de seção) com textura de papel + vinheta morna
+     (profundidade, sem cor nova). O filete duplo das divisórias é decorativo
+     (olive translúcido). O label pequeno usa olive APROFUNDADO: olive puro dá
+     só 4.16:1 sobre o sand-deep (reprova AA em texto pequeno), então desce um
+     passo rumo ao graphite (~4.8:1) preservando o calor editorial. */
+  --press-bg: var(--sand-deep);
+  --press-rule: color-mix(in srgb, var(--olive) 36%, transparent);
+  --press-label: color-mix(in srgb, var(--olive) 70%, var(--graphite));
+  /* Grão de papel: SVG feTurbulence dessaturado RASTERIZADO UMA VEZ num tile
+     200x200 (data-URI) e repetido via background — barato mesmo em dpr alto (o
+     rect filtrado em tela cheia rasterizava lento no retina). stitch = costura
+     sem emenda no repeat. */
+  --press-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E");
+  --press-vignette:
+    radial-gradient(
+      120% 90% at 50% 30%,
+      color-mix(in srgb, var(--linen) 50%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      140% 120% at 50% 120%,
+      color-mix(in srgb, var(--olive) 10%, transparent),
+      transparent 55%
+    );
 
   /* Voz itálica da marca (palavra de destaque das headlines) — SISTEMA v2:
      peso subiu de 340 para 500 para equilibrar contra o caps do display. */
@@ -349,21 +353,24 @@
 }
 
 /* ============================================================
-   Seção 3 — Serviços. REFORMULADA (08/08): o acordeão de três categorias
-   empilhadas virou TRILHO + CARTA. As categorias moram num trilho horizontal
-   (tablist real) sob o qual corre a LINHA D'ÁGUA da marca, e os tratamentos
-   assentam numa CARTA de areia ("pedra sobre o linho", raio 16, meniscos em
-   2 cantos opostos). A troca de categoria é do TransitionPanel (21st.dev,
-   motion-primitives), que é o dono do movimento DENTRO da carta.
-   Aqui vive só o que utilitário não expressa: coreografia de reveal por
-   data-live, o traçado dos meniscos, o assentamento da fotografia, a sombra
-   de folhagem (prevista no design.md e pendente desde a construção) e a
-   altura da carta, que segue a página ativa em vez de saltar.
-   Só transform/opacity nas animações contínuas. Tudo degrada em
-   prefers-reduced-motion (e sem JS nasce no estado final e visível).
-   O sticky NÃO tem CSS aqui de propósito: overflow em ancestral o quebraria
-   (a folhagem é recortada num IRMÃO absoluto, nunca num ancestral).
+   Seção 3 — Serviços. Gabarito: mock-secao3-servicos-v5.html.
+   ACORDEÃO RESTAURADO 10/08 (revisão da Nikolle: "quero como estava"):
+   as 3 categorias empilhadas com View services + chevron, sobre o linho.
+   Layout/tipografia vivem como utilitários no Services.tsx; aqui só a
+   coreografia de reveal — dispara por data-live quando a seção entra em
+   view e some em prefers-reduced-motion (e sem JS), onde tudo nasce no
+   estado final e visível. Só transform/opacity (GPU). Os delays de stagger
+   entram inline por índice no TSX (valor dinâmico). O sticky NÃO tem CSS
+   aqui de propósito: qualquer overflow em ancestral o quebraria.
    ============================================================ */
+@keyframes s3-lead-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
 @keyframes s3-rise {
   from {
     opacity: 0;
@@ -374,107 +381,16 @@
     transform: translateY(0);
   }
 }
-/* Menisco: fio côncavo da forma-assinatura desenhando no reveal. */
-@keyframes s3-draw {
-  from {
-    stroke-dashoffset: 64;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-/* Assentamento da câmera: a fotografia pousa (precedente do hero). */
-@keyframes s3-settle {
-  from {
-    transform: scale(1.035);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-/* Sombra de folhagem: a natureza entra como SOMBRA, nunca como adesivo.
-   Deriva lentíssima, amplitude mínima. */
-@keyframes s3-canopy {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1.04);
-  }
-  50% {
-    transform: translate3d(-1.8%, 1.2%, 0) scale(1.09);
-  }
-}
 
 @layer components {
-  /* Folhagem: camada estática por padrão (reduced-motion herda isto). */
-  .s3-canopy-layer {
-    position: absolute;
-    inset: -12% -8%;
-    background: url("/images/proof-foliage-dawn.jpg") 50% 28% / cover no-repeat;
-    mix-blend-mode: multiply;
-    opacity: 0.07;
-  }
-
-  /* Trilho: sem barra de rolagem visível quando ele desliza no mobile. */
-  .s3-rail {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .s3-rail::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Fio do menisco: dasharray cobre o traçado inteiro (path ~58px). */
-  .s3-menisco path {
-    stroke-dasharray: 64;
-  }
-
-  /* Linha de leitura: aflora sob o tratamento em foco (só quem tem hover). */
-  .s3-row::after {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    bottom: -1px;
-    height: 1px;
-    background-image: var(--s3-waterline);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .s3-row {
-      transition: background-color 0.35s ease;
-    }
-    .s3-row:hover {
-      background-color: var(--s3-row-veil);
-    }
-    .s3-row:hover::after {
-      transform: scaleX(1);
-    }
-  }
-
   @media (prefers-reduced-motion: no-preference) {
-    /* Blocos sobem em stagger (fade + rise) quando a seção entra em view. */
+    /* A linha-guia se desenha do centro (a forma-assinatura da marca). */
+    .services[data-live="true"] .s3-lead {
+      animation: s3-lead-draw 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    /* Blocos e itens sobem em stagger (fade + rise). */
     .services[data-live="true"] .s3-rise {
       animation: s3-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    /* Os meniscos da carta se desenham logo depois dela assentar. */
-    .services[data-live="true"] .s3-menisco path {
-      animation: s3-draw 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
-    }
-    /* A fotografia pousa. */
-    .services[data-live="true"] .s3-settle {
-      animation: s3-settle 2.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    .s3-canopy-layer {
-      animation: s3-canopy 34s ease-in-out infinite;
-    }
-    /* A carta acompanha a altura da página ativa em vez de saltar. A transição
-       vale SÓ na troca de categoria (data-swap): no acordeão do mobile a
-       altura precisa seguir o painel quadro a quadro, senão ela persegue a
-       abertura e o conteúdo aparece cortado durante os 420ms. */
-    .s3-shell[data-swap] {
-      transition: height 0.42s cubic-bezier(0.22, 1, 0.36, 1);
     }
   }
 }
@@ -778,309 +694,98 @@
 }
 
 /* ============================================================
-   Seção 5b — IN THE PRESS, experiência editorial de scroll (briefing 27/07).
-   Gabaritos ABSOLUTOS: design-references/press-section/ (key visual desktop +
-   3 estados mobile). Cena sticky (~340svh): tipografia monumental (a dupla
-   Inter Tight fina + Bodoni itálica), a revista como objeto físico com folhas
-   de papel atrás, o serum sculpture em primeiro plano e o selo azul flutuando
-   em profundidade própria. REGRA DA CASA (lição medida no browser): TODA
-   opacidade vive AQUI, em estados discretos (data-in) + transição CSS; os
-   motion values do TSX carregam só transform. Sem data-live (sem JS) tudo
-   nasce visível e estático; prefers-reduced-motion troca o JSX pela
-   composição vertical estática. Sombra de papel = exceção sancionada dos
-   artefatos físicos (mesma família 5b/5v).
+   Seção 5b — Interlúdio de imprensa. Gabarito: mock-interludio-imprensa-v2.html.
+   Interlúdio editorial ENTRE a Prova (S5) e o Sobre (S6): separa a prova
+   emocional da AUTORIDADE institucional (imprensa + prêmio). Campo sand PROFUNDO
+   + textura de papel + vinheta (tokens acima). Aqui: o material do artefato
+   (borda fina + sombra de papel — EXCEÇÃO consciente à regra 'contorno não
+   sombra', sancionada pelo Gabriel p/ o clipping/selo lerem como objeto físico),
+   o filete duplo das divisórias, e a coreografia de reveal (data-live; some em
+   prefers-reduced-motion, tudo nasce visível e estático). Só transform/opacity.
+   O clipping assenta e o selo 'carimba' logo depois. Delays de stagger da
+   história entram inline por índice no TSX.
    ============================================================ */
-@layer components {
-  .press {
-    background: var(--linen);
-  }
-
-  /* O TEMPO da narrativa. O mobile roda em 170svh porque lá a seção tem DOIS
-     pratos e UM movimento (a revista subindo para o lugar da headline): um
-     percurso só não pede mais do que isso, e rolagem sobrando é o que fazia a
-     seção ler como prisão. O desktop mantém os 340svh, onde o percurso é o
-     key visual inteiro se compondo camada por camada. */
-  .pe-wrap {
-    height: 170vh;
-    height: 170svh;
-  }
-  @media (min-width: 1024px) {
-    .pe-wrap {
-      height: 340vh;
-      height: 340svh;
-    }
-  }
-
-  /* A dupla editorial (a mesma do hero, em papel novo): fina e ampla contra
-     itálica de alto contraste. O peso 325 é ajuste fino da variável: 400
-     pesava no tamanho monumental, 300 evaporava os terminais. */
-  .pe-sans {
-    font-family: var(--press-sans);
-    font-weight: 325;
-    letter-spacing: -0.005em;
-  }
-  .pe-italic {
-    font-family: var(--press-italic);
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-  }
-
-  /* Labels e microcopy: Hanken caps, tracking editorial, AA sobre o gesso. */
-  .pe-label {
-    font-size: 10.5px;
-    line-height: 1.7;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--press-label);
-  }
-
-  /* Eyebrow em pill (mock): fio fino e respiro; não é botão. */
-  .pe-pill {
-    display: inline-block;
-    border: 1px solid color-mix(in srgb, var(--graphite-soft) 45%, transparent);
-    border-radius: var(--radius-pill);
-    padding: 10px 22px;
-    font-size: 10px;
-    line-height: normal;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--press-label);
-  }
-
-  /* Indicador de progressão: os 3 estados sobrepostos, crossfade discreto. */
-  .pe-ind {
-    display: grid;
-    justify-items: end;
-    font-size: 10px;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--press-label);
-  }
-  .pe-ind > span {
-    grid-area: 1 / 1;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  .pe-ind > span[data-on] {
-    opacity: 1;
-  }
-
-  /* As folhas de papel atrás da revista: off-white, rotações próprias,
-     bordas quase invisíveis, sombra difusa (a luz do site é difusa por lei). */
-  .pe-sheet {
-    background: var(--press-paper);
-    border: 1px solid color-mix(in srgb, var(--graphite) 7%, transparent);
-    border-radius: 2px;
-    box-shadow: 0 22px 48px -30px var(--press-shadow);
-  }
-  .pe-sheet-2 {
-    background: var(--press-paper-2);
-  }
-
-  /* O recorte real: papel sobre a mesa iluminada. */
-  .pe-mag {
-    border-radius: 2px;
-    border: 1px solid color-mix(in srgb, var(--graphite) 8%, transparent);
-    box-shadow:
-      0 30px 60px -34px var(--press-shadow),
-      0 6px 18px -8px color-mix(in srgb, var(--olive-deep) 14%, transparent);
-  }
-
-  /* Serum e selo: drop-shadow ESTÁTICO (nunca animado) que os assenta na
-     cena sem glow artificial. */
-  .pe-serum {
-    filter: drop-shadow(
-      0 26px 38px color-mix(in srgb, var(--olive-deep) 16%, transparent)
-    );
-  }
-  .pe-seal {
-    filter: drop-shadow(
-      0 12px 22px color-mix(in srgb, var(--olive-deep) 22%, transparent)
-    );
-  }
-
-  /* Aspa gigante da quote (device editorial da casa, família da 5v). */
-  .pe-qmark {
-    display: block;
-    margin-bottom: 10px;
-    font-size: clamp(44px, 11vw, 64px);
-    line-height: 0.6;
-    color: color-mix(in srgb, var(--olive) 78%, transparent);
-    user-select: none;
-  }
-  @media (min-width: 1024px) {
-    .pe-qmark {
-      font-size: clamp(40px, 3.2vw, 54px);
-    }
-  }
-
-  /* Estado 03 do mobile: a conclusão é uma coluna CENTRADA na cena (o
-     justify-center vem do TSX); no desktop o wrapper vira display:contents
-     (utilitário no TSX) e cada peça assume a coordenada do key visual. */
-  .pe-conclusion {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  /* CTA circular: disco de tinta + seta fina + rótulo sublinhado. Área de
-     toque >= 44px pelo próprio disco; foco visível via focus-ripple. */
-  .pe-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 18px;
-    color: var(--graphite);
-  }
-  .pe-cta-disc {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    flex: none;
-    border-radius: var(--radius-pill);
-    background: var(--press-ink);
-    color: var(--linen);
-    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .pe-cta-arrow {
-    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  /* Rótulo em UMA linha: com max-width ele quebrava em duas e o botão lia
-     como caixa apertada, não como convite. */
-  .pe-cta-label {
-    position: relative;
-    padding-bottom: 7px;
-    white-space: nowrap;
-    font-size: 10.5px;
-    line-height: 1.75;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-  }
-  .pe-cta-label::after {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    bottom: 0;
-    height: 1px;
-    background: color-mix(in srgb, var(--graphite) 55%, transparent);
-    transform-origin: left;
-  }
-  @media (min-width: 1024px) {
-    .pe-cta {
-      gap: 16px;
-    }
-    .pe-cta-disc {
-      width: 74px;
-      height: 74px;
-    }
-    .pe-cta-label {
-      text-align: center;
-    }
-  }
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .pe-cta:hover .pe-cta-disc {
-      transform: scale(1.04);
-    }
-    .pe-cta:hover .pe-cta-arrow {
-      transform: translate(3px, -3px);
-    }
-    .pe-cta:hover .pe-cta-label::after {
-      animation: pe-underline-sweep 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-  }
-
-  /* ---- Coreografia de opacidade (estados discretos; transform é dos MVs).
-     Tudo só existe sob data-live (com JS) e fora de reduced-motion: sem um
-     dos dois, o conteúdo nasce visível e estático. ---- */
-  @media (prefers-reduced-motion: no-preference) {
-    .press[data-live] .pe-fade {
-      opacity: 0;
-      transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .press[data-live] .pe-fade[data-in] {
-      opacity: 1;
-    }
-    /* Variante com subida CURTA (só em elementos SEM motion value). */
-    .press[data-live] .pe-rise {
-      transform: translateY(14px);
-      transition:
-        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .press[data-live] .pe-rise[data-in] {
-      transform: none;
-    }
-    /* Quote: reveal por linha, de dentro de uma máscara, em cascata. */
-    .press[data-live] .pe-qline {
-      display: block;
-      overflow: hidden;
-    }
-    .press[data-live] .pe-qline > span {
-      display: block;
-      transform: translateY(112%);
-      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--qd, 0s);
-    }
-    .press[data-live] [data-in] .pe-qline > span {
-      transform: none;
-    }
-    .press[data-live] .pe-qmark {
-      opacity: 0;
-      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
-    }
-    .press[data-live] [data-in] > .pe-qmark {
-      opacity: 1;
-    }
-  }
-}
-
-/* TELAS CURTAS (mobile com menos de 760px de altura: iPhone SE, Androids
-   antigos). Os dois pratos do mobile continuam, mas o artefato e o pé do
-   segundo prato cedem tamanho para caberem na mesma tela sem se tocarem: sem
-   isso a citação nasce por cima da revista justamente nos aparelhos menores.
-   FORA de @layer de propósito, porque precisa vencer os utilitários. */
-@media (max-width: 1023px) and (max-height: 760px) {
-  .pe-stack {
-    top: 164px;
-    width: 48vw;
-  }
-  /* A revista encolheu, então o carimbo acompanha: no lugar antigo ele ficava
-     boiando ao lado dela, sem tocar o papel. */
-  .pe-seal-w {
-    top: 41svh;
-    left: 44vw;
-  }
-  .pe-q-m {
-    font-size: 5.4vw;
-  }
-  .pe-qmark {
-    margin-bottom: 6px;
-    font-size: 34px;
-  }
-  .pe-conclusion figcaption {
-    margin-top: 16px;
-  }
-  .pe-conclusion .pe-cta {
-    margin-top: 28px;
-  }
-  .pe-cta-disc {
-    width: 50px;
-    height: 50px;
-  }
-}
-
-@keyframes pe-underline-sweep {
+@keyframes press-settle {
   from {
-    transform: scaleX(0);
+    opacity: 0;
+    transform: translateY(18px) rotate(-2.2deg);
   }
   to {
-    transform: scaleX(1);
+    opacity: 1;
+    transform: translateY(0) rotate(-2.2deg);
   }
 }
+@keyframes press-stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(6deg) scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(6deg) scale(1);
+  }
+}
+@keyframes press-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer components {
+  /* Campo sand profundo do interlúdio (a classe também escopa o reveal). */
+  .press {
+    background: var(--press-bg);
+  }
+  /* Textura de papel: tile de ruído repetido (estático, barato), multiply sutil. */
+  .press-grain {
+    background-image: var(--press-grain);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+  /* Filete DUPLO: duas hairlines paralelas (filete de diagramação de revista). */
+  .press-rule-line {
+    height: 3px;
+    border-top: 1px solid var(--press-rule);
+    border-bottom: 1px solid var(--press-rule);
+  }
+  /* O clipping como papel: borda fina olive + sombra de papel sutil (exceção
+     sancionada). Rotação de repouso -2.2deg (o reveal a preserva). */
+  .press-clip {
+    transform: rotate(-2.2deg);
+    border: 1px solid color-mix(in srgb, var(--olive) 16%, transparent);
+    box-shadow: 0 18px 40px -22px
+      color-mix(in srgb, var(--olive-deep) 30%, transparent);
+  }
+  /* O selo 'carimbado' no canto: rotação de repouso 6deg + drop-shadow suave. */
+  .press-stamp {
+    transform: rotate(6deg);
+    filter: drop-shadow(
+      0 10px 18px color-mix(in srgb, var(--olive-deep) 24%, transparent)
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* O clipping assenta (fade + rise lento). */
+    .press[data-live="true"] .press-clip {
+      animation: press-settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    /* O selo 'carimba' logo depois (scale 1.06->1 + fade), assentando sobre o
+       papel já quase parado. */
+    .press[data-live="true"] .press-stamp {
+      animation: press-stamp-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+    }
+    /* Masthead, headline e pull-quote sobem em stagger (fade + rise). */
+    .press[data-live="true"] .press-rise {
+      animation: press-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+}
+
 
 /* ============================================================
    Seção 7 — FAQ. VALE (design.md item 7): acordeão limpo numerado, campo

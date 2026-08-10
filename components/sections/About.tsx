@@ -81,6 +81,15 @@ export function About() {
               className="object-cover [object-position:center_10%]"
             />
           </div>
+          {/* Legenda sob o retrato (copy enviada pela Nikolle 09/08, roteiro.md
+              Seção 6). Voz itálica em OLIVE (precedente da linha 'Coming soon'
+              da S3: sage a 16px reprova AA sobre o linho; olive dá ~5:1). */}
+          <p
+            className="s6-rise mt-4 text-center font-voice text-[16px] font-medium leading-[1.45] text-olive italic min-[881px]:text-left"
+            style={delay(70)}
+          >
+            Holistic Skincare Practitioner and Nutritional Health Coach
+          </p>
         </div>
 
         {/* Coluna direita: a carta. max-width ~520px. */}
@@ -192,6 +201,21 @@ export function About() {
                   <li>Reiki Level I & II Practitioner - Starseed Healing Journeys | Hawaii</li>
                 </ul>
               </div>
+
+              {/* Assinatura Parisienne — MOVIDA para dentro do Full Story
+                  (pedido da Nikolle 09/08: "assinatura não precisa aparecer na
+                  página principal, somente quando click p mais info"). Fecha a
+                  carta expandida; a revelação esquerda->direita roda quando a
+                  seção fica live e o painel abre já com ela escrita. aria-hidden:
+                  o nome já foi anunciado no título. */}
+              <div className="mt-7 mb-1">
+                <span
+                  aria-hidden="true"
+                  className="s6-sign inline-block font-signature text-[52px] leading-none text-graphite"
+                >
+                  Nikolle Coelho
+                </span>
+              </div>
             </div>
           </div>
 
@@ -226,24 +250,11 @@ export function About() {
             </button>
           </div>
 
-          {/* Assinatura Parisienne — o único toque à mão do site, o pico humano.
-              Ganha a revelação esquerda->direita ('sendo escrita') via s6-sign;
-              em prefers-reduced-motion aparece inteira. aria-hidden: o nome já foi
-              anunciado no título (evita repetição fora de contexto no leitor). */}
-          <div className="mt-6 mb-1">
-            <span
-              aria-hidden="true"
-              className="s6-sign inline-block font-signature text-[52px] leading-none text-graphite"
-            >
-              Nikolle Coelho
-            </span>
-          </div>
-
           {/* CTA maré (reusa o TideButton: borda 1px olive, água que sobe no
               hover, texto -> linho): 1 linha (nowrap), SEM sublinhado, link para
               #program. No mobile full-width com texto reduzido (11.5px / 0.08em)
               para caber em 1 linha em ~360-375px. */}
-          <div className="s6-rise mt-6" style={delay(420)}>
+          <div className="s6-rise mt-8" style={delay(420)}>
             <TideButton
               href="#program"
               className="w-full px-4 text-[10.5px] tracking-[0.05em] min-[881px]:w-auto min-[881px]:px-8 min-[881px]:text-[13px] min-[881px]:tracking-[0.14em]"
