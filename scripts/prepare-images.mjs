@@ -27,6 +27,10 @@ const HERO_MAX = 2560;
 const PHOTO_MAX = 1600;
 
 // Fotos do projeto (assets/ -> public/images/), redimensionadas.
+// `cropBottom` (0-1) corta uma fração da BASE antes de redimensionar: serve para
+// tirar rodapé morto de foto vertical, aproximando a proporção do enquadramento
+// que a composição pede. Largura sempre inteira (cortar as laterais deixaria a
+// foto MAIS vertical, que é o oposto do que uma janela larga precisa).
 const projectJobs = [
   { src: "assets/hero/hero-agua-desktop.png", out: "hero-agua-desktop.webp", maxWidth: HERO_MAX, budgetKB: 400 },
   { src: "assets/hero/hero-agua-mobile.png", out: "hero-agua-mobile.webp", maxWidth: HERO_MAX, budgetKB: 400 },
@@ -41,7 +45,12 @@ const projectJobs = [
   // refazer a edição: ffmpeg converte o HEIC — o sharp recusa o iref dele — e
   // o script da dessaturação está no histórico da sessão 10/08).
   { src: "assets/photos/cena-atendimento-editada.jpg", out: "cena-atendimento-editada.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
-  { src: "assets/photos/popup-atendimento-branca.jpg", out: "popup-atendimento.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
+  // POP-UP: os dois rostos (Nikolle no topo, cliente embaixo) ocupam do topo até
+  // ~78% da altura; os últimos ~18% são toalha e corpo, sem informação. Cortando
+  // essa base a proporção sai de 0.750 para 0.915, e é essa mudança que permite
+  // a janela do mobile mostrar os DOIS rostos (medido: a 358px de largura a foto
+  // inteira ocupa 391px de altura, contra os 478px que a fonte original pedia).
+  { src: "assets/photos/popup-atendimento-branca.jpg", out: "popup-atendimento.webp", cropBottom: 0.18, maxWidth: PHOTO_MAX, budgetKB: 250 },
 ];
 
 // Before/After (prefixo do arquivo de origem -> nome de saída). Só conversão de formato.
@@ -75,8 +84,17 @@ async function run() {
     const srcPath = path.join(ROOT, job.src);
     const outPath = path.join(OUT_IMAGES, job.out);
     try {
-      await sharp(srcPath)
-        .rotate()
+      let pipeline = sharp(srcPath).rotate();
+      if (job.cropBottom) {
+        const meta = await sharp(srcPath).rotate().metadata();
+        pipeline = pipeline.extract({
+          left: 0,
+          top: 0,
+          width: meta.width,
+          height: Math.round(meta.height * (1 - job.cropBottom)),
+        });
+      }
+      await pipeline
         .resize({ width: job.maxWidth, withoutEnlargement: true })
         .webp({ quality: QUALITY, effort: 6 })
         .toFile(outPath);

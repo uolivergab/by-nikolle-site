@@ -179,10 +179,13 @@ export function WelcomeGift() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 0, scale: 1 }}
             transition={{ duration: reduced ? 0.3 : 0.8, ease: EASE }}
-            // MOBILE: flex-coluna com a foto em altura FIXA e a carta rolável
-            // (linha de grid em % contra max-h estoura e corta o CTA — medido).
-            // DESKTOP: grid de 2 colunas, foto esticando na linha inteira.
-            className="relative flex max-h-[min(94svh,720px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
+            // MOBILE: o card tem ALTURA DEFINIDA e a foto ocupa o que sobra
+            // depois do texto (que nunca é espremido, então o CTA nunca cai
+            // fora). Assim a fotografia cresce no aparelho grande e recua no
+            // pequeno sozinha, sem breakpoint de altura. Altura fixa em vez de
+            // max-h porque com max-h a foto não tem contra o que crescer.
+            // DESKTOP: grid de 2 colunas, foto na linha inteira.
+            className="relative flex h-[min(94svh,760px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:h-auto min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
           >
             {/* Linha d'água que se desenha no topo (forma-assinatura). */}
             <motion.span
@@ -219,8 +222,16 @@ export function WelcomeGift() {
             {/* A FOTOGRAFIA: a foto de atendimento que ela enviou para o pop-up
                 (máscara editada para branca). Metade da peça no desktop, topo
                 alto no mobile. A câmera assenta devagar (scale 1.045 -> 1) e a
-                moldura de fio d'água recuada é a gramática do hero. */}
-            <div className="relative h-[min(34svh,290px)] shrink-0 overflow-hidden min-[861px]:h-auto">
+                moldura de fio d'água recuada é a gramática do hero.
+                ENQUADRAMENTO (medido no asset, 10/08): os dois rostos ficam
+                empilhados do topo até ~78% da altura da foto original, e por
+                isso o recorte da fonte tira o rodapé morto (ver
+                prepare-images.mjs) e a janela ANCORA NO TOPO: se a tela for
+                curta demais para os dois, quem fica é o rosto da Nikolle, que
+                foi o pedido dela. No desktop o piso de 560px dá à coluna a
+                altura que a proporção da foto pede, então ela aparece quase
+                inteira. */}
+            <div className="relative max-h-[420px] min-h-[150px] flex-1 overflow-hidden min-[861px]:max-h-none min-[861px]:min-h-[560px] min-[861px]:flex-none">
               <motion.div
                 initial={{ scale: reduced ? 1 : 1.045 }}
                 animate={{ scale: 1 }}
@@ -232,8 +243,8 @@ export function WelcomeGift() {
                   alt="Nikolle performing a facial treatment."
                   fill
                   loading="eager"
-                  sizes="(max-width: 860px) 100vw, 500px"
-                  className="object-cover object-[center_30%]"
+                  sizes="(max-width: 860px) 100vw, 520px"
+                  className="object-cover object-top"
                 />
               </motion.div>
               {/* Moldura recuada de fio d'água sobre a foto (linen 55%). */}
@@ -243,8 +254,12 @@ export function WelcomeGift() {
               />
             </div>
 
-            {/* A CARTA: papel de linho, muito ar, a oferta como centro. */}
-            <div className="flex min-h-0 flex-col justify-center overflow-y-auto px-7 py-7 min-[861px]:px-14 min-[861px]:py-12">
+            {/* A CARTA: papel de linho, muito ar, a oferta como centro.
+                Os respiros do mobile são FLUIDOS em svh (nunca menores que o
+                toque pede): em tela alta valem o mesmo de antes, e em tela
+                curta devolvem ~30px para a fotografia, que é a diferença
+                entre ver ou não o rosto da cliente num iPhone SE. */}
+            <div className="flex min-h-0 flex-col justify-center overflow-y-auto px-7 py-[clamp(20px,3.3svh,28px)] min-[861px]:px-14 min-[861px]:py-12">
               <h2
                 id="welcome-gift-title"
                 className="font-display text-[clamp(26px,6.4vw,31px)] leading-[1.14] text-graphite min-[861px]:text-[clamp(30px,3vw,40px)]"
@@ -261,7 +276,7 @@ export function WelcomeGift() {
                 </span>
               </h2>
 
-              <p className="mt-4 max-w-[46ch] text-[14.5px] leading-[1.7] text-graphite-soft min-[861px]:mt-6 min-[861px]:text-[15.5px] min-[861px]:leading-[1.75]">
+              <p className="mt-[clamp(12px,1.9svh,16px)] max-w-[46ch] text-[14.5px] leading-[1.7] text-graphite-soft min-[861px]:mt-6 min-[861px]:text-[15.5px] min-[861px]:leading-[1.75]">
                 {
                   "Whether you're seeking holistic skincare or a Nervous System Reset, each session is designed to support your skin, body, and overall well-being."
                 }
@@ -275,13 +290,13 @@ export function WelcomeGift() {
                 initial={{ scaleX: reduced ? 1 : 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.9, ease: EASE, delay: reduced ? 0 : 0.75 }}
-                className="mt-5 block h-px w-[44px] origin-left bg-sage min-[861px]:mt-7"
+                className="mt-[clamp(14px,2.4svh,20px)] block h-px w-[44px] origin-left bg-sage min-[861px]:mt-7"
               />
-              <p className="mt-4 font-voice text-[clamp(19px,4.8vw,22px)] italic text-olive min-[861px]:text-[clamp(21px,2.2vw,25px)]">
+              <p className="mt-[clamp(12px,1.9svh,16px)] font-voice text-[clamp(19px,4.8vw,22px)] italic text-olive min-[861px]:text-[clamp(21px,2.2vw,25px)]">
                 Enjoy 20% off your first visit.
               </p>
 
-              <div className="mt-6 min-[861px]:mt-9">
+              <div className="mt-[clamp(16px,2.8svh,24px)] min-[861px]:mt-9">
                 <TideButton
                   size="lg"
                   className="w-full min-[861px]:w-auto min-[861px]:px-10"

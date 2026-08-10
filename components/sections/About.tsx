@@ -83,9 +83,14 @@ export function About() {
           </div>
           {/* Legenda sob o retrato (copy enviada pela Nikolle 09/08, roteiro.md
               Seção 6). Voz itálica em OLIVE (precedente da linha 'Coming soon'
-              da S3: sage a 16px reprova AA sobre o linho; olive dá ~5:1). */}
+              da S3: sage a 16px reprova AA sobre o linho; olive dá ~5:1).
+              QUEBRA (10/08): no mobile a frase caía com 'Coach' órfão na 2ª
+              linha. text-balance reparte as duas linhas por medida e cai
+              naturalmente no 'and', que é onde a frase se divide em sentido
+              (são DUAS credenciais). No desktop a coluna é larga e ela segue
+              em uma linha só, então o balanceamento não tem efeito lá. */}
           <p
-            className="s6-rise mt-4 text-center font-voice text-[16px] font-medium leading-[1.45] text-olive italic min-[881px]:text-left"
+            className="s6-rise mt-4 text-center text-balance font-voice text-[16px] font-medium leading-[1.45] text-olive italic min-[881px]:text-left"
             style={delay(70)}
           >
             Holistic Skincare Practitioner and Nutritional Health Coach
