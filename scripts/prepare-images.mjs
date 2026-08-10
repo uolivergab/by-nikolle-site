@@ -45,12 +45,11 @@ const projectJobs = [
   // refazer a edição: ffmpeg converte o HEIC — o sharp recusa o iref dele — e
   // o script da dessaturação está no histórico da sessão 10/08).
   { src: "assets/photos/cena-atendimento-editada.jpg", out: "cena-atendimento-editada.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
-  // POP-UP: os dois rostos (Nikolle no topo, cliente embaixo) ocupam do topo até
-  // ~78% da altura; os últimos ~18% são toalha e corpo, sem informação. Cortando
-  // essa base a proporção sai de 0.750 para 0.915, e é essa mudança que permite
-  // a janela do mobile mostrar os DOIS rostos (medido: a 358px de largura a foto
-  // inteira ocupa 391px de altura, contra os 478px que a fonte original pedia).
-  { src: "assets/photos/popup-atendimento-branca.jpg", out: "popup-atendimento.webp", cropBottom: 0.18, maxWidth: PHOTO_MAX, budgetKB: 250 },
+  // POP-UP: a cena inteira (rosto da Nikolle no topo, rosto da cliente e as MÃOS
+  // trabalhando embaixo) termina a ~78% da altura; o resto é toalha e corpo, sem
+  // informação. Cortada essa base, a proporção sai de 0.750 para 0.937 e a foto
+  // pede menos altura para caber inteira, que é o que o pop-up precisa no mobile.
+  { src: "assets/photos/popup-atendimento-branca.jpg", out: "popup-atendimento.webp", cropBottom: 0.2, maxWidth: PHOTO_MAX, budgetKB: 250 },
 ];
 
 // Before/After (prefixo do arquivo de origem -> nome de saída). Só conversão de formato.

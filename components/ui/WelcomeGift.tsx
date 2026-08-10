@@ -156,7 +156,7 @@ export function WelcomeGift() {
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 min-[861px]:p-10">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 min-[861px]:p-10">
           {/* Véu: grafite translúcido, discreto. Clique fecha. */}
           <motion.button
             type="button"
@@ -183,9 +183,11 @@ export function WelcomeGift() {
             // depois do texto (que nunca é espremido, então o CTA nunca cai
             // fora). Assim a fotografia cresce no aparelho grande e recua no
             // pequeno sozinha, sem breakpoint de altura. Altura fixa em vez de
-            // max-h porque com max-h a foto não tem contra o que crescer.
+            // max-h porque com max-h a foto não tem contra o que crescer, e
+            // ocupando quase toda a tela porque cada pixel de altura vira
+            // largura de fotografia (ela se dimensiona pela altura).
             // DESKTOP: grid de 2 colunas, foto na linha inteira.
-            className="relative flex h-[min(94svh,760px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:h-auto min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
+            className="relative flex h-[min(100svh_-_24px,820px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:h-auto min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
           >
             {/* Linha d'água que se desenha no topo (forma-assinatura). */}
             <motion.span
@@ -201,7 +203,11 @@ export function WelcomeGift() {
               data-autofocus
               onClick={() => setOpen(false)}
               aria-label="Close"
-              className="focus-ripple absolute top-2 right-2 z-[3] flex h-11 w-11 items-center justify-center rounded-[2px] text-linen transition-colors hover:text-sand min-[861px]:text-graphite-soft min-[861px]:hover:text-olive"
+              // O X vive ora sobre a fotografia, ora sobre o linho (a prancha
+              // do mobile tem margem, e ela varia com a altura da tela), então
+              // ele não pode depender da cor do que está atrás: grafite com
+              // HALO DE LUZ, o mesmo device que resolveu a credencial da hero.
+              className="focus-ripple absolute top-2 right-2 z-[3] flex h-11 w-11 items-center justify-center rounded-[2px] text-graphite [filter:drop-shadow(0_0_3px_var(--linen))_drop-shadow(0_0_6px_var(--linen))] transition-colors hover:text-olive"
             >
               <svg
                 width="13"
@@ -220,46 +226,59 @@ export function WelcomeGift() {
             </button>
 
             {/* A FOTOGRAFIA: a foto de atendimento que ela enviou para o pop-up
-                (máscara editada para branca). Metade da peça no desktop, topo
-                alto no mobile. A câmera assenta devagar (scale 1.045 -> 1) e a
-                moldura de fio d'água recuada é a gramática do hero.
-                ENQUADRAMENTO (medido no asset, 10/08): os dois rostos ficam
-                empilhados do topo até ~78% da altura da foto original, e por
-                isso o recorte da fonte tira o rodapé morto (ver
-                prepare-images.mjs) e a janela ANCORA NO TOPO: se a tela for
-                curta demais para os dois, quem fica é o rosto da Nikolle, que
-                foi o pedido dela. No desktop o piso de 560px dá à coluna a
-                altura que a proporção da foto pede, então ela aparece quase
-                inteira. */}
-            <div className="relative max-h-[420px] min-h-[150px] flex-1 overflow-hidden min-[861px]:max-h-none min-[861px]:min-h-[560px] min-[861px]:flex-none">
+                (máscara editada para branca). A câmera assenta devagar
+                (scale 1.045 -> 1) e a moldura recuada de fio d'água é a
+                gramática do hero.
+                ENQUADRAMENTO (2 passadas, 10/08, tudo medido): a cena é
+                vertical e a história inteira (rosto da Nikolle no topo, rosto
+                da cliente e as MÃOS trabalhando embaixo) ocupa do topo a ~78%
+                da altura. Enquanto a foto PREENCHIA a largura, o Safari real
+                não tinha altura para ela: medindo o card no aparelho do
+                Gabriel, o viewport pequeno é ~694px (a barra do Safari come
+                ~158px que o DevTools não simula), e sobravam 307px para uma
+                foto que pedia 391px. Daí a inversão: no mobile a fotografia
+                deixou de ser recortada para caber e passou a CABER INTEIRA,
+                virando uma PRANCHA MONTADA sobre o linho, que é a mesma
+                gramática do hero. É a largura que cede, nunca o assunto: a
+                imagem se dimensiona pela altura disponível (h-full + w-auto,
+                proporção preservada pelo próprio elemento) e o linho ao redor
+                lê como a margem de uma foto montada. No desktop ela volta a
+                preencher a coluna, onde há altura de sobra. */}
+            <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-3 min-[861px]:block min-[861px]:min-h-[560px] min-[861px]:p-0">
               <motion.div
                 initial={{ scale: reduced ? 1 : 1.045 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: reduced ? 0 : 2.4, ease: EASE }}
-                className="absolute inset-0"
+                className="flex h-full w-full items-center justify-center min-[861px]:block"
               >
                 <Image
                   src="/images/popup-atendimento.webp"
                   alt="Nikolle performing a facial treatment."
-                  fill
+                  width={1600}
+                  height={1707}
                   loading="eager"
                   sizes="(max-width: 860px) 100vw, 520px"
-                  className="object-cover object-top"
+                  // AS DUAS DIMENSÕES EM AUTO, limitadas por max-*: é assim que
+                  // um elemento substituído preserva a própria proporção ao ser
+                  // reduzido. Com `h-full w-auto` a proporção quebra no momento
+                  // em que a LARGURA vira o limite (a altura fica presa em 100%
+                  // e o object-cover volta a cortar) — medido em tela alta.
+                  // A moldura vive como OUTLINE recuado do próprio elemento da
+                  // imagem (e não como um irmão absoluto): assim ela abraça a
+                  // fotografia mesmo quando a largura cede, em vez de emoldurar
+                  // um vão de linho. Mesmo device do retrato do Sobre.
+                  className="h-auto max-h-full w-auto max-w-full object-cover [outline:1px_solid_color-mix(in_srgb,var(--linen)_55%,transparent)] [outline-offset:-12px] min-[861px]:h-full min-[861px]:max-h-none min-[861px]:w-full min-[861px]:object-top"
                 />
               </motion.div>
-              {/* Moldura recuada de fio d'água sobre a foto (linen 55%). */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-3 border border-linen/55"
-              />
             </div>
 
             {/* A CARTA: papel de linho, muito ar, a oferta como centro.
-                Os respiros do mobile são FLUIDOS em svh (nunca menores que o
-                toque pede): em tela alta valem o mesmo de antes, e em tela
-                curta devolvem ~30px para a fotografia, que é a diferença
-                entre ver ou não o rosto da cliente num iPhone SE. */}
-            <div className="flex min-h-0 flex-col justify-center overflow-y-auto px-7 py-[clamp(20px,3.3svh,28px)] min-[861px]:px-14 min-[861px]:py-12">
+                Os respiros do mobile são FLUIDOS em svh, calibrados por DOIS
+                pontos reais e não por chute: valem o mesmo de sempre no
+                viewport alto (844) e encolhem no viewport pequeno do Safari
+                (~694, medido no aparelho), onde cada pixel devolvido vira
+                tamanho de fotografia. */}
+            <div className="flex min-h-0 flex-col justify-center overflow-y-auto px-7 py-[clamp(14px,8.67svh_-_45px,28px)] min-[861px]:px-14 min-[861px]:py-12">
               <h2
                 id="welcome-gift-title"
                 className="font-display text-[clamp(26px,6.4vw,31px)] leading-[1.14] text-graphite min-[861px]:text-[clamp(30px,3vw,40px)]"
@@ -276,7 +295,7 @@ export function WelcomeGift() {
                 </span>
               </h2>
 
-              <p className="mt-[clamp(12px,1.9svh,16px)] max-w-[46ch] text-[14.5px] leading-[1.7] text-graphite-soft min-[861px]:mt-6 min-[861px]:text-[15.5px] min-[861px]:leading-[1.75]">
+              <p className="mt-[clamp(10px,3.33svh_-_12px,16px)] max-w-[46ch] text-[14.5px] leading-[1.7] text-graphite-soft min-[861px]:mt-6 min-[861px]:text-[15.5px] min-[861px]:leading-[1.75]">
                 {
                   "Whether you're seeking holistic skincare or a Nervous System Reset, each session is designed to support your skin, body, and overall well-being."
                 }
@@ -290,13 +309,13 @@ export function WelcomeGift() {
                 initial={{ scaleX: reduced ? 1 : 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.9, ease: EASE, delay: reduced ? 0 : 0.75 }}
-                className="mt-[clamp(14px,2.4svh,20px)] block h-px w-[44px] origin-left bg-sage min-[861px]:mt-7"
+                className="mt-[clamp(12px,4.67svh_-_19px,20px)] block h-px w-[44px] origin-left bg-sage min-[861px]:mt-7"
               />
-              <p className="mt-[clamp(12px,1.9svh,16px)] font-voice text-[clamp(19px,4.8vw,22px)] italic text-olive min-[861px]:text-[clamp(21px,2.2vw,25px)]">
+              <p className="mt-[clamp(10px,3.33svh_-_12px,16px)] font-voice text-[clamp(19px,4.8vw,22px)] italic text-olive min-[861px]:text-[clamp(21px,2.2vw,25px)]">
                 Enjoy 20% off your first visit.
               </p>
 
-              <div className="mt-[clamp(16px,2.8svh,24px)] min-[861px]:mt-9">
+              <div className="mt-[clamp(14px,6svh_-_27px,24px)] min-[861px]:mt-9">
                 <TideButton
                   size="lg"
                   className="w-full min-[861px]:w-auto min-[861px]:px-10"
