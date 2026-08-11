@@ -64,13 +64,15 @@ export function About() {
       data-live={live ? "true" : undefined}
       className="about bg-linen"
     >
-      {/* GAP DO MOBILE de 40 para 24px (pedido dela 11/08: "da uma subidinha no
-          The founder p dar uma aproximada"). No mobile a legenda do retrato e o
-          eyebrow são duas linhas pequenas seguidas, e 40px entre elas abria um
-          vão que fazia a carta parecer começar de novo; 24px costura o retrato
-          ao texto. O desktop, onde as duas vivem em colunas diferentes e o gap
-          é horizontal, fica intocado. */}
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-6 px-6 pt-14 pb-10 min-[881px]:grid-cols-[0.82fr_1fr] min-[881px]:gap-[88px] min-[881px]:px-12 min-[881px]:pt-[88px] min-[881px]:pb-16">
+      {/* GAP DO MOBILE: 40px abria um vão que fazia a carta parecer começar de
+          novo, e 24px (1ª correção, 11/08) colou demais — ela pediu "descer só
+          um pouquinho o The founder, acabou q ficou muito próximo". Ficou em
+          32px, o meio-termo: a legenda do retrato e o eyebrow continuam lendo
+          como um bloco só, mas com respiro suficiente para o eyebrow anunciar
+          a coluna de texto em vez de parecer legenda da foto. O desktop, onde
+          as duas vivem em colunas diferentes e o gap é horizontal, fica
+          intocado. */}
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-8 px-6 pt-14 pb-10 min-[881px]:grid-cols-[0.82fr_1fr] min-[881px]:gap-[88px] min-[881px]:px-12 min-[881px]:pt-[88px] min-[881px]:pb-16">
         {/* Retrato em ARCO SUAVE (a forma sancionada para retratos): raio grande
             no topo, base quase reta. Contorno oliva 1px (outline, não sombra);
             object-position mira o rosto (lei óptica: rosto bem iluminado). */}
