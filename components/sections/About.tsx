@@ -64,15 +64,17 @@ export function About() {
       data-live={live ? "true" : undefined}
       className="about bg-linen"
     >
-      {/* GAP DO MOBILE: 40px abria um vão que fazia a carta parecer começar de
-          novo, e 24px (1ª correção, 11/08) colou demais — ela pediu "descer só
-          um pouquinho o The founder, acabou q ficou muito próximo". Ficou em
-          32px, o meio-termo: a legenda do retrato e o eyebrow continuam lendo
-          como um bloco só, mas com respiro suficiente para o eyebrow anunciar
-          a coluna de texto em vez de parecer legenda da foto. O desktop, onde
-          as duas vivem em colunas diferentes e o gap é horizontal, fica
-          intocado. */}
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-8 px-6 pt-14 pb-10 min-[881px]:grid-cols-[0.82fr_1fr] min-[881px]:gap-[88px] min-[881px]:px-12 min-[881px]:pt-[88px] min-[881px]:pb-16">
+      {/* GAP DO MOBILE, 3ª calibragem (11/08): 40 -> 24 -> 32 -> 40px. As idas
+          e vindas mostraram que o número sozinho não era o problema: a legenda
+          do retrato ficava AMBÍGUA entre a foto e o eyebrow, e mexer só no vão
+          de baixo empurrava a ambiguidade de um lado para o outro. A cura é
+          por AGRUPAMENTO: a legenda encostou na foto (mt-3, 12px, porque ela
+          descreve a foto) e o eyebrow ganhou 40px, mais do triplo. Assim a
+          leitura fica inequívoca, retrato+legenda de um lado e a coluna de
+          texto do outro, que é o que ela chama de "espaçamento adequado".
+          O desktop, onde as duas vivem em colunas diferentes e o gap é
+          horizontal, fica intocado. */}
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-6 pt-14 pb-10 min-[881px]:grid-cols-[0.82fr_1fr] min-[881px]:gap-[88px] min-[881px]:px-12 min-[881px]:pt-[88px] min-[881px]:pb-16">
         {/* Retrato em ARCO SUAVE (a forma sancionada para retratos): raio grande
             no topo, base quase reta. Contorno oliva 1px (outline, não sombra);
             object-position mira o rosto (lei óptica: rosto bem iluminado). */}
@@ -99,7 +101,7 @@ export function About() {
               a frase ainda não cabe, e ali ele reparte as linhas por medida em
               vez de deixar uma palavra órfã. */}
           <p
-            className="s6-rise mt-4 text-center text-balance font-voice text-[clamp(14px,3.9vw,16px)] font-medium leading-[1.45] text-olive italic min-[881px]:text-left min-[881px]:text-[16px]"
+            className="s6-rise mt-3 text-center text-balance font-voice text-[clamp(14px,3.9vw,16px)] font-medium leading-[1.45] text-olive italic min-[881px]:mt-4 min-[881px]:text-left min-[881px]:text-[16px]"
             style={delay(70)}
           >
             Holistic Esthetician and Nutritional Health Coach
