@@ -45,11 +45,15 @@ const projectJobs = [
   // refazer a edição: ffmpeg converte o HEIC — o sharp recusa o iref dele — e
   // o script da dessaturação está no histórico da sessão 10/08).
   { src: "assets/photos/cena-atendimento-editada.jpg", out: "cena-atendimento-editada.webp", maxWidth: PHOTO_MAX, budgetKB: 250 },
-  // POP-UP: a cena inteira (rosto da Nikolle no topo, rosto da cliente e as MÃOS
-  // trabalhando embaixo) termina a ~78% da altura; o resto é toalha e corpo, sem
-  // informação. Cortada essa base, a proporção sai de 0.750 para 0.937 e a foto
-  // pede menos altura para caber inteira, que é o que o pop-up precisa no mobile.
-  { src: "assets/photos/popup-atendimento-branca.jpg", out: "popup-atendimento.webp", cropBottom: 0.2, maxWidth: PHOTO_MAX, budgetKB: 250 },
+  // POP-UP (foto NOVA enviada pela Nikolle em 11/08, substitui a de atendimento
+  // com máscara): o ritual do sérum. A diagonal conta a cena inteira, do rosto
+  // dela no topo até o rosto da cliente embaixo, passando pelo conta-gotas.
+  // O corte de base para em 89% da altura: é onde o queixo da cliente termina
+  // (medido). Cortar menos deixaria toalha morta; cortar mais decepa o queixo.
+  // Com ele a proporção sai de 0.811 para 0.912, e proporção mais larga é
+  // exatamente o que o pop-up MENOR (pedido dela) precisa, porque a fotografia
+  // se dimensiona pela altura disponível.
+  { src: "assets/photos/popup-ritual-serum.jpg", out: "popup-ritual-serum.webp", cropBottom: 0.11, maxWidth: PHOTO_MAX, budgetKB: 250 },
 ];
 
 // Before/After (prefixo do arquivo de origem -> nome de saída). Só conversão de formato.

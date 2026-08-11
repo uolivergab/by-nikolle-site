@@ -64,7 +64,13 @@ export function About() {
       data-live={live ? "true" : undefined}
       className="about bg-linen"
     >
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-6 pt-14 pb-10 min-[881px]:grid-cols-[0.82fr_1fr] min-[881px]:gap-[88px] min-[881px]:px-12 min-[881px]:pt-[88px] min-[881px]:pb-16">
+      {/* GAP DO MOBILE de 40 para 24px (pedido dela 11/08: "da uma subidinha no
+          The founder p dar uma aproximada"). No mobile a legenda do retrato e o
+          eyebrow são duas linhas pequenas seguidas, e 40px entre elas abria um
+          vão que fazia a carta parecer começar de novo; 24px costura o retrato
+          ao texto. O desktop, onde as duas vivem em colunas diferentes e o gap
+          é horizontal, fica intocado. */}
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-6 px-6 pt-14 pb-10 min-[881px]:grid-cols-[0.82fr_1fr] min-[881px]:gap-[88px] min-[881px]:px-12 min-[881px]:pt-[88px] min-[881px]:pb-16">
         {/* Retrato em ARCO SUAVE (a forma sancionada para retratos): raio grande
             no topo, base quase reta. Contorno oliva 1px (outline, não sombra);
             object-position mira o rosto (lei óptica: rosto bem iluminado). */}
@@ -81,19 +87,20 @@ export function About() {
               className="object-cover [object-position:center_10%]"
             />
           </div>
-          {/* Legenda sob o retrato (copy enviada pela Nikolle 09/08, roteiro.md
-              Seção 6). Voz itálica em OLIVE (precedente da linha 'Coming soon'
-              da S3: sage a 16px reprova AA sobre o linho; olive dá ~5:1).
-              QUEBRA (10/08): no mobile a frase caía com 'Coach' órfão na 2ª
-              linha. text-balance reparte as duas linhas por medida e cai
-              naturalmente no 'and', que é onde a frase se divide em sentido
-              (são DUAS credenciais). No desktop a coluna é larga e ela segue
-              em uma linha só, então o balanceamento não tem efeito lá. */}
+          {/* Legenda sob o retrato (copy da Nikolle, roteiro.md Seção 6). Voz
+              itálica em OLIVE (precedente da linha 'Coming soon' da S3: sage a
+              16px reprova AA sobre o linho; olive dá ~5:1).
+              COPY ENCURTADA POR ELA em 11/08, de 'Holistic Skincare
+              Practitioner' para 'Holistic Esthetician', exatamente para caber
+              em UMA LINHA no mobile (era a alternativa que ela preferiu à
+              quebra em duas). O text-balance fica como rede: em telas de 320px
+              a frase ainda não cabe, e ali ele reparte as linhas por medida em
+              vez de deixar uma palavra órfã. */}
           <p
-            className="s6-rise mt-4 text-center text-balance font-voice text-[16px] font-medium leading-[1.45] text-olive italic min-[881px]:text-left"
+            className="s6-rise mt-4 text-center text-balance font-voice text-[clamp(14px,3.9vw,16px)] font-medium leading-[1.45] text-olive italic min-[881px]:text-left min-[881px]:text-[16px]"
             style={delay(70)}
           >
-            Holistic Skincare Practitioner and Nutritional Health Coach
+            Holistic Esthetician and Nutritional Health Coach
           </p>
         </div>
 

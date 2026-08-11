@@ -271,8 +271,11 @@
   - POSIÇÃO (revisão Nikolle 09/08, implementada 10/08): a assinatura NÃO aparece na página
     principal; vive DENTRO do Full Story ("somente quando click p mais info"), fechando a
     carta expandida, depois das credenciais.
-- Legenda sob o retrato (NOVA, enviada pela Nikolle via WhatsApp 09/08, implementada 10/08):
-  Holistic Skincare Practitioner and Nutritional Health Coach
+- Legenda sob o retrato (NOVA, enviada pela Nikolle via WhatsApp 09/08):
+  Holistic Esthetician and Nutritional Health Coach
+  (ENCURTADA POR ELA em 11/08: era 'Holistic Skincare Practitioner and Nutritional Health
+  Coach' e ela mesma trocou 'Skincare Practitioner' por 'Esthetician' "p caber tudo em uma
+  linha" no mobile. Decisão de copy dela, não nossa.)
 - FOTO: aumentar o retrato para NÃO cortar o topo do cabelo (ajustar enquadramento/aspect).
 
 ## Seção 7 — FAQ

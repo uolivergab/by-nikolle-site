@@ -169,25 +169,33 @@ export function Hero() {
           claro. */}
       <motion.div
         style={{ opacity: copyOpacity }}
-        className="absolute inset-x-0 top-[max(96px,11.5%)] z-[3] px-[5.5vw] text-center md:inset-x-auto md:top-[54%] md:left-[3.6vw] md:max-w-[58vw] md:-translate-y-1/2 md:px-0 md:text-left"
+        // O bloco subiu para 88px no mobile (11/08): a logo maior empurrou o
+        // parágrafo de apoio para cima do cabelo escuro da modelo, onde a
+        // última linha ficava ilegível. 88px é o piso real: abaixo disso a
+        // marca encosta no hambúrguer da navbar.
+        className="absolute inset-x-0 top-[max(88px,11.5%)] z-[3] px-[5.5vw] text-center md:inset-x-auto md:top-[54%] md:left-[3.6vw] md:max-w-[58vw] md:-translate-y-1/2 md:px-0 md:text-left"
       >
         {/* Decorativa para o leitor de tela: o h1 logo abaixo nomeia a página e
             a navbar já carrega a marca acessível. */}
         <span
           aria-hidden="true"
           style={d(0.08)}
-          className="hero-rise mb-[26px] block md:mb-[clamp(22px,4.4vh,40px)]"
+          className="hero-rise mb-[16px] block md:mb-[clamp(22px,4.4vh,40px)]"
         >
-          {/* Escala 10/08 (pedido da Nikolle: "aumentar levemente o logo, um
-              pouquinho mais visível p que dê p ler skin, nourishment, balance"):
-              +10% nos dois breakpoints. No mobile fica ENTRE o 37vw de 30/07 e
-              o 44vw que gritava; a tagline da logo passa a ser legível. */}
-          <Logo className="mx-auto h-auto w-[clamp(146px,40.5vw,187px)] text-(--hero-ink) md:mx-0 md:w-[clamp(216px,17vw,288px)]" />
+          {/* Escala 11/08 (2ª cobrança dela: "ainda sinto q as 3 palavras em
+              baixo estão pouco visíveis"). MEDIDO no SVG: a tagline ocupa 7.6%
+              da altura da logo, então a 159px de largura ela renderizava com
+              4.2px de altura de letra, abaixo do limiar de leitura de caixa
+              alta (~6px) — o problema nunca foi contraste, era corpo. A 56vw
+              (220px a 393) a tagline chega a 5.8px, e no desktop a 8.7px. Foi
+              o quanto deu para crescer sem a marca competir com a headline:
+              acima disso a logo passa a comandar a tela no lugar da frase. */}
+          <Logo className="mx-auto h-auto w-[clamp(178px,56vw,232px)] text-(--hero-ink) md:mx-0 md:w-[clamp(248px,21vw,340px)]" />
         </span>
 
         <p
           style={d(0.22)}
-          className="hero-rise mb-[18px] font-(family-name:--font-hero-ui) text-[10.5px] uppercase leading-[normal] tracking-[0.26em] text-(--hero-olive-ink) md:mb-[clamp(20px,4vh,36px)] md:text-[13px] md:tracking-[0.28em]"
+          className="hero-rise mb-[14px] font-(family-name:--font-hero-ui) text-[10.5px] uppercase leading-[normal] tracking-[0.26em] text-(--hero-olive-ink) md:mb-[clamp(20px,4vh,36px)] md:text-[13px] md:tracking-[0.28em]"
         >
           {`Holistic Wellness · Kaka${OKINA}ako`}
         </p>
@@ -224,7 +232,7 @@ export function Hero() {
 
         <p
           style={d(0.64)}
-          className="hero-fade mx-auto mt-[22px] max-w-[78vw] font-(family-name:--font-hero-ui) text-[14px] font-light leading-[1.68] text-(--hero-ink) md:mx-0 md:mt-[clamp(22px,4.6vh,44px)] md:max-w-[470px] md:text-[17px] md:leading-[1.62]"
+          className="hero-fade mx-auto mt-[16px] max-w-[78vw] font-(family-name:--font-hero-ui) text-[14px] font-light leading-[1.68] text-(--hero-ink) md:mx-0 md:mt-[clamp(22px,4.6vh,44px)] md:max-w-[470px] md:text-[17px] md:leading-[1.62]"
         >
           Discover personalized holistic facials and integrative wellness
           designed to nurture your skin, nourish your body, and restore balance.

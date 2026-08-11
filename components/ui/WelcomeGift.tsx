@@ -183,11 +183,14 @@ export function WelcomeGift() {
             // depois do texto (que nunca é espremido, então o CTA nunca cai
             // fora). Assim a fotografia cresce no aparelho grande e recua no
             // pequeno sozinha, sem breakpoint de altura. Altura fixa em vez de
-            // max-h porque com max-h a foto não tem contra o que crescer, e
-            // ocupando quase toda a tela porque cada pixel de altura vira
-            // largura de fotografia (ela se dimensiona pela altura).
+            // max-h porque com max-h a foto não tem contra o que crescer.
+            // A ALTURA CAIU PARA 90svh em 11/08 ("agora ele está cobrindo a
+            // tela inteira" — Nikolle): sobra uma faixa de véu em cima e
+            // embaixo, e o convite volta a ler como peça pousada sobre a
+            // página em vez de takeover. O preço é largura de fotografia, e é
+            // por isso que a foto nova entra num recorte mais largo.
             // DESKTOP: grid de 2 colunas, foto na linha inteira.
-            className="relative flex h-[min(100svh_-_24px,820px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:h-auto min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
+            className="relative flex h-[min(90svh,720px)] w-full max-w-[420px] flex-col overflow-hidden rounded-[4px] border border-olive/20 bg-linen shadow-[0_32px_90px_-26px_color-mix(in_srgb,var(--graphite)_46%,transparent)] min-[861px]:grid min-[861px]:h-auto min-[861px]:max-h-[min(88svh,660px)] min-[861px]:max-w-[1040px] min-[861px]:grid-cols-[1fr_1.05fr]"
           >
             {/* Linha d'água que se desenha no topo (forma-assinatura). */}
             <motion.span
@@ -252,10 +255,10 @@ export function WelcomeGift() {
                 className="flex h-full w-full items-center justify-center min-[861px]:block"
               >
                 <Image
-                  src="/images/popup-atendimento.webp"
-                  alt="Nikolle performing a facial treatment."
-                  width={1600}
-                  height={1707}
+                  src="/images/popup-ritual-serum.webp"
+                  alt="Nikolle applying a facial serum during a treatment."
+                  width={1024}
+                  height={1123}
                   loading="eager"
                   sizes="(max-width: 860px) 100vw, 520px"
                   // AS DUAS DIMENSÕES EM AUTO, limitadas por max-*: é assim que

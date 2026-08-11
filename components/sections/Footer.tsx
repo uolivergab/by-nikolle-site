@@ -61,8 +61,16 @@ export function Footer() {
       />
 
       <div className="mx-auto max-w-[1100px] px-6 pt-16 pb-10 min-[881px]:pt-20 min-[881px]:pb-12">
-        {/* Lockup cerimonial: logo + linha + reflexo (scaleY(-1), ~9%, máscara
-            derretendo para baixo). aria-hidden no reflexo (decorativo).
+        {/* Lockup cerimonial: logo + linha d'água.
+            O REFLEXO SAIU em 11/08 (ela: "acho q pode tirar este efeito do
+            sombreado, ele quase não aparece e daí aproximar mais a frase a
+            baixo"). Ela tem razão pelo argumento certo: a 9% de opacidade o
+            reflexo não chegava a ler como reflexo, só abria ~50px de vazio
+            entre a linha e a frase. Um gesto que não se percebe não é
+            discrição, é peso morto. A forma-assinatura continua aqui na LINHA
+            D'ÁGUA que se desenha, que é quem faz o trabalho.
+            CONSEQUÊNCIA REGISTRADA: o reflexo agora tem uso ÚNICO no site (o
+            hero), e some a duplicação do SVG pesado da logo neste rodapé.
             Logo AMPLIADA a pedido da Nikolle (h-9/h-10 -> h-12/h-14). */}
         <div className="ft-rise flex flex-col items-center" style={delay(0)}>
           <Logo className="h-12 w-auto text-graphite min-[881px]:h-14" />
@@ -70,17 +78,13 @@ export function Footer() {
             aria-hidden="true"
             className="ft-line mt-5 h-px w-[110px] origin-center bg-sage/70"
           />
-          <span
-            aria-hidden="true"
-            className="mt-1.5 inline-block opacity-[0.09] [transform:scaleY(-1)] [mask-image:linear-gradient(180deg,transparent_18%,black_92%)]"
-          >
-            <Logo className="h-12 w-auto text-graphite min-[881px]:h-14" />
-          </span>
         </div>
 
-        {/* Frase central (roteiro, revisão 26/07). */}
+        {/* Frase central (roteiro, revisão 26/07). Sobe para mt-6: sem o
+            reflexo ocupando o vão, a frase encosta na linha d'água e o lockup
+            inteiro lê como um bloco só. */}
         <p
-          className="ft-rise mx-auto mt-7 max-w-[36ch] text-center font-voice text-[clamp(19px,2vw,24px)] font-medium italic leading-[1.45] text-graphite"
+          className="ft-rise mx-auto mt-6 max-w-[36ch] text-center font-voice text-[clamp(19px,2vw,24px)] font-medium italic leading-[1.45] text-graphite"
           style={delay(140)}
         >
           Supporting your journey to skin health, nourishment, and balance.
