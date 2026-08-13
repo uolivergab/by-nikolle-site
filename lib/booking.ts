@@ -51,8 +51,12 @@ const filled = (value: string) => (value.trim() ? value.trim() : BLANK);
 // acima (testar em aparelho real; fallback "(x) / ( )").
 const box = (checked: boolean) => (checked ? "☑" : "☐");
 
-export function buildBookingSmsHref(data: BookingFormData): string {
-  const body = [
+// O TEXTO da mensagem, em claro. Extraído do href porque a tela de sucesso
+// precisa exibir e copiar o mesmo texto: duas versões da mesma mensagem seriam
+// duas verdades, e a copy da cliente só pode existir num lugar. O e-mail é
+// campo do formulário, NÃO entra aqui (o corpo aprovado não muda).
+export function buildBookingSmsBody(data: BookingFormData): string {
+  return [
     "Hi Nikolle! I'd like to schedule my first visit.",
     "",
     `My name is ${filled(data.name)}.`,
@@ -69,5 +73,8 @@ export function buildBookingSmsHref(data: BookingFormData): string {
     "",
     "Thank you! I look forward to my experience with you.",
   ].join("\n");
-  return `sms:${BOOKING_PHONE_E164}?&body=${encodeURIComponent(body)}`;
+}
+
+export function buildBookingSmsHref(data: BookingFormData): string {
+  return `sms:${BOOKING_PHONE_E164}?&body=${encodeURIComponent(buildBookingSmsBody(data))}`;
 }
