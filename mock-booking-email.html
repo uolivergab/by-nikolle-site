@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock — BookingDialog com campo de e-mail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --linen:#f5f0e8; --sand:#e9ded2; --sage:#7b8367;
+    --olive:#5e6646; --graphite:#43463d; --graphite-soft:#5b5e53;
+    --font-display:'Cormorant',serif;
+    --font-voice:'Cormorant',serif;
+    --font-sans:'Hanken Grotesk',Inter,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--linen);font-family:var(--font-sans);color:var(--graphite);
+       -webkit-font-smoothing:antialiased}
+
+  /* ---- andaime do mock (não faz parte do design) ---- */
+  .nota{max-width:900px;margin:0 auto;padding:56px 24px 8px}
+  .nota h1{font-family:var(--font-display);font-size:30px;font-weight:600;
+           letter-spacing:.02em;margin-bottom:10px}
+  .nota p{font-size:14.5px;line-height:1.65;color:var(--graphite-soft);max-width:640px}
+  .rotulo{max-width:900px;margin:0 auto;padding:44px 24px 14px;
+          font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage)}
+  .rotulo span{color:var(--graphite-soft);text-transform:none;letter-spacing:0;
+               font-size:13px;display:block;margin-top:8px}
+  /* o véu real do diálogo, para julgar o painel no contexto certo */
+  .veu{background:color-mix(in srgb, var(--graphite) 46%, transparent);
+       padding:48px 20px;display:flex;justify-content:center}
+
+  /* ---- o painel (fiel ao BookingDialog.tsx) ---- */
+  .painel{position:relative;width:100%;max-width:600px;background:var(--linen);
+          border:1px solid color-mix(in srgb, var(--olive) 20%, transparent);
+          border-radius:4px;padding:44px 40px 40px;
+          box-shadow:0 28px 80px -24px color-mix(in srgb, var(--graphite) 42%, transparent)}
+  .waterline{position:absolute;inset-inline:0;top:0;height:1px;background:var(--sage)}
+  .fechar{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;
+          background:none;color:var(--graphite-soft);cursor:pointer;
+          display:flex;align-items:center;justify-content:center}
+  h2.titulo{font-family:var(--font-display);font-size:29px;line-height:1.16;
+            font-weight:550;letter-spacing:.03em;text-transform:uppercase;
+            color:var(--graphite);padding-right:32px}
+  .abertura{margin-top:12px;font-family:var(--font-voice);font-size:17px;
+            font-weight:500;font-style:italic;color:var(--sage)}
+
+  form{margin-top:28px}
+  .linha2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .campo{margin-top:20px}
+  label,legend{display:block;margin-bottom:8px;font-size:11px;text-transform:uppercase;
+               letter-spacing:.2em;color:var(--graphite-soft)}
+  input[type=text],input[type=tel],input[type=email],textarea{
+    width:100%;border-radius:2px;
+    border:1px solid color-mix(in srgb, var(--sage) 45%, transparent);
+    background:color-mix(in srgb, white 55%, var(--linen));
+    padding:12px 14px;font-family:var(--font-sans);font-size:15px;line-height:1.4;
+    color:var(--graphite);transition:border-color .2s}
+  input:focus,textarea:focus{border-color:var(--olive);outline:none}
+  textarea{resize:none}
+  fieldset{border:0;margin-top:24px}
+  .escolhas{display:flex;gap:32px}
+  .escolha{display:flex;align-items:center;gap:12px;font-size:15px;min-height:44px;
+           cursor:pointer;color:var(--graphite)}
+  .escolha input{width:18px;height:18px;accent-color:var(--olive);cursor:pointer}
+
+  /* a microcopy que explica a exigência em vez de exigir */
+  .ajuda{margin-top:7px;font-size:12.5px;line-height:1.5;color:var(--graphite-soft)}
+  /* estado de atenção: borda olive + mensagem. Sem vermelho, sem asterisco. */
+  .atencao input{border-color:var(--olive);
+                 background:color-mix(in srgb, var(--sand) 42%, var(--linen))}
+  .aviso{margin-top:7px;font-size:12.5px;line-height:1.5;color:var(--olive);
+         display:flex;align-items:flex-start;gap:7px}
+  .aviso svg{flex:none;margin-top:2px}
+
+  /* botão maré */
+  .mare{position:relative;display:block;width:100%;margin-top:32px;overflow:hidden;
+        border:1px solid var(--olive);border-radius:2px;background:transparent;
+        padding:17px 24px;font-family:var(--font-sans);font-size:12px;font-weight:500;
+        letter-spacing:.18em;text-transform:uppercase;color:var(--olive);cursor:pointer}
+  .mare::before{content:"";position:absolute;inset:0;top:auto;height:0;background:var(--olive);
+                transition:height .55s cubic-bezier(.22,1,.36,1);z-index:0}
+  .mare:hover::before{height:100%}
+  .mare span{position:relative;z-index:1;transition:color .55s cubic-bezier(.22,1,.36,1)}
+  .mare:hover span{color:var(--linen)}
+
+  /* ---- tela de sucesso (desktop) ---- */
+  .sucesso{text-align:left}
+  .selo{width:46px;height:46px;border-radius:50%;border:1px solid var(--sage);
+        display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+  .sucesso h2{font-family:var(--font-display);font-size:29px;line-height:1.18;
+              font-weight:550;letter-spacing:.03em;text-transform:uppercase}
+  .sucesso .voz{margin-top:12px;font-family:var(--font-voice);font-style:italic;
+                font-size:17px;font-weight:500;color:var(--sage)}
+  .sucesso p.corpo{margin-top:18px;font-size:15px;line-height:1.7;color:var(--graphite-soft);
+                   max-width:46ch}
+  .pedra{margin-top:26px;background:var(--sand);border-radius:2px;padding:22px 24px;
+         position:relative}
+  .pedra::after{content:"";position:absolute;inset-inline:24px;bottom:0;height:1px;
+                background:color-mix(in srgb, var(--sage) 55%, transparent)}
+  .pedra .rot{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+              color:var(--graphite-soft);margin-bottom:10px}
+  .pedra .num{font-family:var(--font-display);font-size:26px;font-weight:500;
+              letter-spacing:.04em;color:var(--graphite)}
+  .carta{margin-top:18px;background:color-mix(in srgb, white 55%, var(--linen));
+         border:1px solid color-mix(in srgb, var(--sage) 45%, transparent);
+         border-radius:2px;padding:16px 18px;font-size:13.5px;line-height:1.65;
+         color:var(--graphite-soft);white-space:pre-line;max-height:150px;overflow:auto}
+  .acoes{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+  .secundario{border:1px solid color-mix(in srgb, var(--sage) 55%, transparent);
+              border-radius:2px;padding:13px 20px;font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--graphite);background:transparent;
+              cursor:pointer;transition:border-color .25s,color .25s}
+  .secundario:hover{border-color:var(--olive);color:var(--olive)}
+  .rodape-mock{max-width:900px;margin:0 auto;padding:56px 24px 90px;
+               font-size:13.5px;line-height:1.7;color:var(--graphite-soft)}
+  .rodape-mock strong{color:var(--graphite);font-weight:500}
+
+  @media (max-width:560px){
+    .painel{padding:36px 24px 28px}
+    .linha2{grid-template-columns:1fr}
+    .escolhas{flex-direction:column;gap:4px}
+  }
+</style>
+</head>
+<body>
+
+<div class="nota">
+  <h1>Campo de e-mail no agendamento</h1>
+  <p>Três estados para você julgar. O que mudou em relação ao que está no ar: entrou
+     um campo de e-mail obrigatório, entrou uma tela de sucesso para o desktop (hoje
+     o desktop não faz nada), e o corpo do SMS continua <em>idêntico</em> ao aprovado
+     pela Nikolle — o e-mail não entra nele.</p>
+</div>
+
+<!-- 1. ESTADO NORMAL -->
+<div class="rotulo">01 · Estado normal
+  <span>O campo novo em largura inteira, logo abaixo da dupla aprovada. Ele é o único
+        que ganha a linha toda porque endereço de e-mail é o dado mais comprido do
+        formulário.</span></div>
+<div class="veu">
+  <div class="painel">
+    <span class="waterline"></span>
+    <button class="fechar" aria-label="Close">
+      <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M1.5 1.5 L10.5 10.5 M10.5 1.5 L1.5 10.5" stroke="currentColor"
+              stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+    <h2 class="titulo">Book My Consultation</h2>
+    <p class="abertura">Hi Nikolle! I'd like to schedule my first visit.</p>
+    <form onsubmit="return false">
+      <div class="linha2">
+        <div><label for="a1">My name is</label><input id="a1" type="text"></div>
+        <div><label for="a2">Contact number</label><input id="a2" type="tel"></div>
+      </div>
+      <div class="campo">
+        <label for="a3">My email is</label>
+        <input id="a3" type="email" aria-describedby="a3h">
+        <p class="ajuda" id="a3h">Where your confirmation will be sent.</p>
+      </div>
+      <fieldset>
+        <legend>I'm interested in</legend>
+        <div class="escolhas">
+          <label class="escolha"><input type="checkbox"> Holistic Facial</label>
+          <label class="escolha"><input type="checkbox"> Nervous System Reset</label>
+        </div>
+      </fieldset>
+      <div class="campo">
+        <label for="a4">My main concern or intention is</label>
+        <textarea id="a4" rows="2"></textarea>
+      </div>
+      <div class="campo">
+        <label for="a5">My preferred day/time is</label>
+        <input id="a5" type="text">
+      </div>
+      <button class="mare" type="submit"><span>Book My Consultation</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- 2. ESTADO DE ATENÇÃO -->
+<div class="rotulo">02 · E-mail em branco no envio
+  <span>Sem vermelho, sem asterisco, sem sacudida. A borda escurece para olive, o campo
+        ganha um fundo de areia e a frase explica. Modo A continua valendo na forma.</span></div>
+<div class="veu">
+  <div class="painel">
+    <span class="waterline"></span>
+    <button class="fechar" aria-label="Close">
+      <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M1.5 1.5 L10.5 10.5 M10.5 1.5 L1.5 10.5" stroke="currentColor"
+              stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+    <h2 class="titulo">Book My Consultation</h2>
+    <p class="abertura">Hi Nikolle! I'd like to schedule my first visit.</p>
+    <form onsubmit="return false">
+      <div class="linha2">
+        <div><label for="b1">My name is</label><input id="b1" type="text" value="Sarah Lin"></div>
+        <div><label for="b2">Contact number</label><input id="b2" type="tel" value="(808) 555 0134"></div>
+      </div>
+      <div class="campo atencao">
+        <label for="b3">My email is</label>
+        <input id="b3" type="email" aria-describedby="b3e" aria-invalid="true">
+        <p class="aviso" id="b3e">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M7 4v3.6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+            <circle cx="7" cy="10" r=".7" fill="currentColor"/></svg>
+          An email address is needed to send your confirmation.
+        </p>
+      </div>
+      <fieldset>
+        <legend>I'm interested in</legend>
+        <div class="escolhas">
+          <label class="escolha"><input type="checkbox" checked> Holistic Facial</label>
+          <label class="escolha"><input type="checkbox"> Nervous System Reset</label>
+        </div>
+      </fieldset>
+      <div class="campo">
+        <label for="b4">My main concern or intention is</label>
+        <textarea id="b4" rows="2">Dark spots and uneven tone</textarea>
+      </div>
+      <div class="campo">
+        <label for="b5">My preferred day/time is</label>
+        <input id="b5" type="text" value="Weekday mornings">
+      </div>
+      <button class="mare" type="submit"><span>Book My Consultation</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- 3. SUCESSO NO DESKTOP -->
+<div class="rotulo">03 · Sucesso no desktop
+  <span>O buraco que existe hoje: no computador o botão não faz nada. Aqui a mensagem
+        já foi registrada e enviada, e ela sai com o caminho na mão.</span></div>
+<div class="veu">
+  <div class="painel sucesso">
+    <span class="waterline"></span>
+    <button class="fechar" aria-label="Close">
+      <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M1.5 1.5 L10.5 10.5 M10.5 1.5 L1.5 10.5" stroke="currentColor"
+              stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="selo">
+      <svg width="19" height="19" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 10.4 L8 14.2 L16 6" stroke="#7b8367" stroke-width="1.2"
+              stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>Your request is with me</h2>
+    <p class="voz">I'll be in touch shortly.</p>
+    <p class="corpo">A confirmation is on its way to your inbox. If you'd like to reach
+       me directly, here is your message, ready to send by text.</p>
+
+    <div class="pedra">
+      <p class="rot">Text to book</p>
+      <p class="num">(808) 457-8823</p>
+    </div>
+
+    <div class="carta">Hi Nikolle! I'd like to schedule my first visit.
+
+My name is Sarah Lin.
+
+Contact number: (808) 555 0134.
+
+I'm interested in:
+☑ Holistic Facial
+☐ Nervous System Reset
+
+My main concern or intention is: Dark spots and uneven tone.
+
+My preferred day/time is: Weekday mornings.
+
+Thank you! I look forward to my experience with you.</div>
+
+    <div class="acoes">
+      <button class="secundario">Copy message</button>
+      <button class="secundario">Instagram</button>
+    </div>
+  </div>
+</div>
+
+<div class="rodape-mock">
+  <p><strong>Decisões que precisam do teu martelo:</strong> (1) o rótulo
+     <em>“My email is”</em>, que segue a gramática dos existentes em vez de inventar
+     registro novo; (2) a microcopy <em>“Where your confirmation will be sent.”</em>,
+     que explica a exigência em vez de marcar com asterisco; (3) a copy da tela de
+     sucesso, que é copy NOVA e portanto precisa passar pela Nikolle antes de ir ao ar.</p>
+</div>
+
+</body>
+</html>
