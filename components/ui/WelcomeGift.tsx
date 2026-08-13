@@ -284,7 +284,10 @@ export function WelcomeGift() {
             <div className="flex min-h-0 flex-col justify-center overflow-y-auto px-7 py-[clamp(14px,8.67svh_-_45px,28px)] min-[861px]:px-14 min-[861px]:py-12">
               <h2
                 id="welcome-gift-title"
-                className="font-display text-[clamp(26px,6.4vw,31px)] leading-[1.14] text-graphite min-[861px]:text-[clamp(30px,3vw,40px)]"
+                // Um passo menor (13/08), que é o pedido dela: "talvez diminuir
+                // um pouco o título p criar mais espaço". O espaço liberado vai
+                // inteiro para o bloco da oferta, logo abaixo.
+                className="font-display text-[clamp(23px,5.7vw,28px)] leading-[1.14] text-graphite min-[861px]:text-[clamp(27px,2.7vw,36px)]"
               >
                 <span className="sr-only">Begin Your Wellness Journey</span>
                 <span
@@ -304,21 +307,41 @@ export function WelcomeGift() {
                 }
               </p>
 
-              {/* Linha d'água curta + a oferta como o centro emocional da peça.
-                  20% desde 09/08 (pedido da Nikolle; era 15%). Sem selo, sem
-                  pulso: uma linha de voz. */}
-              <motion.span
-                aria-hidden="true"
-                initial={{ scaleX: reduced ? 1 : 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.9, ease: EASE, delay: reduced ? 0 : 0.75 }}
-                className="mt-[clamp(12px,4.67svh_-_19px,20px)] block h-px w-[44px] origin-left bg-sage min-[861px]:mt-7"
-              />
-              <p className="mt-[clamp(10px,3.33svh_-_12px,16px)] font-voice text-[clamp(19px,4.8vw,22px)] italic text-olive min-[861px]:text-[clamp(21px,2.2vw,25px)]">
-                Enjoy 20% off your first visit.
-              </p>
+              {/* A OFERTA GANHA MATÉRIA (13/08). Pedido da Nikolle via Randall:
+                  "essa parte falando sobre o desconto está pouco visível,
+                  passando despercebida... diminuir um pouco o título p criar
+                  mais espaço e aumentar a frase de desconto e colocar a font
+                  grossa". Os dois primeiros pedidos foram feitos ao pé da letra.
+                  O TERCEIRO eu troquei por MATÉRIA, e a razão é que peso sozinho
+                  não ataca a causa: a linha sumia porque era a QUARTA frase de
+                  uma pilha de quatro, toda no mesmo linho, com margens
+                  parecidas. Nada dizia ao olho que aquilo era uma OFERTA em vez
+                  de mais uma frase. Sobre a areia ela vira um objeto e se
+                  destaca sem gritar. O peso subiu junto, para 600 dentro da
+                  própria Cormorant (que é variável, então é peso real e não
+                  bold sintético), que é o pedido dela sem sair da família.
+                  A areia com o fio d'água na base é o MESMO card do
+                  BookingDialog: material da casa, não recurso de urgência. O
+                  Modo A continua de pé: sem selo, sem pulso, sem countdown.
+                  A oferta e o CTA ficam colados de propósito, para lerem como
+                  um bloco só em vez de duas peças soltas. */}
+              <div className="relative mt-[clamp(14px,4.67svh_-_15px,22px)] overflow-hidden rounded-[2px] bg-sand px-5 py-[clamp(12px,3.33svh_-_8px,18px)] min-[861px]:mt-7">
+                <p className="font-voice text-[clamp(22px,5.6vw,26px)] leading-[1.3] font-semibold text-olive italic min-[861px]:text-[clamp(24px,2.5vw,29px)]">
+                  Enjoy 20% off your first visit.
+                </p>
+                {/* Fio d'água na base do card (forma-assinatura), como no
+                    BookingDialog. O overflow-hidden acima é obrigatório: sem
+                    ele o fio aparece fora do raio e lê como bug. */}
+                <motion.span
+                  aria-hidden="true"
+                  initial={{ scaleX: reduced ? 1 : 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.9, ease: EASE, delay: reduced ? 0 : 0.75 }}
+                  className="absolute inset-x-0 bottom-0 block h-px origin-center bg-sage"
+                />
+              </div>
 
-              <div className="mt-[clamp(14px,6svh_-_27px,24px)] min-[861px]:mt-9">
+              <div className="mt-[clamp(10px,3.33svh_-_10px,16px)] min-[861px]:mt-5">
                 <TideButton
                   size="lg"
                   className="w-full min-[861px]:w-auto min-[861px]:px-10"

@@ -94,7 +94,12 @@ export function Hero() {
     <section
       ref={sectionRef}
       data-live="true"
-      className="hero relative h-svh min-h-[600px] overflow-hidden bg-linen"
+      // O piso caiu de 600 para 520px (13/08). Com 600, um aparelho de 568px de
+      // viewport (SE no navegador do Instagram) ganhava uma seção 32px mais alta
+      // que a tela e o CTA nascia ABAIXO DA DOBRA: a pessoa entra pelo link da
+      // bio e não vê o botão. 520 continua segurando a paisagem e desobstrui
+      // todo o retrato real, que começa em 568.
+      className="hero relative h-svh min-h-[520px] overflow-hidden bg-linen"
     >
       {/* ---------- 1. FOTOGRAFIA, full-bleed nos dois breakpoints ----------
           O quadro do mobile é 8% MAIS ALTO que a seção e ancorado na BASE: o
@@ -169,18 +174,45 @@ export function Hero() {
           claro. */}
       <motion.div
         style={{ opacity: copyOpacity }}
-        // O bloco subiu para 88px no mobile (11/08): a logo maior empurrou o
-        // parágrafo de apoio para cima do cabelo escuro da modelo, onde a
-        // última linha ficava ilegível. 88px é o piso real: abaixo disso a
-        // marca encosta no hambúrguer da navbar.
-        className="absolute inset-x-0 top-[max(88px,11.5%)] z-[3] px-[5.5vw] text-center md:inset-x-auto md:top-[54%] md:left-[3.6vw] md:max-w-[58vw] md:-translate-y-1/2 md:px-0 md:text-left"
+        // ---------------------------------------------------------------
+        // O PISO DE TELA BAIXA (13/08). A Nikolle mandou o print do parágrafo
+        // em cima do cabelo dela, "só em alguns celulares e pelo link da bio
+        // do Instagram". A causa é DUAS RÉGUAS, e é a mesma armadilha da
+        // Imprensa em 09/08: este bloco mede por LARGURA (logo 56vw, headline
+        // 8vw, corpo 14px fixo), então sua altura é ~277px em qualquer tela;
+        // já a faixa de linho onde ele pousa mede por ALTURA (o cabelo começa
+        // em 48.5% do asset, MEDIDO no poster, e o quadro é 107% da seção,
+        // logo a faixa vale ~51.9% da altura). Tela encolhe, a faixa encolhe
+        // 0.52px por pixel e o texto não encolhe nada. Eles se cruzam em
+        // ~700px de altura. O navegador do Instagram mantém barra em cima e
+        // embaixo o tempo todo e tira uns 150-200px fixos, por isso lá
+        // reproduz sempre e no Safari só em aparelho de proporção mais baixa.
+        // A CURA é dar ao texto a mesma régua: teto em svh nas dimensões
+        // verticais. É o mesmo recurso que o desktop desta seção já usa
+        // ("teto duplo", design.md), que nunca tinha sido aplicado no mobile.
+        // Todos os tetos são NO-OP a 390x844 (conferido peça por peça): eles
+        // só passam a mandar abaixo de ~750px de altura.
+        // O piso do topo desceu de 88 para 56px, e ele quase nunca manda: os
+        // 11.5% só perdem para o piso abaixo de 487px de seção. Ou seja, em
+        // 390x844, 390x650 e 375x530 o topo é o mesmo de sempre. O 88 tinha
+        // sido posto por causa da navbar, mas medindo: os controles dela
+        // terminam em y=59 E vivem nas PONTAS (hambúrguer à esquerda, Book à
+        // direita), enquanto esta logo é centrada, então nem se cruzam na
+        // horizontal. O piso baixo é o que devolve ar às telas mais curtas.
+        className="absolute inset-x-0 top-[max(56px,11.5%)] z-[3] px-[5.5vw] text-center md:inset-x-auto md:top-[54%] md:left-[3.6vw] md:max-w-[58vw] md:-translate-y-1/2 md:px-0 md:text-left"
       >
         {/* Decorativa para o leitor de tela: o h1 logo abaixo nomeia a página e
             a navbar já carrega a marca acessível. */}
         <span
           aria-hidden="true"
           style={d(0.08)}
-          className="hero-rise mb-[16px] block md:mb-[clamp(22px,4.4vh,40px)]"
+          // A LOGO NÃO ENCOLHE (decisão do Gabriel, 13/08: "não podemos
+          // retirar a logo grande da hero em tela baixa, apenas diminuí-la se
+          // necessário"). MEDIDO: não foi necessário. Apertando só os respiros,
+          // a headline e o corpo, a folga a 390x650 vai de -28px para +14px com
+          // a logo intacta nos 219px e a tagline nos mesmos 5.7px. O que cede
+          // aqui é o respiro ABAIXO dela, nunca o tamanho dela.
+          className="hero-rise mb-[clamp(8px,1.9svh,16px)] block md:mb-[clamp(22px,4.4vh,40px)]"
         >
           {/* Escala 11/08 (2ª cobrança dela: "ainda sinto q as 3 palavras em
               baixo estão pouco visíveis"). MEDIDO no SVG: a tagline ocupa 7.6%
@@ -195,7 +227,7 @@ export function Hero() {
 
         <p
           style={d(0.22)}
-          className="hero-rise mb-[14px] font-(family-name:--font-hero-ui) text-[10.5px] uppercase leading-[normal] tracking-[0.26em] text-(--hero-olive-ink) md:mb-[clamp(20px,4vh,36px)] md:text-[13px] md:tracking-[0.28em]"
+          className="hero-rise mb-[clamp(7px,1.66svh,14px)] font-(family-name:--font-hero-ui) text-[10.5px] uppercase leading-[normal] tracking-[0.26em] text-(--hero-olive-ink) md:mb-[clamp(20px,4vh,36px)] md:text-[13px] md:tracking-[0.28em]"
         >
           {`Holistic Wellness · Kaka${OKINA}ako`}
         </p>
@@ -232,7 +264,14 @@ export function Hero() {
 
         <p
           style={d(0.64)}
-          className="hero-fade mx-auto mt-[16px] max-w-[78vw] font-(family-name:--font-hero-ui) text-[14px] font-light leading-[1.68] text-(--hero-ink) md:mx-0 md:mt-[clamp(22px,4.6vh,44px)] md:max-w-[470px] md:text-[17px] md:leading-[1.62]"
+          // A MEDIDA se alarga só ABAIXO de ~372px de largura, e é cirúrgico:
+          // max(78vw, ...) devolve exatamente o 78vw de hoje a partir de 375,
+          // então 375, 390 e 430 não mudam um pixel. Existe porque a 320px o
+          // 78vw dá uma medida de 250px e a frase QUEBRA EM 4 LINHAS, e a
+          // quarta linha sozinha custa mais altura do que todo o resto do
+          // aperto economiza (medido: -11px de folga com 4 linhas, +10px com
+          // 3). O teto de 290px é o que cabe na caixa a 320 com o px-[5.5vw].
+          className="hero-fade mx-auto mt-[clamp(8px,1.9svh,16px)] max-w-[max(78vw,min(89vw,290px))] font-(family-name:--font-hero-ui) text-[clamp(13px,min(14px,2.05svh),14px)] font-light leading-[1.68] text-(--hero-ink) md:mx-0 md:mt-[clamp(22px,4.6vh,44px)] md:max-w-[470px] md:text-[17px] md:leading-[1.62]"
         >
           Discover personalized holistic facials and integrative wellness
           designed to nurture your skin, nourish your body, and restore balance.

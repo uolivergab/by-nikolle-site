@@ -1115,7 +1115,13 @@
   .hero-title {
     color: var(--hero-ink);
     /* mobile: 3 linhas centradas, ~74% da largura */
-    font-size: clamp(30px, 8vw, 52px);
+    /* TETO DUPLO no mobile (13/08), o mesmo recurso que o desktop abaixo já
+       usava: sem o teto em svh a headline só media por LARGURA, e num viewport
+       baixo (Instagram, Safari com a barra à vista) o bloco inteiro não cabia
+       na faixa de linho e o parágrafo caía sobre o cabelo da modelo. 4.15svh
+       só passa a mandar abaixo de ~1.93x a largura, ou seja NADA muda em
+       390x844; a 390x650 a headline vai de 31.2 para 27px. */
+    font-size: clamp(26px, min(8vw, 4.15svh), 52px);
     line-height: 1.08;
     letter-spacing: -0.04em;
   }
