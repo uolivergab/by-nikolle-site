@@ -79,6 +79,19 @@ function isHandheld(): boolean {
   );
 }
 
+// Navegador embutido de app: é onde o link da bio do Instagram abre (WKWebView
+// no iOS, WebView no Android). MEDIDO EM PRODUÇÃO (03/09): esses navegadores
+// BLOQUEIAM o esquema sms:, e a tentativa devolve o erro nativo "This link
+// cannot be loaded" na cara da pessoa. Pelo Safari o mesmo link funciona. Por
+// isso aqui o envio segue o caminho do computador, que não depende do app de
+// mensagens: a rota é quem confirma.
+function isInAppBrowser(): boolean {
+  const ua = navigator.userAgent;
+  return /Instagram|FBAN|FBAV|FB_IAB|Messenger|LinkedInApp|Twitter|TikTok|Snapchat|Pinterest|Line\//i.test(
+    ua,
+  );
+}
+
 export function BookingDialog() {
   const reduced = useReducedMotion();
   const [open, setOpen] = useState(false);
@@ -202,6 +215,11 @@ export function BookingDialog() {
     }
 
     const handheld = isHandheld();
+    const inApp = isInAppBrowser();
+    // O sms: só é TENTADO onde ele de fato abre o app de mensagens: celular de
+    // verdade E fora do navegador embutido. Fora disso, o caminho é o mesmo do
+    // computador, que já existe e já está aprovado.
+    const podeAbrirSms = handheld && !inApp;
     // CONTRATO da rota (app/api/booking/route.ts), nomes idênticos e nesta
     // ordem: cada chave é uma coluna da planilha.
     const payload = {
@@ -214,7 +232,10 @@ export function BookingDialog() {
       ].join(" + "),
       concern: data.concern,
       preferred: data.preferred,
-      origin: handheld ? "mobile" : "desktop",
+      // Terceiro valor, "in-app": quem chegou pelo navegador embutido NÃO
+      // dispara o SMS, e a Nikolle precisa saber disso para não ficar
+      // esperando um texto que não vem.
+      origin: inApp ? "in-app" : handheld ? "mobile" : "desktop",
       website: websiteRef.current?.value ?? "",
       elapsedMs: Date.now() - openedAtRef.current,
     };
@@ -227,7 +248,7 @@ export function BookingDialog() {
         ...extra,
       });
 
-    if (handheld) {
+    if (podeAbrirSms) {
       // ORDEM CRÍTICA. A navegação para o sms: tem que sair no MESMO gesto do
       // usuário: qualquer await antes dela e o Safari entende que a abertura
       // não veio de um clique e bloqueia. Por isso o registro vai depois, sem
@@ -239,7 +260,8 @@ export function BookingDialog() {
       return;
     }
 
-    // No computador o sms: não faz nada, então quem confirma é a rota.
+    // No computador o sms: não faz nada, e no navegador embutido ele é
+    // bloqueado. Nos dois casos quem confirma é a rota.
     setSending(true);
     post()
       .then((response) => setView(response.ok ? "success" : "error"))
